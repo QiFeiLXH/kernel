@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.sales.repository.primary.PurchaseContractRepository">
+    <select id="getOwnUnfinishedCountByYearAndContent" resultType="Integer">
+        select count(1) from bsoft_portal.ker_sales_pur_own_view a
+        where a.endmark = 0 and a.signDept in (select qxdm from bsoftmis.gy_qxgl where qxlb = 5 and qxlx = 13 and yggh = #{personId})
+        <if test="signYear != null and signYear != ''">
+          and a.signYear = #{signYear}
+        </if>
+        <if test="inputContent != null and inputContent!= ''">
+          and ((a.purchaseContractNo like '%' || UPPER(#{inputContent}) || '%')
+            or (a.contractName like '%' || #{inputContent} || '%')
+            or (a.productName like '%' || #{inputContent} || '%'))
+        </if>
+    </select>
+
+    <select id="getOwnUnreviewedCountByYearAndContent" resultType="Integer">
+        select count(1) from bsoft_portal.ker_sales_pur_own_view a
+        where (a.status = 0 or a.status = 2 or a.alterFlag = 1)
+        <if test="signYear != null and signYear != ''">
+            and a.signYear = #{signYear}
+        </if>
+        <if test="inputContent != null and inputContent!= ''">
+          and ((a.purchaseContractNo like '%' || UPPER(#{inputContent}) || '%')
+            or (a.contractName like '%' || #{inputContent} || '%')
+            or (a.productName like '%' || #{inputContent} || '%'))
+        </if>
+    </select>
+
+
+    <select id="getOwnPurchaseContractList" resultType="com.bsoft.sales.entity.primary.OwnPurchaseContractViewDO">
+        select a.purchaseContractId,a.purchaseContractNo,a.contractName,a.suppliers,a.suppliersText,a.totalAmount,a.finalCostAmount,a.payAmount,sum(a.issueAmount) as issueAmount,a.progress,a.confirmDate,a.registerDate
+        from bsoft_portal.ker_sales_pur_paycost_own_view a
+        where 1 = 1
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and ((a.purchaseContractNo like '%' || UPPER(#{cnd.inputContent}) || '%')
+            or (a.contractName like '%' || #{cnd.inputContent} || '%'))
+        </if>
+        <if test="cnd.dateRangeFlag == 1">
+            and a.issueDate between #{cnd.startDate} and #{cnd.endDate} and a.issueFlag = 1
+        </if>
+        <if test="cnd.dateRangeFlag == 2">
+            and a.checkDate between #{cnd.startDate} and #{cnd.endDate} and a.issueFlag = 1
+        </if>
+        group by a.purchaseContractId, a.purchaseContractNo, a.contractName,a.suppliers,a.suppliersText,a.totalAmount,a.finalCostAmount,a.payAmount, a.progress,a.confirmDate,a.registerDate
+        order by a.registerDate desc,a.purchaseContractId desc
+    </select>
+
+    <select id="getContractNumberBySimilarContractNo" resultType="Integer">
+        select nvl(max(to_number(substr(a.cghth,(instr(a.cghth,'-',1,3)+1)))),0) from bsoftmis.cg_htxx a where a.bcxybz = 0 and a.cghth like #{purchaseContractNo}
+    </select>
+
+    <select id="getOwnPurchaseContractWithProgressList" resultType="com.bsoft.sales.entity.primary.OwnPurchaseContractViewDO">
+        select cg.htid as purchaseContractId,
+            cg.cghth as purchaseContractNo,
+            cg.gys as suppliers,
+            (select khmc from bsoftmis.wh_khwl where wh_khwl.id = cg.gys) as suppliersText,
+            cg.htmc as contractName,
+            cg.zje as totalAmount,
+            cg.wjbz as endMark,
+            b.progress,
+            b.qrrq as confirmDate
+        from bsoftmis.cg_htxx cg
+            left outer join (
+                select a.htid,a.qrrq,a.progress,row_number() over(partition by a.htid order by a.id desc) as rn
+                from bsoft_portal.cg_htxx_progress a
+                where a.qrrq &lt;= #{cnd.endDate}) b on cg.htid = b.htid
+        where cg.type = 2 and b.rn = 1 and cg.yht = 1
+        <if test="cnd.progressFlag == 0">
+            and b.progress &lt; 1
+        </if>
+        <if test="cnd.progressFlag == 1">
+            and b.progress = 1
+        </if>
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and ((cg.cghth like '%' || UPPER(#{cnd.inputContent}) || '%')
+            or (cg.htmc like '%' || #{cnd.inputContent} || '%'))
+        </if>
+        order by b.qrrq desc,cg.htid desc
+    </select>
+</mapper>

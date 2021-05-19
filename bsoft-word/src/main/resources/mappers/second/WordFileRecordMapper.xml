@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.word.repository.second.WordFileRecordRepository">
+
+    <resultMap id="WordFileRecordMap" type="com.bsoft.word.entity.second.WordFileRecordDO">
+        <result column="id" jdbcType="INTEGER" property="id"></result>
+        <result column="filename" jdbcType="VARCHAR" property="fileName"></result>
+        <result column="uploaddate" jdbcType="TIMESTAMP" property="uploadDate"></result>
+        <result column="fileyear" jdbcType="INTEGER" property="fileYear"></result>
+        <result column="filemonth" jdbcType="INTEGER" property="fileMonth"></result>
+        <result column="size" jdbcType="DOUBLE" property="size"></result>
+        <result column="menuid" jdbcType="INTEGER" property="menuId"></result>
+    </resultMap>
+
+    <select id="selectById" resultMap="WordFileRecordMap">
+        select id,filename, uploaddate, year(uploaddate) as fileyear, month(uploaddate) as filemonth, size, menuid
+        from FILE_RECORD where id=#{id}
+    </select>
+
+    <select id="selectFileMenu" resultMap="WordFileRecordMap">
+        select distinct menuid from FILE_RECORD
+    </select>
+
+    <select id="selectYearMenu" resultMap="WordFileRecordMap">
+        select distinct year(uploaddate) fileyear from FILE_RECORD
+        where menuId=#{menuId} order by year(uploaddate)
+    </select>
+
+    <select id="selectMonthMenu" resultMap="WordFileRecordMap">
+        select distinct month(uploaddate) filemonth from FILE_RECORD
+        where menuId=#{menuId} and year(uploaddate)=#{fileYear} order by month(uploaddate)
+    </select>
+
+    <select id="selectByLimit" resultMap="WordFileRecordMap">
+        select id, filename, uploaddate, year(uploaddate) as fileyear, month(uploaddate) as filemonth, size, menuid
+        from FILE_RECORD where 1=1
+        <if test="recordCnd.fileName != null and recordCnd.fileName != ''">
+            and filename like '%' + #{recordCnd.fileName} + '%'
+        </if>
+        <if test="recordCnd.menuId == 0 or recordCnd.menuId != null and recordCnd.menuId != '' ">
+            and menuid = #{recordCnd.menuId}
+        </if>
+        <if test="recordCnd.fileYear != null and recordCnd.fileYear != '' ">
+            and year(uploaddate) = #{recordCnd.fileYear}
+        </if>
+        <if test="recordCnd.fileMonth != null and recordCnd.fileMonth != '' ">
+            and month(uploaddate) = #{recordCnd.fileMonth}
+        </if>
+        order by uploaddate
+    </select>
+
+    <delete id="deleteRecordById">
+      delete from FILE_RECORD where id=#{id}
+    </delete>
+
+    <update id="updateFileRecord">
+        update FILE_RECORD
+        set filename = #{recordDO.fileName},
+            size = #{recordDO.size}
+        where id = #{recordDO.id}
+    </update>
+
+</mapper>

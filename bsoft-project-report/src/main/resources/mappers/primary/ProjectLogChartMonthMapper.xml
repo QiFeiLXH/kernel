@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ProjectLogChartMonthRepository">
+    <resultMap id="logChartMonthMap" type="com.bsoft.project.report.entity.primary.ProjectLogChartMonthViewDO">
+        <result column="logmonth" jdbcType="INTEGER" property="date"></result>
+        <result column="projectLogCount" jdbcType="DOUBLE" property="projectLogCount"></result>
+        <result column="workLogCount" jdbcType="DOUBLE" property="workLogCount"></result>
+        <result column="projectLogRate" jdbcType="DOUBLE" property="projectLogRate"></result>
+    </resultMap>
+    <select id="listLogChartMonthInfos" resultMap="logChartMonthMap">
+        select
+            bb.logmonth,
+            round(avg(prologs), 2) projectLogCount,
+            round(avg(worklogs), 2) workLogCount,
+            round(avg(applogs), 2) appLogCount,
+            round(avg(prologs)/(avg(prologs)+avg(worklogs)),4) projectLogRate
+        from (
+            select to_number(to_char(cc.attendancedate, 'yyyyMM')) logmonth,
+                   cc.attendancedate,
+                   sum(cc.prologs) prologs,
+                   sum(cc.worklogs) worklogs,
+                   sum(cc.applogs) applogs
+            from (
+                -- 结构化日志统计
+                select aa.attendancedate, count(1) prologs, 0 worklogs, 0 applogs from(
+                    select distinct a.submitter personid, a.attendancedate
+                    from bsoft_portal.pro_worklog a, bsoftmis.t_project b
+                    where a.projectid = b.projectid and
+                        b.flag in ('1','5') and
+                        a.attendancedate not in (select kqrq from bsoftmis.rs_fgzr) and -- 非节假日
+                        a.attendancedate between to_date(#{startDateStr}, 'yyyyMMdd') and to_date(#{endDateStr}, 'yyyyMMdd')
+                ) aa
+                group by aa.attendancedate
+
+                union all
+
+                -- 普通日志统计
+                select aa.attendancedate, 0 prologs, count(1) worklogs, 0 applogs from(
+                    select distinct a.kqid personid, a.attendancedate
+                    from bsoftmis.kq_gzrz a, bsoftmis.t_project b
+                    where a.gsxm=b.projectid and
+                        b.flag in ('1','5') and
+                        a.kqid not in(select attendanceid from bsoft_portal.pro_worklog) and
+                        a.attendancedate is not null and
+                        a.attendancedate not in(select kqrq from bsoftmis.rs_fgzr ) and -- 非节假日
+                        a.attendancedate between to_date(#{startDateStr}, 'yyyyMMdd') and to_date(#{endDateStr}, 'yyyyMMdd')
+                ) aa
+                group by aa.attendancedate
+
+                union all
+
+                -- app日志统计
+                select aa.attendancedate, 0 prologs, 0 worklogs, count(1) applogs from(
+                    select distinct a.kqid personid, a.attendancedate
+                    from bsoftmis.kq_gzrz a, bsoftmis.t_project b
+                    where a.gsxm=b.projectid and
+                          b.flag in ('1','5') and
+                          a.flag=12 and --用app填写
+                          a.attendancedate is not null and
+                          a.attendancedate not in(select kqrq from bsoftmis.rs_fgzr ) and -- 非节假日
+                          a.attendancedate between to_date(#{startDateStr}, 'yyyyMMdd') and to_date(#{endDateStr}, 'yyyyMMdd')
+                ) aa
+                group by aa.attendancedate
+            ) cc
+            group by to_number(to_char(cc.attendancedate, 'yyyyMM')), cc.attendancedate
+        ) bb
+        group by bb.logmonth
+    </select>
+</mapper>

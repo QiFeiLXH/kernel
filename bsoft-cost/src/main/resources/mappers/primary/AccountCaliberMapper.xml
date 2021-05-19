@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.cost.repository.primary.AccountCaliberRepository">
+
+    <select id="getValidDeptAccountCaliberListByYear" resultType="com.bsoft.cost.entity.primary.AccountCaliberDO">
+        select a.deptId,a.accountCaliber from fin_cost_accountbore a,bsoftmis.t_dep t where a.deptid = t.bmdm and t.zxbz = 0 and a.year = #{year}
+    </select>
+
+    <select id="getAccountCaliberListByYear" resultType="com.bsoft.cost.entity.primary.AccountCaliberViewDO">
+        select  dep.bmdm as deptId,
+                dep.bmmc as deptname,
+                case when dep.parentbm is null then dep.bmdm else dep.parentbm end as parentDeptId,
+                case when dep.parentbm is null then dep.bmmc else (select bmmc from bsoftmis.t_dep where bmdm = dep.parentbm) end as parentDeptName,
+                dep.bmlb as depttype,
+                dd.dmmc as deptTypeText,
+                aa.accountcalibers,
+                aa.accountcaliberNames,
+                bb.Costtypes,
+                bb.CosttypeNames,
+                bb.Costtype,
+                bb.Costtypename,
+                case when aa.accountcalibers is null then bb.year else aa.year end as year,
+                case when aa.accountcalibers is null then bb.registrantdate else aa.registrationdate end as registrationdate
+                from bsoftmis.t_dep dep
+                left join (
+                        select a.deptid,
+                        a.year,
+                        a.registrationdate,
+                        LISTAGG(a.accountcaliber, ',') WITHIN GROUP(ORDER BY a.deptid) accountcalibers,
+                        LISTAGG(zd.dmmc, ',') WITHIN GROUP(ORDER BY a.accountcaliber) accountcaliberNames
+                        from BSOFT_PORTAL.fin_cost_accountbore a,
+                        bsoftmis.gy_dmzd zd
+                        WHERE a.YEAR = #{year} and
+                        zd.dmlb = 3505 and
+                        zd.dmsb > 0 and
+                        zd.dmsb = a.accountcaliber
+                        group by a.deptid,a.year,a.registrationdate
+                ) aa on aa.deptid = dep.bmdm
+                left join (
+                        select D.Dept,
+                        d.year,
+                        d.registrantdate,
+                        LISTAGG(D.Costtype, ',') WITHIN GROUP(ORDER BY D.Dept) Costtypes,
+                        LISTAGG(zd.dmmc, ',') WITHIN GROUP(ORDER BY D.Costtype) CosttypeNames,
+        (SELECT E.COSTTYPE FROM BSOFT_PORTAL.FIN_DEPT_COSTTYPE E WHERE E.YEAR = #{year} AND E.DEPT = D.DEPT AND E.FLAG = 1) AS Costtype,
+        (SELECT zd1.dmmc FROM BSOFT_PORTAL.FIN_DEPT_COSTTYPE E,bsoftmis.t_dmzd zd1 WHERE E.YEAR = #{year} AND E.DEPT = D.DEPT AND E.FLAG = 1 and zd1.dmlb = 9001 and zd1.dmsb = e.costtype) AS Costtypename
+                from    BSOFT_PORTAL.FIN_DEPT_COSTTYPE D,
+                        bsoftmis.t_dmzd zd
+                WHERE   D.YEAR = #{year} and
+                        zd.dmlb = 9001 and
+                        zd.dmsb > 0 and
+                        zd.dmsb = d.costtype
+                        group by d.dept,d.year,d.registrantdate
+                ) bb on bb.dept = dep.bmdm,
+            bsoftmis.gy_dmzd dd
+            where dd.dmlb = 3008 and dd.dmsb > 0 and dd.dmsb = dep.bmlb and dep.zxbz = 0
+            <if test="deptId != null and deptId != ''">
+                and (dep.parentbm = #{deptId} or dep.bmdm = #{deptId})
+            </if >
+            <if test="deptType != 0">
+                and dep.bmlb = #{deptType}
+            </if >
+            <if test="accountCaliber != 0">
+                and aa.accountcalibers like '%' || to_char(#{accountCaliber}) || '%'
+            </if >
+        order by dep.bmlb,dep.sortby
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ReimbursementCostRepository">
+
+    <!-- 报销费用-项目级-全部-小计 -->
+    <select id="findReimburseProAllTotal" resultType="Map">
+        select * from bsoft_portal.ker_report_RPA_total_view order by projectid asc
+    </select>
+
+
+    <!-- 报销费用-项目级-全部-年度 -->
+    <select id="findReimburseProAllYear" resultType="Map">
+        select * from bsoft_portal.ker_report_RPA_year_view order by projectid asc, costYear desc
+    </select>
+
+    <!-- 报销费用-项目级-全部-月度 -->
+    <select id="findReimburseProAllMonth" resultType="Map">
+        select * from bsoft_portal.ker_report_RPA_month_view order by projectid asc, costMonth desc
+    </select>
+
+    <!-- 报销费用-项目级-按产生部门类别-小计 -->
+    <select id="findReimburseProDepTotal" resultType="Map">
+        select * from bsoft_portal.ker_report_RPD_total_view order by projectid asc
+    </select>
+
+    <!-- 报销费用-项目级-按产生部门类别-年度 -->
+    <select id="findReimburseProDepYear" resultType="Map">
+        select * from bsoft_portal.ker_report_RPD_year_view order by projectid asc, costYear desc
+    </select>
+
+    <!-- 报销费用-项目级-按产生部门类别-月度 -->
+    <select id="findReimburseProDepMonth" resultType="Map">
+        select * from bsoft_portal.ker_report_RPD_month_view order by projectid asc, costMonth desc
+    </select>
+
+    <!-- 报销费用-合同级-全部-小计 -->
+    <select id="findReimburseConAllTotal" resultType="Map">
+        select * from bsoft_portal.ker_report_RCA_total_view order by contractsigningdate desc,contractassessmentdate desc
+    </select>
+
+    <!-- 报销费用-合同级-全部-年度 -->
+    <select id="findReimburseConAllYear" resultType="Map">
+        select * from bsoft_portal.ker_report_RCA_year_view  order by costYear desc,contractsigningdate desc,contractassessmentdate desc
+    </select>
+
+    <!-- 报销费用-合同级-全部-月度 -->
+    <select id="findReimburseConAllMonth" resultType="Map">
+        select * from bsoft_portal.ker_report_RCA_month_view order by costMonth desc,contractsigningdate desc,contractassessmentdate desc
+    </select>
+
+    <!-- 报销费用-合同级-按产生部门类别-小计 -->
+    <select id="findReimburseConDepTotal" resultType="Map">
+        select * from bsoft_portal.ker_report_RCD_total_view order by contractsigningdate desc,contractassessmentdate desc
+    </select>
+
+    <!-- 报销费用-合同级-按产生部门类别-年度 -->
+    <select id="findReimburseConDepYear" resultType="Map">
+        select * from bsoft_portal.ker_report_RCD_year_view order by costYear desc,contractsigningdate desc,contractassessmentdate desc
+    </select>
+
+    <!-- 报销费用-合同级-按产生部门类别-月度 -->
+    <select id="findReimburseConDepMonth" resultType="Map">
+        select * from bsoft_portal.ker_report_RCD_month_view order by costMonth desc,contractsigningdate desc,contractassessmentdate desc
+    </select>
+</mapper>

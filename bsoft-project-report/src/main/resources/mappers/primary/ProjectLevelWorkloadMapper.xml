@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ProjectLevelWorkloadRepository">
+    <select id="findAllSubTotal" parameterType="Integer" resultType="com.bsoft.project.report.entity.primary.ProjectLevelworkloadAllDO">
+        SELECT (SELECT DMMC FROM BSOFTMIS.GY_DMZD WHERE GY_DMZD.DMLB = 1501 AND GY_DMZD.DMSB &lt;&gt; 0 AND GY_DMZD.DMSB = T_PROJECT.YWGS) CareerGroupText,
+        WH_ZZJG.BMMC LargeAreaText,
+        T_DEP.BMMC SmallAreaText,
+        (SELECT BMMC FROM BSOFTMIS.T_DEP WHERE T_DEP.BMDM = T_PROJECT.YJBM) MoneyBackDeptText,
+        (SELECT BMMC FROM BSOFTMIS.T_DEP WHERE T_DEP.BMDM = T_PROJECT.XSYJBM) SaleDeptText,
+        '_' || T_PROJECT.KHBM CustomerCode,
+        KH_JBXX.KHMC CustomerName,
+        KH_HTXX.CONTRACTNO ContractNo,
+        KH_HTXX.HTMC ContractName,
+        KH_HTXX.HTE ContractAmount,
+        (KH_HTXX.RJFW + KH_HTXX.RJCGCB + KH_HTXX.QTCB) ContractSoftwareAmount,
+        KH_HTXX.RJFW SoftwareServiceAmount,
+        KH_HTXX.ZK DiscountRate,
+        KH_HTXX.QDRQ ContractSigningDate,
+        KH_HTXX.KHRQ ContractAssessmentDate,
+        AA.projectid ProjectId,
+        T_PROJECT.PROJECTNAME ProjectName,
+        T_PROJECT.CONAMOUNT ProjectAmount,
+        XMLB.DMMC ProjectFlagText,
+        XMLX.DMMC ProjectTypeText,
+        CASE WHEN T_PROJECT.ACTTO &lt;= SYSDATE THEN '已验收' ELSE '未验收' END AS AcceptanceStamp,
+        SUM(CASE WHEN INSTR(AA.GRADE,'T')>0 THEN AA.workload ELSE 0 END) Workload,
+        SUM(DECODE(AA.grade,'T00',AA.workload,0)) T00,
+        SUM(DECODE(AA.grade,'T01',AA.workload,0)) T01,
+        SUM(DECODE(AA.grade,'T02',AA.workload,0)) T02,
+        SUM(DECODE(AA.grade,'T03',AA.workload,0)) T03,
+        SUM(DECODE(AA.grade,'T04',AA.workload,0)) T04,
+        SUM(DECODE(AA.grade,'T05',AA.workload,0)) T05,
+        SUM(DECODE(AA.grade,'T06',AA.workload,0)) T06,
+        SUM(DECODE(AA.grade,'T07',AA.workload,0)) T07,
+        SUM(DECODE(AA.grade,'T08',AA.workload,0)) T08,
+        SUM(DECODE(AA.grade,'T09',AA.workload,0)) T09,
+        SUM(DECODE(AA.grade,'T10',AA.workload,0)) T10,
+        SUM(DECODE(AA.grade,'T11',AA.workload,0)) T11,
+        SUM(DECODE(AA.grade,'T12',AA.workload,0)) T12,
+        SUM(DECODE(AA.grade,'T13',AA.workload,0)) T13,
+        SUM(DECODE(AA.grade,'T14',AA.workload,0)) T14,
+        SUM(DECODE(AA.grade,'T15',AA.workload,0)) T15,
+        SUM(DECODE(AA.grade,'T16',AA.workload,0)) T16,
+        SUM(DECODE(AA.grade,'T17',AA.workload,0)) T17,
+        SUM(DECODE(AA.grade,'T18',AA.workload,0)) T18,
+        SUM(DECODE(AA.grade,'T19',AA.workload,0)) T19,
+        SUM(DECODE(AA.grade,'T20',AA.workload,0)) T20,
+        SUM(DECODE(AA.grade,'T21',AA.workload,0)) T21,
+        SUM(DECODE(AA.grade,'T22',AA.workload,0)) T22,
+        SUM(DECODE(AA.grade,'T23',AA.workload,0)) T23,
+        SUM(DECODE(AA.grade,'T24',AA.workload,0)) T24,
+        SUM(DECODE(AA.grade,'T25',AA.workload,0)) T25,
+        SUM(DECODE(AA.grade,'T26',AA.workload,0)) T26,
+        SUM(DECODE(AA.grade,'T27',AA.workload,0)) T27,
+        SUM(DECODE(AA.grade,'T28',AA.workload,0)) T28,
+        SUM(DECODE(AA.grade,'T29',AA.workload,0)) T29,
+        SUM(DECODE(AA.grade,'T30',AA.workload,0)) T30,
+        SUM(DECODE(AA.grade,'T31',AA.workload,0)) T31,
+        SUM(DECODE(AA.grade,'T32',AA.workload,0)) T32,
+        SUM(DECODE(AA.grade,'T33',AA.workload,0)) T33,
+        SUM(DECODE(AA.grade,'T34',AA.workload,0)) T34,
+        SUM(DECODE(AA.grade,'T35',AA.workload,0)) T35,
+        SUM(DECODE(AA.grade,'T36',AA.workload,0)) T36,
+        SUM(DECODE(AA.grade,'T37',AA.workload,0)) T37,
+        SUM(DECODE(AA.grade,'T38',AA.workload,0)) T38,
+        SUM(DECODE(AA.grade,'T39',AA.workload,0)) T39,
+        SUM(DECODE(AA.grade,'T40',AA.workload,0)) T40,
+        SUM(DECODE(AA.grade,'P0',AA.workload,0)) P0,
+        SUM(DECODE(AA.grade,'P1',AA.workload,0)) P1,
+        SUM(DECODE(AA.grade,'P2',AA.workload,0)) P2,
+        SUM(DECODE(AA.grade,'P3',AA.workload,0)) P3,
+        SUM(DECODE(AA.grade,'P4',AA.workload,0)) P4,
+        SUM(DECODE(AA.grade,'P5',AA.workload,0)) P5,
+        SUM(DECODE(AA.grade,'P6',AA.workload,0)) P6,
+        SUM(DECODE(AA.grade,'P7',AA.workload,0)) P7,
+        SUM(DECODE(AA.grade,'P8',AA.workload,0)) P8,
+        SUM(DECODE(AA.grade,'P9',AA.workload,0)) P9,
+        SUM(DECODE(AA.grade,'P10',AA.workload,0)) P10,
+        SUM(DECODE(AA.grade,'P11',AA.workload,0)) P11,
+        SUM(DECODE(AA.grade,'P12',AA.workload,0)) P12,
+        SUM(DECODE(AA.grade,'P13',AA.workload,0)) P13,
+        SUM(DECODE(AA.grade,'P14',AA.workload,0)) P14,
+        SUM(DECODE(AA.grade,'P15',AA.workload,0)) P15
+
+        FROM KER_REPORT_MANCOST_VIEW AA ,BSOFTMIS.T_PROJECT LEFT OUTER JOIN (SELECT WH_BMGL.BMDM,A.GLNF,WH_BMGL.BM1 FROM BSOFTMIS.WH_BMGL,(SELECT MAX(GLNF) GLNF FROM BSOFTMIS.WH_BMGL) A WHERE (A.GLNF = WH_BMGL.GLNF)) GLBM ON GLBM.BMDM = T_PROJECT.AREA,
+        BSOFTMIS.T_DEP,BSOFTMIS.WH_ZZJG,BSOFTMIS.KH_JBXX,BSOFTMIS.KH_HTXX,
+        (SELECT DMSB,DMMC FROM BSOFTMIS.T_DMZD WHERE T_DMZD.DMLB = 910 AND T_DMZD.DMSB &lt;&gt; 0) XMLB,
+        (SELECT DMSB,DMMC FROM BSOFTMIS.T_DMZD WHERE T_DMZD.DMLB = 903 AND T_DMZD.DMSB &lt;&gt; 0) XMLX
+        WHERE AA.PROJECTID = T_PROJECT.PROJECTID AND
+        T_DEP.BMDM = T_PROJECT.AREA AND
+        WH_ZZJG.BMID = GLBM.BM1 AND
+        KH_JBXX.KHBM = T_PROJECT.KHBM AND
+        KH_HTXX.CONTRACTNO = T_PROJECT.CONTRACTNO AND
+        XMLB.DMSB = T_PROJECT.FLAG AND
+        XMLX.DMSB = T_PROJECT.PROJECTTYPE AND
+        KH_HTXX.QDRQ >= DATE'2010-01-01' AND
+        AA.YEAR BETWEEN #{param1} AND #{param2}
+        GROUP BY AA.PROJECTID,T_PROJECT.YWGS,GLBM.BM1,WH_ZZJG.BMMC,T_PROJECT.AREA,T_DEP.BMMC,T_PROJECT.YJBM,T_PROJECT.XSYJBM,T_PROJECT.KHBM,KH_JBXX.KHMC,KH_HTXX.CONTRACTNO,
+        KH_HTXX.HTMC,
+        KH_HTXX.HTE,
+        (KH_HTXX.RJFW + KH_HTXX.RJCGCB + KH_HTXX.QTCB),
+        KH_HTXX.RJFW,
+        KH_HTXX.QDRQ,
+        KH_HTXX.KHRQ,
+        T_PROJECT.PROJECTNAME,
+        T_PROJECT.CONAMOUNT,
+        T_PROJECT.FLAG,
+        XMLB.DMMC,
+        T_PROJECT.PROJECTTYPE,
+        XMLX.DMMC,
+        CASE WHEN T_PROJECT.ACTTO &lt;= SYSDATE THEN '已验收' ELSE '未验收' END,
+        KH_HTXX.ZK
+
+    </select>
+
+    <select id="findAllGroupByYear" parameterType="Integer" resultType="com.bsoft.project.report.entity.primary.ProjectLevelworkloadAllByYearDO">
+        select * from bsoft_portal.ker_report_work_pro_y_view where year between #{param1} and #{param2}  order by projectId,year desc
+    </select>
+
+    <select id="findAllGroupByMonth" parameterType="Integer" resultType="com.bsoft.project.report.entity.primary.ProjectLevelworkloadAllByMonthDO">
+        select * from bsoft_portal.ker_report_work_pro_m_view where year between #{param1} and #{param2}  order by projectId,year desc
+    </select>
+
+    <select id="findDepTypeSubTotal" parameterType="Integer" resultType="com.bsoft.project.report.entity.primary.ProjectLevelworkloadAllByDepDO">
+SELECT (SELECT DMMC FROM BSOFTMIS.GY_DMZD WHERE GY_DMZD.DMLB = 1501 AND GY_DMZD.DMSB &lt;&gt; 0 AND GY_DMZD.DMSB = T_PROJECT.YWGS) CareerGroupText,
+        WH_ZZJG.BMMC LargeAreaText,
+        T_DEP.BMMC SmallAreaText,
+        (SELECT BMMC FROM BSOFTMIS.T_DEP WHERE T_DEP.BMDM = T_PROJECT.YJBM) MoneyBackDeptText,
+        (SELECT BMMC FROM BSOFTMIS.T_DEP WHERE T_DEP.BMDM = T_PROJECT.XSYJBM) SaleDeptText,
+        '_' || T_PROJECT.KHBM CustomerCode,
+        KH_JBXX.KHMC CustomerName,
+        KH_HTXX.CONTRACTNO ContractNo,
+        KH_HTXX.HTMC ContractName,
+        KH_HTXX.HTE ContractAmount,
+        (KH_HTXX.RJFW + KH_HTXX.RJCGCB + KH_HTXX.QTCB) ContractSoftwareAmount,
+        KH_HTXX.RJFW SoftwareServiceAmount,
+        KH_HTXX.ZK DiscountRate,
+        KH_HTXX.QDRQ ContractSigningDate,
+        KH_HTXX.KHRQ ContractAssessmentDate,
+        AA.projectid ProjectId,
+        T_PROJECT.PROJECTNAME ProjectName,
+        T_PROJECT.CONAMOUNT ProjectAmount,
+        XMLB.DMMC ProjectFlagText,
+        XMLX.DMMC ProjectTypeText,
+        CASE WHEN T_PROJECT.ACTTO &lt;= SYSDATE THEN '已验收' ELSE '未验收' END AS AcceptanceStamp,
+        CASE WHEN AA.DEPTYPE = 1 THEN '小区内' WHEN AA.DEPTYPE = 2 THEN '小区外大区内' WHEN AA.DEPTYPE = 3 THEN '大区外' END DEPTYPE,
+        SUM(CASE WHEN INSTR(AA.GRADE,'T')>0 THEN AA.workload ELSE 0 END) Workload,
+        SUM(DECODE(AA.grade,'T00',AA.workload,0)) T00,
+        SUM(DECODE(AA.grade,'T01',AA.workload,0)) T01,
+        SUM(DECODE(AA.grade,'T02',AA.workload,0)) T02,
+        SUM(DECODE(AA.grade,'T03',AA.workload,0)) T03,
+        SUM(DECODE(AA.grade,'T04',AA.workload,0)) T04,
+        SUM(DECODE(AA.grade,'T05',AA.workload,0)) T05,
+        SUM(DECODE(AA.grade,'T06',AA.workload,0)) T06,
+        SUM(DECODE(AA.grade,'T07',AA.workload,0)) T07,
+        SUM(DECODE(AA.grade,'T08',AA.workload,0)) T08,
+        SUM(DECODE(AA.grade,'T09',AA.workload,0)) T09,
+        SUM(DECODE(AA.grade,'T10',AA.workload,0)) T10,
+        SUM(DECODE(AA.grade,'T11',AA.workload,0)) T11,
+        SUM(DECODE(AA.grade,'T12',AA.workload,0)) T12,
+        SUM(DECODE(AA.grade,'T13',AA.workload,0)) T13,
+        SUM(DECODE(AA.grade,'T14',AA.workload,0)) T14,
+        SUM(DECODE(AA.grade,'T15',AA.workload,0)) T15,
+        SUM(DECODE(AA.grade,'T16',AA.workload,0)) T16,
+        SUM(DECODE(AA.grade,'T17',AA.workload,0)) T17,
+        SUM(DECODE(AA.grade,'T18',AA.workload,0)) T18,
+        SUM(DECODE(AA.grade,'T19',AA.workload,0)) T19,
+        SUM(DECODE(AA.grade,'T20',AA.workload,0)) T20,
+        SUM(DECODE(AA.grade,'T21',AA.workload,0)) T21,
+        SUM(DECODE(AA.grade,'T22',AA.workload,0)) T22,
+        SUM(DECODE(AA.grade,'T23',AA.workload,0)) T23,
+        SUM(DECODE(AA.grade,'T24',AA.workload,0)) T24,
+        SUM(DECODE(AA.grade,'T25',AA.workload,0)) T25,
+        SUM(DECODE(AA.grade,'T26',AA.workload,0)) T26,
+        SUM(DECODE(AA.grade,'T27',AA.workload,0)) T27,
+        SUM(DECODE(AA.grade,'T28',AA.workload,0)) T28,
+        SUM(DECODE(AA.grade,'T29',AA.workload,0)) T29,
+        SUM(DECODE(AA.grade,'T30',AA.workload,0)) T30,
+        SUM(DECODE(AA.grade,'T31',AA.workload,0)) T31,
+        SUM(DECODE(AA.grade,'T32',AA.workload,0)) T32,
+        SUM(DECODE(AA.grade,'T33',AA.workload,0)) T33,
+        SUM(DECODE(AA.grade,'T34',AA.workload,0)) T34,
+        SUM(DECODE(AA.grade,'T35',AA.workload,0)) T35,
+        SUM(DECODE(AA.grade,'T36',AA.workload,0)) T36,
+        SUM(DECODE(AA.grade,'T37',AA.workload,0)) T37,
+        SUM(DECODE(AA.grade,'T38',AA.workload,0)) T38,
+        SUM(DECODE(AA.grade,'T39',AA.workload,0)) T39,
+        SUM(DECODE(AA.grade,'T40',AA.workload,0)) T40,
+        SUM(DECODE(AA.grade,'P0',AA.workload,0)) P0,
+        SUM(DECODE(AA.grade,'P1',AA.workload,0)) P1,
+        SUM(DECODE(AA.grade,'P2',AA.workload,0)) P2,
+        SUM(DECODE(AA.grade,'P3',AA.workload,0)) P3,
+        SUM(DECODE(AA.grade,'P4',AA.workload,0)) P4,
+        SUM(DECODE(AA.grade,'P5',AA.workload,0)) P5,
+        SUM(DECODE(AA.grade,'P6',AA.workload,0)) P6,
+        SUM(DECODE(AA.grade,'P7',AA.workload,0)) P7,
+        SUM(DECODE(AA.grade,'P8',AA.workload,0)) P8,
+        SUM(DECODE(AA.grade,'P9',AA.workload,0)) P9,
+        SUM(DECODE(AA.grade,'P10',AA.workload,0)) P10,
+        SUM(DECODE(AA.grade,'P11',AA.workload,0)) P11,
+        SUM(DECODE(AA.grade,'P12',AA.workload,0)) P12,
+        SUM(DECODE(AA.grade,'P13',AA.workload,0)) P13,
+        SUM(DECODE(AA.grade,'P14',AA.workload,0)) P14,
+        SUM(DECODE(AA.grade,'P15',AA.workload,0)) P15
+
+        FROM KER_REPORT_MANCOST_VIEW AA ,BSOFTMIS.T_PROJECT LEFT OUTER JOIN (SELECT WH_BMGL.BMDM,A.GLNF,WH_BMGL.BM1 FROM BSOFTMIS.WH_BMGL,(SELECT MAX(GLNF) GLNF FROM BSOFTMIS.WH_BMGL) A WHERE (A.GLNF = WH_BMGL.GLNF)) GLBM ON GLBM.BMDM = T_PROJECT.AREA,
+        BSOFTMIS.T_DEP,BSOFTMIS.WH_ZZJG,BSOFTMIS.KH_JBXX,BSOFTMIS.KH_HTXX,
+        (SELECT DMSB,DMMC FROM BSOFTMIS.T_DMZD WHERE T_DMZD.DMLB = 910 AND T_DMZD.DMSB &lt;&gt; 0) XMLB,
+        (SELECT DMSB,DMMC FROM BSOFTMIS.T_DMZD WHERE T_DMZD.DMLB = 903 AND T_DMZD.DMSB &lt;&gt; 0) XMLX
+        WHERE AA.PROJECTID = T_PROJECT.PROJECTID AND
+        T_DEP.BMDM = T_PROJECT.AREA AND
+        WH_ZZJG.BMID = GLBM.BM1 AND
+        KH_JBXX.KHBM = T_PROJECT.KHBM AND
+        KH_HTXX.CONTRACTNO = T_PROJECT.CONTRACTNO AND
+        XMLB.DMSB = T_PROJECT.FLAG AND
+        XMLX.DMSB = T_PROJECT.PROJECTTYPE AND
+        KH_HTXX.QDRQ >= DATE'2010-01-01' AND
+        AA.YEAR BETWEEN #{param1} AND #{param2}
+        GROUP BY AA.PROJECTID,T_PROJECT.YWGS,GLBM.BM1,WH_ZZJG.BMMC,T_PROJECT.AREA,T_DEP.BMMC,T_PROJECT.YJBM,T_PROJECT.XSYJBM,T_PROJECT.KHBM,KH_JBXX.KHMC,KH_HTXX.CONTRACTNO,
+        KH_HTXX.HTMC,
+        KH_HTXX.HTE,
+        (KH_HTXX.RJFW + KH_HTXX.RJCGCB + KH_HTXX.QTCB),
+        KH_HTXX.RJFW,
+        KH_HTXX.QDRQ,
+        KH_HTXX.KHRQ,
+        T_PROJECT.PROJECTNAME,
+        T_PROJECT.CONAMOUNT,
+        T_PROJECT.FLAG,
+        XMLB.DMMC,
+        T_PROJECT.PROJECTTYPE,
+        XMLX.DMMC,
+        CASE WHEN T_PROJECT.ACTTO &lt;= SYSDATE THEN '已验收' ELSE '未验收' END,
+        AA.DEPTYPE,
+        KH_HTXX.ZK
+    </select>
+
+    <select id="findDepTypeGroupByYear" parameterType="Integer" resultType="com.bsoft.project.report.entity.primary.ProjectLevelworkloadAllByDepByYearDO">
+       select * from bsoft_portal.KER_REPORT_WORK_PRO_DEP_Y_VIEW where year between #{param1} and #{param2}  order by projectId,year desc
+    </select>
+
+    <select id="findDepTypeGroupByMonth" parameterType="Integer" resultType="com.bsoft.project.report.entity.primary.ProjectLevelworkloadAllByDepByMonthDO">
+        select * from bsoft_portal.KER_REPORT_WORK_PRO_DEP_M_VIEW where year between #{param1} and #{param2}  order by projectId,year desc
+    </select>
+</mapper>

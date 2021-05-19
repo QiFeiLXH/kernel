@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bsoft-account/bsoft-account.iml" filepath="$PROJECT_DIR$/bsoft-account/bsoft-account.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-api/bsoft-api.iml" filepath="$PROJECT_DIR$/bsoft-api/bsoft-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-attendance/bsoft-attendance.iml" filepath="$PROJECT_DIR$/bsoft-attendance/bsoft-attendance.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-auth/bsoft-auth.iml" filepath="$PROJECT_DIR$/bsoft-auth/bsoft-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-clue/bsoft-clue.iml" filepath="$PROJECT_DIR$/bsoft-clue/bsoft-clue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-common/bsoft-common.iml" filepath="$PROJECT_DIR$/bsoft-common/bsoft-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-contract/bsoft-contract.iml" filepath="$PROJECT_DIR$/bsoft-contract/bsoft-contract.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-cost/bsoft-cost.iml" filepath="$PROJECT_DIR$/bsoft-cost/bsoft-cost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-customer/bsoft-customer.iml" filepath="$PROJECT_DIR$/bsoft-customer/bsoft-customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-dept/bsoft-dept.iml" filepath="$PROJECT_DIR$/bsoft-dept/bsoft-dept.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-dictionary/bsoft-dictionary.iml" filepath="$PROJECT_DIR$/bsoft-dictionary/bsoft-dictionary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-email/bsoft-email.iml" filepath="$PROJECT_DIR$/bsoft-email/bsoft-email.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-house/bsoft-house.iml" filepath="$PROJECT_DIR$/bsoft-house/bsoft-house.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bsoft-kernel.iml" filepath="$PROJECT_DIR$/.idea/bsoft-kernel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-logs/bsoft-logs.iml" filepath="$PROJECT_DIR$/bsoft-logs/bsoft-logs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-menu/bsoft-menu.iml" filepath="$PROJECT_DIR$/bsoft-menu/bsoft-menu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-message/bsoft-message.iml" filepath="$PROJECT_DIR$/bsoft-message/bsoft-message.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-opinion/bsoft-opinion.iml" filepath="$PROJECT_DIR$/bsoft-opinion/bsoft-opinion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-parent/bsoft-parent.iml" filepath="$PROJECT_DIR$/bsoft-parent/bsoft-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-person/bsoft-person.iml" filepath="$PROJECT_DIR$/bsoft-person/bsoft-person.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-project/bsoft-project.iml" filepath="$PROJECT_DIR$/bsoft-project/bsoft-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-project-report/bsoft-project-report.iml" filepath="$PROJECT_DIR$/bsoft-project-report/bsoft-project-report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-project-worklog/bsoft-project-worklog.iml" filepath="$PROJECT_DIR$/bsoft-project-worklog/bsoft-project-worklog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-public/bsoft-public.iml" filepath="$PROJECT_DIR$/bsoft-public/bsoft-public.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-sales-report/bsoft-sales-report.iml" filepath="$PROJECT_DIR$/bsoft-sales-report/bsoft-sales-report.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-starter/bsoft-starter.iml" filepath="$PROJECT_DIR$/bsoft-starter/bsoft-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-system/bsoft-system.iml" filepath="$PROJECT_DIR$/bsoft-system/bsoft-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-tender/bsoft-tender.iml" filepath="$PROJECT_DIR$/bsoft-tender/bsoft-tender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-test/bsoft-test.iml" filepath="$PROJECT_DIR$/bsoft-test/bsoft-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-user/bsoft-user.iml" filepath="$PROJECT_DIR$/bsoft-user/bsoft-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-version/bsoft-version.iml" filepath="$PROJECT_DIR$/bsoft-version/bsoft-version.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bsoft-weekly/bsoft-weekly.iml" filepath="$PROJECT_DIR$/bsoft-weekly/bsoft-weekly.iml" />
+    </modules>
+  </component>
+</project>

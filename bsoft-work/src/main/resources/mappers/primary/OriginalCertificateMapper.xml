@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.work.repository.primary.OriginalCertificateRepository">
+
+    <resultMap id="OriginalCertificateMap" type="com.bsoft.work.entity.primary.OriginalCertificateDO">
+        <result column="id" jdbcType="VARCHAR" property="id"></result>
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
+        <result column="type" jdbcType="INTEGER" property="type"></result>
+        <result column="typename" jdbcType="VARCHAR" property="typeName"></result>
+        <result column="logoff" jdbcType="INTEGER" property="logoff"></result>
+        <result column="archivist" jdbcType="VARCHAR" property="archivist"></result>
+        <result column="archivistname" jdbcType="VARCHAR" property="archivistName"></result>
+    </resultMap>
+
+    <select id="getCurrentId" resultType="String">
+        select seq_ad_original_certificate_id.nextval from dual
+    </select>
+
+    <select id="getById" resultMap="OriginalCertificateMap">
+        select id, name, type, logoff, archivist from bsoft_portal.ad_original_certificate where id=#{id}
+    </select>
+
+    <select id="getByName" resultMap="OriginalCertificateMap">
+        select id, name, type, logoff, archivist from bsoft_portal.ad_original_certificate where name=#{name}
+    </select>
+
+    <select id="listByLimits" resultMap="OriginalCertificateMap">
+        select a.id, a.name, a.type, c.dmmc typename, a.logoff, b.xuslgname archivist, b.xusname archivistname from bsoft_portal.ad_original_certificate a
+        left join bsoftmis.xtuser b on a.archivist=b.xuslgname
+        left join (select * from bsoftmis.GY_DMZD where DMLB=16) c on a.type=c.dmsb
+        where 1=1
+        <if test="queryCnd.name != null and queryCnd.name != ''">
+            and name like '%'||#{queryCnd.name}||'%'
+        </if>
+        <if test="queryCnd.type != 0 and queryCnd.type != null">
+            and type=#{queryCnd.type}
+        </if>
+        <if test="queryCnd.archivist != null and queryCnd.archivist != ''">
+            and archivist=#{queryCnd.archivist}
+        </if>
+        <if test="queryCnd.logoff == 0 or queryCnd.logoff != null">
+            and logoff=#{queryCnd.logoff}
+        </if>
+        order by logoff asc
+    </select>
+
+    <insert id="save">
+        insert into bsoft_portal.ad_original_certificate (id, name, type, logoff, archivist)
+        values(#{saveDO.id}, #{saveDO.name}, #{saveDO.type}, #{saveDO.logoff}, #{saveDO.archivist})
+    </insert>
+
+    <update id="update">
+        update bsoft_portal.ad_original_certificate
+        set name=#{updateDO.name},
+            type=#{updateDO.type},
+            logoff=#{updateDO.logoff},
+            archivist=#{updateDO.archivist}
+        where id=#{updateDO.id}
+    </update>
+
+</mapper>

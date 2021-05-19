@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.sales.repository.primary.SalesCommisRepository">
+    <select id="getSalesCommis" resultType="com.bsoft.sales.entity.primary.SalesCommisViewDO">
+        select  a.ID,
+                a.salesMan,
+                a.salesManText,
+                a.htbh,
+                a.contractNo,
+                a.contractName,
+                a.departMent,
+                a.departMentText,
+                a.accountingCaliber,
+                a.accountingCaliberText,
+                a.contractAmount,
+                a.totalRoyalty,
+                a.sellingExpenses,
+                a.distributionFlag,
+                a.commissionValidFlag,
+                a.expiryDate,
+                a.registrant,
+                a.registrantText,
+                a.registrantDate,
+                a.auditFlag,
+                a.auditor,
+                a.auditorText,
+                a.auditDate,
+                a.remarks,
+                a.paymentValid,
+                a.awardMark
+        from bsoft_portal.sales_SalesCommission_view a
+        where a.registrantDate >= #{cnd.startDate} and a.registrantDate &lt;= #{cnd.endDate}
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.salesManText like '%' || #{cnd.inputContent} || '%' or LOWER(a.Pycode) like '%' || LOWER(#{cnd.inputContent}) || '%')
+        </if >
+        <if test="cnd.dept != null and cnd.dept != ''">
+            and a.departMent = #{cnd.dept}
+        </if >
+        <if test="cnd.all == 0">
+            and exists (select 1 from bsoftmis.gy_qxgl where yggh = #{cnd.personId} and qxlb = 2 and qxlx = 13 and qxdm = a.departMent)
+        </if >
+        order by a.registrantDate desc
+    </select>
+
+</mapper>

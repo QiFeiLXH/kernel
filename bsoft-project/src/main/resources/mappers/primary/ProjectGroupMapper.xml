@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.repository.primary.ProjectGroupRepository">
+    <select id="getGroupLeaderCount" parameterType="String" resultType="Integer">
+        select count(*) countNum
+        from pro_group_detail aa
+        where aa.groupId in (select a.groupId from pro_group_detail a, pro_group b where a.groupId = b.id and b.contractNo = #{param2} and a.personId = #{param1}
+                              union all select b.parentid from pro_group_detail a, pro_group b where a.groupId = b.id and b.contractNo = #{param2} and a.personId = #{param1})
+        and aa.leader = 1
+    </select>
+
+    <select id="getGroupLeader" parameterType="String" resultType="String">
+        select
+         case when (select count(*) from PRO_GROUP_DETAIL where leader = 1 and GROUPID in (select A.ID from PRO_GROUP A,PRO_GROUP_DETAIL B where A.ID = B.GROUPID AND A.CONTRACTNO = #{param2} AND B.PERSONID = #{param1} and B.LEADER = 0)) > 0 then
+            (select personid from PRO_GROUP_DETAIL where leader = 1 and GROUPID in (select A.ID from PRO_GROUP A,PRO_GROUP_DETAIL B where A.ID = B.GROUPID AND A.CONTRACTNO = #{param2} AND B.PERSONID = #{param1} and B.LEADER = 0)) else
+            (select personid from PRO_GROUP_DETAIL where leader = 1 and GROUPID in (select A.PARENTID from PRO_GROUP A,PRO_GROUP_DETAIL B where A.ID = B.GROUPID AND A.CONTRACTNO = #{param2} AND B.PERSONID = #{param1} and B.LEADER = 0)) end as leader
+        from dual
+    </select>
+
+    <select id="getProjectManager" parameterType="String" resultType="String">
+        select xuslgname from bsoftmis.xtuser xtuser1 where to_char(xtuser1.ID) =  #{param1}
+    </select>
+</mapper>

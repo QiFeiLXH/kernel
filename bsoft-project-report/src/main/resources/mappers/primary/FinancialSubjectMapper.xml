@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.FinancialSubjectRepository">
+    <select id="findCostSubject" resultMap="ProjectAllSubTotalResultMap">
+        SELECT t_cwkm.id,t_cwkm.cpmc FROM bsoftmis.t_cwkm WHERE t_cwkm.szpb = 2 AND t_cwkm.bxbz = 1 AND (substr(t_cwkm.id,1,2) = '99') AND t_cwkm.id NOT IN (SELECT sjxh FROM bsoftmis.t_cwkm) AND yybz = 1 ORDER BY t_cwkm.id
+    </select>
+
+    <resultMap id="ProjectAllSubTotalResultMap" type="com.bsoft.project.report.entity.primary.FinancialSubjectDO">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="cpmc" jdbcType="VARCHAR" property="costSubject"/>
+    </resultMap>
+</mapper>

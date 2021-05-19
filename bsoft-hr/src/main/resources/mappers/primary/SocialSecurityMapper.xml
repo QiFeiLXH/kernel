@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.hr.repository.primary.SocialSecurityRepository">
+    <select id="getLackSocialCompanys" resultType="com.bsoft.hr.entity.primary.CompanySocialMeeterDO">
+        select a.jgid as id,a.unitcode as code, null as meeter, null as meeterName from bsoftmis.wh_gsjg a
+        where substr(a.purpose,2,1) = 1 and a.flag = 0 and not exists(select id from hr_company_social b where a.jgid = b.id)
+
+        union all
+
+        select a.jgid as id,a.unitcode as code, b.meeter, b.meeterName from bsoftmis.wh_gsjg a,hr_company_social b
+        where a.jgid = b.id
+    </select>
+
+</mapper>

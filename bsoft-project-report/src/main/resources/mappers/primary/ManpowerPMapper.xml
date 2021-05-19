@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ManpowerPRepository">
+
+    <resultMap id="manpowerPMap" type="com.bsoft.project.report.entity.primary.ManpowerCostPViewDO">
+        <result column="vid" jdbcType="VARCHAR" property="vid"/>
+        <result column="contractno" jdbcType="VARCHAR" property="contractNo"/>
+        <result column="projectId" jdbcType="VARCHAR" property="projectId"/>
+        <result column="month" jdbcType="DATE" property="month"/>
+        <result column="depType" jdbcType="INTEGER" property="depType"/>
+        <result column="pGrade" jdbcType="INTEGER" property="pGrade"/>
+        <result column="workload" jdbcType="DOUBLE" property="workload"/>
+        <result column="amount" jdbcType="DOUBLE" property="amount"/>
+
+    </resultMap>
+
+    <select id="find"  resultMap="manpowerPMap">
+      select sys_guid() vid,contractno,
+               projectid,
+               to_date(to_char(month, 'yyyy-mm') || '-01', 'yyyy-mm-dd') month,
+               deptype,
+               nvl(pgrade,0) pgrade,
+               round(sum(workload), 2) workload,
+               round(sum(amount), 2) amount
+          from (select c.contractno,
+                       b.gsxm projectid,
+                       a.kqrq month,
+                       (select zyzj from (select zyzj, yggh from bsoftmis.rs_zjqk order by zxrq1 desc nulls last, id desc) where yggh = a.yggh and rownum = 1) pgrade,
+                       b.xmbl workload,
+                       nvl(a.gz * b.xmbl,0) amount,
+                       case when a.bmdm = c.area then 1
+                            when (select case when t.parentbm is null then bmdm else parentbm end from bsoftmis.t_dep t where bmdm = a.bmdm) =
+                                 (select case when t.parentbm is null then bmdm else parentbm end from bsoftmis.t_dep t where bmdm = c.area) then 2
+                         else 3 end deptype
+                  from bsoftmis.t_kqb     a,
+                       bsoftmis.kq_gzrz   b,
+                       bsoftmis.t_project c,
+                       bsoftmis.kh_htxx d
+                 where a.id = b.kqid
+                   and b.gsxm = c.projectid
+                   and c.ywgs = 1
+                   and c.ywdl in (1, 2)
+                   and d.contractno = c.contractno
+                   and c.flag in ('1','5')
+                   and a.kqrq > add_months(sysdate,-13)
+                   and a.kqrq &lt; trunc(sysdate,'mm')
+                   and d.qdrq >= to_date('2010-01-01','yyyy-mm-dd')
+                   )
+         group by contractno,
+                  projectid,
+                  deptype,
+                  to_date(to_char(month, 'yyyy-mm') || '-01', 'yyyy-mm-dd'),
+                  pgrade
+    </select>
+</mapper>

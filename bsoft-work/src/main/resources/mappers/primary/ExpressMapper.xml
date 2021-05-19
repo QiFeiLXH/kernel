@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.work.repository.primary.ExpressRepository">
+
+    <select id="getExpressUnpaidCount" resultType="Integer">
+        select count(1) from bsoft_portal.work_express_detail_view a
+        where a.shipmentDate between #{cnd.startDate} and #{cnd.endDate}
+        and a.status = 0
+        <if test="cnd.deptId != null and cnd.deptId != ''">
+            and a.deptId = #{cnd.deptId}
+        </if >
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.applicant like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.expressNo like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.applicantName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+
+    <select id="getExpressTotalAmount" resultType="Double">
+        select nvl(sum(a.approval), 0) from bsoft_portal.work_express_detail_view a
+        where a.shipmentDate between #{cnd.startDate} and #{cnd.endDate}
+        and a.status = #{cnd.status}
+        <if test="cnd.deptId != null and cnd.deptId != ''">
+            and a.deptId = #{cnd.deptId}
+        </if >
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.applicant like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.expressNo like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.applicantName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+
+    <select id="getExpressIdList" resultType="Integer">
+        select a.id from bsoft_portal.work_express_detail_view a
+        where a.shipmentDate between #{cnd.startDate} and #{cnd.endDate}
+        and a.status = #{cnd.status} and a.approval &gt; 0
+        <if test="cnd.deptId != null and cnd.deptId != ''">
+            and a.deptId = #{cnd.deptId}
+        </if >
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.applicant like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.expressNo like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.applicantName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+
+    <select id="syncUpdateCostAmount">
+        merge into bsoftmis.t_xjlsj a using (
+            select lshid,sum(nvl(approval, 0)) amount from work_express_detail where lshid in
+                <foreach collection="lshIds" item="item" open="(" separator="," close=")" >
+                    #{item}
+                </foreach> group by lshid) b
+        on (a.lshid = b.lshid)
+        when matched then update set a.je = b.amount
+    </select>
+
+    <select id="updateCostAmountByLshid">
+        update bsoftmis.t_xjlsj set je = (select sum(approval) from bsoft_portal.work_express_detail where lshid = #{lshid})
+        where lshid = #{lshid}
+    </select>
+
+</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.attendance.repository.primary.ProjectLogRepository">
+
+    <select id="getProjectWorkLogs" resultType="com.bsoft.attendance.entity.primary.ProjectLogDO">
+        select a.id,
+               a.attendanceid,
+               a.milepostid,
+               a.range,
+               a.plan,
+               a.role,
+               a.model,
+               a.type,
+               a.worklog,
+               a.workload,
+               a.worklogid,
+               a.auditter,
+               a.nextAuditter,
+               a.auditdate,
+               a.auditflag,
+               a.refuse,
+               a.remark,
+               a.submitdate,
+               a.result,
+               a.audittype,
+               a.submitter,
+               a.attendancedate,
+               a.projectid,
+               b.technumid,
+               b.sourcetype,
+               (select count(id) from bsoft_portal.pro_worklog_audit where proworklogid = a.id) auditcount
+          from bsoft_portal.pro_worklog a, bsoftmis.kq_gzrz b
+         where a.worklogid = b.id
+           and a.attendanceDate = #{attendanceDate}
+           and b.gsxm = #{projectId}
+           and a.submitter = #{submitter}
+           and a.milepostId = #{milepostId}
+    </select>
+    <select id="getProjectWorkLogsWithNoTechnum" resultType="com.bsoft.attendance.entity.primary.ProjectLogDO">
+        select a.id,
+               a.attendanceid,
+               a.milepostid,
+               a.range,
+               a.plan,
+               a.role,
+               a.model,
+               a.type,
+               a.worklog,
+               a.workload,
+               a.worklogid,
+               a.auditter,
+               a.nextAuditter,
+               a.auditdate,
+               a.auditflag,
+               a.refuse,
+               a.remark,
+               a.submitdate,
+               a.result,
+               a.audittype,
+               a.submitter,
+               a.attendancedate,
+               a.projectid,
+               b.technumid,
+               b.sourcetype,
+               (select count(id) from bsoft_portal.pro_worklog_audit where proworklogid = a.id) auditcount
+          from bsoft_portal.pro_worklog a, bsoftmis.kq_gzrz b
+         where a.worklogid = b.id
+           and a.attendanceDate = #{attendanceDate}
+            <if test="projectId!=null and projectId!=''">
+                and b.gsxm = #{projectId}
+            </if>
+           and a.submitter = #{submitter}
+           and b.technumid is null
+    </select>
+
+    <select id="getProjectWorkLogSituation" resultType="com.bsoft.attendance.entity.primary.ProjectLogSituationDO">
+        select a.attendancedate,c.rztjsj submitdate,
+        (case when (select count(id) from bsoftmis.kq_gzrz where kqid = c.id) > 0 then 1 else 0 end) flag
+        from
+        (select trunc(sysdate ,'dd') - (rownum-1) attendancedate from dual connect by #{days} >= rownum) a
+        left outer join bsoftmis.t_kqb c on c.kqrq = a.attendancedate and c.yggh = #{personId},
+        bsoftmis.xtuser d where d.xuslgname = #{personId} and a.attendancedate >= d.startdate
+        order by a.attendancedate desc
+    </select>
+
+
+    <select id="searchProjectsWithCommon" resultType="com.bsoft.project.entity.primary.ProjectBaseDO">
+        <bind name="context" value="'%' + context + '%'" />
+        select aa.* from (
+        select  a.projectid,a.projectname,
+                d.hte contractAmount,
+                a.area,
+                (select bmmc from bsoftmis.t_dep where a.area = bmdm) areaText,
+                a.flag,
+                (select dmmc from bsoftmis.t_dmzd where dmlb = 910 and dmsb = a.flag) flagText,
+                a.signdate,
+                c.xuslgname projectmanager,
+                c.xusname projectmanagertext,
+                a.contractno,d.htbh contractId,b.khmc customername,a.pyjm pinyin,
+                (select bmmc from bsoftmis.t_dep where b.ssqy = bmdm) region,
+                (select dmmc from bsoftmis.t_dmzd where dmlb = 928 and dmsb = b.khfl) classification,
+                (select dmmc from bsoftmis.t_dmzd where dmlb = 2023 and dmsb = b.khdj) grade,
+                (case when e.projectid is not null or f.projectid is not null then 1 else 0 end) iscommon
+        from bsoftmis.t_project a
+             left join bsoftmis.xtuser c on  to_char(c.id) = a.projectmanager
+             left join bsoftmis.kh_htxx d on a.contractno = d.contractno
+             left outer join (select distinct projectid from pro_worklog where attendanceDate > sysdate - 7 and submitter = #{personId}) e on e.projectid = a.projectid
+             left outer join (select distinct t_project.projectid from pro_group,pro_group_detail,bsoftmis.t_project where pro_group.id = pro_group_detail.groupid and t_project.contractno = pro_group.contractno and pro_group_detail.personid = #{personId}) f on f.projectid = a.projectid
+        ,bsoftmis.kh_jbxx b
+        where a.khbm = b.khbm and a.wgbz = 0 and (a.projectname like #{context} or a.contractno like #{context} or a.pyjm like #{context} or #{context} is null) and a.flag in ('1','5') and a.contractno is not null) aa order by aa.iscommon desc
+    </select>
+    <resultMap id="countMap" type="map">
+        <result column="smallRegion" jdbcType="VARCHAR" property="smallRegion"/>
+        <result column="countNum" jdbcType="INTEGER" property="countNum"/>
+    </resultMap>
+
+    <select id="getRegionAuditCount"  resultMap="countMap">
+        select smallRegion,count(*) countNum from pro_worklog_auditlist_view where audittype = 3 and auditflag = 2 and refuse = 1 and (auditdate between sysdate - 1 and sysdate) group by smallregion
+    </select>
+
+    <resultMap id="ProjectWithAuditResultMap" type="com.bsoft.attendance.entity.primary.ProjectWithAuditDO">
+        <result column="projectId" jdbcType="VARCHAR" property="projectId"/>
+        <result column="contractNo" jdbcType="VARCHAR" property="contractNo"/>
+        <result column="projectName" jdbcType="VARCHAR" property="projectName"/>
+        <result column="projectManager" jdbcType="VARCHAR" property="projectManager"/>
+        <result column="countNum" jdbcType="INTEGER" property="countNum"/>
+    </resultMap>
+
+    <select id="getProjectWithAudit" parameterType="Map" resultMap="ProjectWithAuditResultMap">
+        select contractNo,projectName,projectId,projectManager,countNum from
+            (select t1.contractNo,t1.projectName,t1.projectId,t1.projectManager,t1.countNum,rownum rn from(
+                select distinct projectId,projectName,contractNo,projectManager,count(projectid) countNum from(
+                  select
+                  worklog.nextauditter as auditter,
+                  project.projectId,
+                  project.projectName,
+                  project.contractNo,
+                  project.projectManager,
+                  worklog.id,
+                  kqb.kqrq attendanceDate
+                  from PRO_WORKLOG worklog
+                  left outer join  bsoftmis.KQ_GZRZ gzrz on workLog.WORKLOGID = gzrz.id
+                  left outer join  bsoftmis.t_kqb kqb on workLog.ATTENDANCEID = kqb.id
+                  ,bsoftmis.t_project project,bsoftmis.t_dep dep,bsoftmis.GY_DMZD dmzd
+                  where  project.projectid = worklog.projectid and dmzd.DMLB = 30 and dmzd.DMSB = gzrz.XMLB
+                         and dep.BMDM = project.AREA  and worklog.audittype &lt;&gt; 0
+                )
+                where auditter = #{data.userId,jdbcType=VARCHAR}
+                <if test="data.startDate != null"> --考勤时间段
+                    and attendanceDate >= #{data.startDate}
+                </if>
+                <if test="data.endDate != null"> --考勤时间段
+                    and attendanceDate &lt;= #{data.endDate}
+                </if>
+                group by  projectid,projectName,contractNo,projectManager
+            )t1
+        )
+    </select>
+
+    <select id="getProjectWithAuditCount" parameterType="String" resultType="Integer">
+        select count(*) countNum from
+        (select distinct projectId,projectName,contractNo,projectManager from(
+                      select
+                      worklog.nextauditter as auditter,
+                      project.projectId,
+                      project.projectName,
+                      project.contractNo,
+                      project.projectManager,
+                      worklog.id
+                      from PRO_WORKLOG worklog
+                      left outer join  bsoftmis.KQ_GZRZ gzrz on workLog.WORKLOGID = gzrz.id
+                      ,bsoftmis.t_project project,bsoftmis.t_dep dep,bsoftmis.GY_DMZD dmzd
+                      where  project.projectid = worklog.projectid and dmzd.DMLB = 30 and dmzd.DMSB = gzrz.XMLB
+                             and dep.BMDM = project.AREA  and worklog.audittype &lt;&gt; 0
+                    )
+                    where auditter = #{userId,jdbcType=VARCHAR}
+        )
+    </select>
+
+
+    <select id="getProjectLogQueryProjectList" resultType="com.bsoft.attendance.entity.primary.ProjectLogQueryProjectDO">
+        select t.projectid, t.projectname, count(1) as logsnum
+        from bsoft_portal.ker_projectlog_query_view t where (t.submitter = #{userId} or t.projectmanager = #{userId}) and t.attendancedate between #{startDate} and #{endDate} group by t.projectid, t.projectname
+    </select>
+
+
+    <select id="getDifferentProjectManagerFromNextAuditterLogList" resultType="com.bsoft.attendance.entity.primary.ProjectLogNextAuditterUpdateDO">
+        select a.id,c.xuslgname as nextAuditter from pro_worklog a,bsoftmis.t_project b,bsoftmis.xtuser c
+        where a.projectid = b.projectid and b.projectmanager = to_char(c.id) and a.audittype = 2 and a.nextauditter &lt;&gt; c.xuslgname
+    </select>
+</mapper>

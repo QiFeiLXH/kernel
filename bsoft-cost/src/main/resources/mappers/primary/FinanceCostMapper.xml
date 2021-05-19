@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.cost.repository.primary.FinanceCostRepository">
+
+    <select id="getFinanceCostViewList" parameterType="Map" resultType="com.bsoft.cost.entity.primary.FinanceCostViewDO">
+        select
+            htxx.qdrq signDate,
+            p.contractno contractNo,
+            p.projectid projectId,
+            p.projectname projectName,
+            p.ywdl businessCategory,
+            (select dmmc from bsoftmis.gy_dmzd dmzd where dmzd.dmlb = 1500 and dmzd.dmsb = p.ywdl) as businessCategoryText,
+            p.flag,
+            (select dmmc from bsoftmis.gy_dmzd dmzd where dmzd.dmlb = 30 and dmzd.dmsb = p.flag) as flagText,
+            p.area,
+            (select bmmc from bsoftmis.t_dep where bmdm = p.area) as areaText,
+            p.wgbz finishFlag,
+            rlcb.manpowerCost,
+            cost.Hospitality  hospitality,
+            cost.TravelCost  travelCost,
+            cost.SoftwareCost softwareCost,
+            cost.other other
+        from bsoftmis.t_project p
+            left outer join (select projectid,sum(case when CWFL = 1 then je else 0 end)TravelCost,sum(case when CWFL = 2 then je else 0 end)Hospitality,sum(case when CWFL = 3 then je else 0 end)SoftwareCost,sum(case when CWFL = 4 then je else 0 end)other
+                                from ker_finance_cost_view finance --以下为各项费用，招待费、差旅费、软件采购、其他等
+                                where 1 = 1
+                                <if test="data.paymentFlag != null"> --是否发放
+                                    and finance.ffbz = #{data.paymentFlag}
+                                </if>
+                                <if test="data.costDateStart != null"> --费用时间段
+                                    and finance.costDate >= #{data.costDateStart}
+                                </if>
+                                <if test="data.costDateEnd != null">
+                                    and finance.costDate &lt;= #{data.costDateEnd}
+                                </if>
+                                group by projectid) cost on cost.PROJECTID = p.projectid
+            left outer join (select projectid,   --以下为人力成本
+                                round(sum(manpowercost), 2) manpowercost
+                                from
+                                (select b.gsxm projectid,nvl((a.gz*b.xmbl/ e.xs *1.25),0) manpowercost
+                                        from bsoftmis.t_kqb a,
+                                        bsoftmis.kq_gzrz b,
+                                        bsoftmis.t_project c,
+                                        bsoftmis.t_rlxs e
+                                        where a.id = b.kqid
+                                        and b.gsxm = c.projectid
+                                        and a.kqrq >= add_months((select max(p.month) from  ker_project_report_tlaborcost p),1)
+                                        and c.ywdl in (1,2)
+                                        and c.flag in ('1','5')
+                                        and to_number(to_char(a.kqrq,'yyyy')) = e.nf
+                                        <if test="data.costDateStart != null"> --费用时间段
+                                            and a.kqrq >= #{data.costDateStart}
+                                        </if>
+                                        <if test="data.costDateEnd != null">
+                                            and a.kqrq &lt;= #{data.costDateEnd}
+                                        </if>
+                                union all
+
+                                select projectid,nvl(amount/e.xs *1.25,0) manpowercost
+                                from ker_project_report_tlaborcost a,
+                                        bsoftmis.t_rlxs e
+                                where to_number(to_char(a.month,'yyyy')) = e.nf
+                                        <if test="data.costDateStart != null"> --费用时间段
+                                            and a.month >= #{data.costDateStart}
+                                        </if>
+                                        <if test="data.costDateEnd != null">
+                                            and a.month &lt;= #{data.costDateEnd}
+                                        </if>
+                                    )
+                                group by projectid) rlcb on rlcb.projectid = p.projectid,
+            bsoftmis.kh_htxx htxx
+        where p.ywdl in(1,2) and
+            htxx.contractno = p.contractno
+            <if test="data.finishFlag != null"> --是否完结
+                and p.wgbz = #{data.finishFlag}
+            </if>
+            <if test="data.flag != null"> --工程 服务
+                and p.flag = #{data.flag}
+            </if>
+            <if test="data.signYear != null"> --签定年份
+                and to_number(to_char(htxx.qdrq,'yyyy')) >= #{data.signYear}
+            </if>
+            <if test="data.signDateStart != null"> --签定日期范围
+                and htxx.qdrq >= #{data.signDateStart}
+            </if>
+            <if test="data.signDateEnd != null">
+                and htxx.qdrq &lt;= #{data.signDateEnd}
+            </if>
+            <if test="data.projectName != null"> --模糊查询
+                and (   p.projectname like #{data.projectName}
+                        or
+                        p.pyjm like #{data.projectName}
+                    )
+            </if>
+    </select>
+</mapper>

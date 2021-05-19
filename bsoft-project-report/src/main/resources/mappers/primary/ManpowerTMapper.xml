@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ManpowerTRepository">
+
+    <resultMap id="manpowerTMap" type="com.bsoft.project.report.entity.primary.ManpowerCostTViewDO">
+        <result column="vid" jdbcType="VARCHAR" property="vid"/>
+        <result column="contractno" jdbcType="VARCHAR" property="contractNo"/>
+        <result column="projectId" jdbcType="VARCHAR" property="projectId"/>
+        <result column="month" jdbcType="DATE" property="month"/>
+        <result column="depType" jdbcType="INTEGER" property="depType"/>
+        <result column="tGrade" jdbcType="VARCHAR" property="tGrade"/>
+        <result column="workload" jdbcType="DOUBLE" property="workload"/>
+        <result column="amount" jdbcType="DOUBLE" property="amount"/>
+
+    </resultMap>
+
+    <select id="find"  resultMap="manpowerTMap">
+        select sys_guid() vid,c.contractno,
+        b.gsxm projectid,
+        to_date(to_char(a.kqrq, 'yyyy-mm') || '-01', 'yyyy-mm-dd') month,
+        a.dj tgrade,
+        round(sum(b.xmbl),2) workload,
+        round(sum(nvl(a.gz * b.xmbl,0)),2) amount,
+        (case when a.bmdm = c.area then 1
+        when a.bmdm <![CDATA[ <> ]]> c.area and d.bm1 = e.bm1  then 2
+        else 3 end) deptype
+        from bsoftmis.t_kqb     a left outer join (select bm1,bmdm from bsoftmis.wh_bmgl where glnf = (select max(glnf) from bsoftmis.wh_bmgl)) d on d.bmdm = a.bmdm,
+        bsoftmis.kq_gzrz   b,
+        bsoftmis.t_project c left outer join (select bm1,bmdm from bsoftmis.wh_bmgl where glnf = (select max(glnf) from bsoftmis.wh_bmgl)) e on e.bmdm = c.area,
+        bsoftmis.kh_htxx f
+        where a.id = b.kqid
+        and b.gsxm = c.projectid
+        and f.contractno = c.contractno
+        and c.ywgs = 1
+        and c.flag in ('1','5')
+        and c.ywdl in (1, 2)
+        and a.kqrq > add_months(sysdate,-13)
+        and a.kqrq &lt; trunc(sysdate,'mm')
+        and f.qdrq >= date'2010-01-01'
+        group by to_date(to_char(a.kqrq, 'yyyy-mm') || '-01', 'yyyy-mm-dd'),
+        c.contractno,
+        b.gsxm,
+        a.dj,
+        (case when a.bmdm = c.area then 1
+        when a.bmdm <![CDATA[ <> ]]> c.area and d.bm1 = e.bm1  then 2
+        else 3 end)
+    </select>
+</mapper>

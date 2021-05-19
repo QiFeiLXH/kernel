@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ProjectBonusRepository">
+
+    <!-- 将项目奖金中的通用sql提取出来以便复用 -->
+    <sql id="commonSelectSql">
+        select careerGroup, careerGroupText,largeArea,largeAreaText,smallArea,smallAreaText,moneyBackDept,moneyBackDeptText,saleDept,saleDeptText,customerCode, customerName,contractNo,
+            contractName,contractAmount, contractSoftwareAmount,softwareServiceAmount,discount,contractSigningDate,contractAssessmentDate
+    </sql>
+    <sql id="commonGroupBySql">
+        group by careerGroup, careerGroupText,largeArea,largeAreaText,smallArea,smallAreaText,moneyBackDept,moneyBackDeptText,saleDept,saleDeptText,customerCode, customerName,contractNo,
+            contractName,contractAmount,contractSoftwareAmount,softwareServiceAmount,discount,contractSigningDate,contractAssessmentDate
+    </sql>
+
+    <!-- 项目奖金-项目级-全部-小计 -->
+    <select id="findProjectBonusProAllTotal" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,sum(projectBonus) as projectBonus from bsoft_portal.ker_report_projectbonus_view where judgement = 1 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp order by projectId asc
+    </select>
+
+    <!-- 项目奖金-项目级-全部-年度 -->
+    <select id="findProjectBonusProAllYear" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,sum(projectBonus) as projectBonus,projectBonusYear from bsoft_portal.ker_report_projectbonus_view where judgement = 1 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,projectBonusYear order by projectId asc, projectBonusYear desc
+    </select>
+
+    <!-- 项目奖金-项目级-全部-月度 -->
+    <select id="findProjectBonusProAllMonth" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,sum(projectBonus) as projectBonus,projectBonusQuarter,projectBonusMonth from bsoft_portal.ker_report_projectbonus_view where judgement = 1 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,projectBonusQuarter,projectBonusMonth order by projectId asc, projectBonusMonth desc
+    </select>
+
+    <!-- 项目奖金-项目级-按产生部门类别-小计 -->
+    <select id="findProjectBonusProDepTotal" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,sum(projectBonus) as projectBonus,deptype,deptypeText from bsoft_portal.ker_report_projectbonus_view where judgement = 1 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,deptype,deptypeText order by projectId asc
+    </select>
+
+    <!-- 项目奖金-项目级-按产生部门类别-年度 -->
+    <select id="findProjectBonusProDepYear" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,sum(projectBonus) as projectBonus,projectBonusYear,deptype,deptypeText from bsoft_portal.ker_report_projectbonus_view where judgement = 1 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,projectBonusYear,deptype,deptypeText order by projectId asc, projectBonusYear desc
+    </select>
+
+    <!-- 项目奖金-项目级-按产生部门类别-月度 -->
+    <select id="findProjectBonusProDepMonth" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,sum(projectBonus) as projectBonus,projectBonusQuarter,projectBonusMonth,deptype,deptypeText from bsoft_portal.ker_report_projectbonus_view where judgement = 1 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectId,projectName,projectAmount, projectFlag,projectFlagText,projectType,projectTypeText,acceptanceStamp,projectBonusQuarter,projectBonusMonth,deptype,deptypeText order by projectId asc, projectBonusMonth desc
+    </select>
+
+    <!-- 项目奖金-合同级-全部-小计 -->
+    <select id="findProjectBonusConAllTotal" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,sum(projectBonus) as projectBonus from bsoft_portal.ker_report_projectbonus_view where judgement = 2 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        order by contractSigningDate desc,contractAssessmentDate desc
+    </select>
+
+    <!-- 项目奖金-合同级-全部-年度 -->
+    <select id="findProjectBonusConAllYear" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,sum(projectBonus) as projectBonus,projectBonusYear from bsoft_portal.ker_report_projectbonus_view where judgement = 2 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectBonusYear order by contractSigningDate desc,contractAssessmentDate desc
+    </select>
+
+    <!-- 项目奖金-合同级-全部-月度 -->
+    <select id="findProjectBonusConAllMonth" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,sum(projectBonus) as projectBonus,projectBonusQuarter,projectBonusMonth from bsoft_portal.ker_report_projectbonus_view where judgement = 2 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,projectBonusQuarter,projectBonusMonth order by projectBonusMonth desc, contractSigningDate desc,contractAssessmentDate desc
+    </select>
+
+    <!-- 项目奖金-合同级-按产生部门类别-小计 -->
+    <select id="findProjectBonusConDepTotal" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,sum(projectBonus) as projectBonus,deptype,deptypeText from bsoft_portal.ker_report_projectbonus_view where judgement = 2 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,deptype,deptypeText order by contractSigningDate desc,contractAssessmentDate desc
+    </select>
+
+    <!-- 项目奖金-合同级-按产生部门类别-年度 -->
+    <select id="findProjectBonusConDepYear" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,sum(projectBonus) as projectBonus,deptype,deptypeText,projectBonusYear from bsoft_portal.ker_report_projectbonus_view where judgement = 2 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,deptype,deptypeText,projectBonusYear order by contractSigningDate desc,contractAssessmentDate desc
+    </select>
+
+    <!-- 项目奖金-合同级-按产生部门类别-月度 -->
+    <select id="findProjectBonusConDepMonth" resultType="com.bsoft.project.report.entity.primary.ProjectBonusDO">
+        <include refid="commonSelectSql"/>
+        ,sum(projectBonus) as projectBonus,deptype,deptypeText,projectBonusQuarter,projectBonusMonth from bsoft_portal.ker_report_projectbonus_view where judgement = 2 and projectBonusYear between #{param1} and #{param2}
+        <include refid="commonGroupBySql"/>
+        ,deptype,deptypeText,projectBonusQuarter,projectBonusMonth order by projectBonusMonth desc, contractSigningDate desc,contractAssessmentDate desc
+    </select>
+
+</mapper>

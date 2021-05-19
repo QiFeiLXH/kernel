@@ -1,0 +1,75 @@
+10:16:42.402 bsoft-kernel [main] INFO  o.a.d.common.logger.LoggerFactory - using logger: org.apache.dubbo.common.logger.slf4j.Slf4jLoggerAdapter
+10:16:42.433 bsoft-kernel [main] INFO  o.a.k.c.producer.ProducerConfig - ProducerConfig values: 
+	acks = 0
+	batch.size = 16384
+	bootstrap.servers = [10.8.3.111:9092]
+	buffer.memory = 33554432
+	client.id = PC-124421324-bsoft-kernel-logback-relaxed
+	compression.type = none
+	connections.max.idle.ms = 540000
+	enable.idempotence = false
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+	linger.ms = 1000
+	max.block.ms = 0
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 0
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+
+10:16:42.542 bsoft-kernel [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version : 2.0.1
+10:16:42.542 bsoft-kernel [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId : fa14705e51bd2ce5
+10:16:42.558 bsoft-kernel [main] INFO  o.a.d.s.b.c.e.WelcomeLogoApplicationListener - 
+
+ :: Dubbo Spring Boot (v2.7.1) : https://github.com/apache/incubator-dubbo-spring-boot-project
+ :: Dubbo (v2.7.1) : https://github.com/apache/incubator-dubbo
+ :: Discuss group : dev@dubbo.apache.org
+
+10:16:42.558 bsoft-kernel [main] INFO  o.a.d.s.b.c.e.OverrideDubboConfigApplicationListener - Dubbo Config was overridden by externalized configuration {dubbo.application.name=bsoft-kernel, dubbo.application.qos-enable=false, dubbo.config.multiple=true, dubbo.metadata-report.address=zookeeper://10.10.3.32:2181, dubbo.protocols.dubbo.name=dubbo, dubbo.protocols.dubbo.port=28080, dubbo.protocols.dubbo.server=netty4, dubbo.protocols.hessian.name=hessian, dubbo.protocols.hessian.port=28081, dubbo.protocols.hessian.server=jetty, dubbo.provider.filter=DubboSystemFilter, dubbo.provider.protocol=dubbo, dubbo.registry.address=zookeeper://10.10.3.32:2181, dubbo.scan.base-packages=com.bsoft}
+10:16:42.682 bsoft-kernel [main] INFO  com.bsoft.BsoftStarterApplication - Starting BsoftStarterApplication on PC-124421324 with PID 6564 (E:\workplace\idea\bsoft-kernel\bsoft-starter\target\classes started by xiangqj in E:\workplace\idea\bsoft-kernel)
+10:16:42.682 bsoft-kernel [main] INFO  com.bsoft.BsoftStarterApplication - No active profile set, falling back to default profiles: default
+10:16:42.745 bsoft-kernel [kafka-producer-network-thread | PC-124421324-bsoft-kernel-logback-relaxed] INFO  org.apache.kafka.clients.Metadata - Cluster ID: GnKitXVFSQerJyfD-gIrOw

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.house.repository.primary.HouseRepository">
+
+    <select id="searchHouseWithCommon" resultType="com.bsoft.house.entity.primary.HouseViewDO">
+        <bind name="context" value="'%' + context + '%'" />
+        select a.id,
+        a.name,
+        a.address,
+        a.addressPinyin,
+        a.houseMaster,
+        a.houseMasterText,
+        a.status,
+        a.purpose,
+        (case when c.zfid is not null then 1 else 0 end) isCommon,
+        (case when d.id is not null then 1 else 0 end) isOwner
+        from bsoft_portal.ker_house_view a
+        left join (select distinct zfid from bsoftmis.t_kqb where yggh = #{userId} and kqrq > sysdate - 7 ) c on c.zfid = a.id
+        left join (select id from bsoft_portal.ker_house_view where dept = #{area}) d on d.id = a.id
+        where a.name like #{context} or a.address like #{context} or a.addressPinyin like #{context} or #{context} is null
+        order by iscommon desc,isowner desc
+    </select>
+</mapper>

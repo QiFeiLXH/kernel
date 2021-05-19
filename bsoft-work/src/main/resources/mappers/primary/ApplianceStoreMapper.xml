@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.work.repository.primary.ApplianceStoreRepository">
+
+    <select id="findByCondition" resultType="com.bsoft.work.entity.primary.ApplianceStoreDO">
+        select
+        a.id, a.type, c.dmmc typeName, a.name, b.dmmc nameName, a.standards, a.unitPrice, a.surplusQuantity
+        from adm_appliance_store a
+        left join bsoftmis.cb_dmzd b on b.dmlb=2 and a.name=b.dmsb
+        left join bsoftmis.cb_dmzd c on c.dmlb=7 and a.type=c.dmsb
+        <where>
+            <if test="cnd.type != null and cnd.type != 0 ">
+                and a.type = #{cnd.type}
+            </if>
+            <if test="cnd.inputContent != null and cnd.inputContent != '' ">
+                and (b.dmmc like '%' || #{cnd.inputContent} || '%' or b.pydm like '%' || #{cnd.inputContent} || '%')
+            </if>
+        </where>
+        order by a.type asc, surplusquantity desc
+    </select>
+
+</mapper>

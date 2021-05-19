@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.hr.repository.primary.WorkCardRepository">
+    <select id="getDateCountList" resultType="com.bsoft.hr.entity.primary.WorkCardDateCountViewDO">
+        select 'all' as dateStr,sum(1) as count from BSOFT_PORTAL.hr_workcard_view where
+        status = 1 or (received = 0 and status &gt; 2)
+
+        union all
+
+        select a.dateStr,a.count from (select startdate as dateStr,count(1) as count from BSOFT_PORTAL.hr_workcard_view where
+        status = 1 or (received = 0 and status &gt; 2)
+        group by startdate order by startdate desc) a
+    </select>
+
+    <select id="getWorkCardList" resultType="com.bsoft.hr.entity.primary.WorkCardViewDO">
+    select * from bsoft_portal.HR_WORKCARD_VIEW a
+    where a.recharge in
+        <foreach collection="cnd.recharge" index="index" item="recharge" open="(" separator="," close=")">
+            #{recharge}
+        </foreach>
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.personId like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.personName like '%' || #{cnd.inputContent} || '%')
+        </if >
+        <if test="cnd.dateStr != null and cnd.dateStr != '' and cnd.dateStr != 'all'">
+            and a.startdate = #{cnd.dateStr}
+        </if >
+        <if test="cnd.flag == 0">
+            and a.status = 1
+        </if >
+        <if test="cnd.flag == 1">
+            and (a.received = 0 and a.status > 2)
+        </if >
+        order by a.startdate desc
+    </select>
+
+    <select id="getCurrentMonthAllAndLeftDays" resultType="java.util.HashMap">
+        select (to_number(to_char(last_day(#{startDate}),'dd')) - (select count(1) from bsoftmis.rs_fgzr where to_char(kqrq,'yyyy/mm') = to_char(#{startDate},'yyyy/mm'))) as allDays,
+               (trunc(last_day(#{startDate})) -trunc(#{startDate})-(select count(1) from bsoftmis.rs_fgzr where to_char(kqrq,'yyyy/mm') = to_char(#{startDate},'yyyy/mm') and kqrq >= #{startDate}) + 1) as leftDays
+        from dual
+    </select>
+
+    <select id="getWorkCardVerifyCount" resultType="Integer">
+        select count(1) from bsoft_portal.hr_workcard_view a
+        where a.status = 1 and a.recharge in
+        <foreach collection="cnd.recharge" index="index" item="recharge" open="(" separator="," close=")">
+            #{recharge}
+        </foreach>
+        <if test="cnd.dateStr != null and cnd.dateStr != '' and cnd.dateStr != 'all'">
+            and a.startdate = #{cnd.dateStr}
+        </if >
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.personId like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.personName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+
+    <select id="getWorkCardReceiveCount" resultType="Integer">
+        select count(1) from bsoft_portal.hr_workcard_view a
+        where a.status &gt; 2 and a.received = 0 and a.recharge in
+        <foreach collection="cnd.recharge" index="index" item="recharge" open="(" separator="," close=")">
+            #{recharge}
+        </foreach>
+        <if test="cnd.dateStr != null and cnd.dateStr != '' and cnd.dateStr != 'all'">
+            and a.startdate = #{cnd.dateStr}
+        </if >
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.personId like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.personName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+
+    <select id="getWorkCardMakeCount" resultType="Integer">
+        select count(1) from bsoft_portal.hr_workcard_view a
+        where a.status = 2 and a.recharge in
+        <foreach collection="cnd.recharge" index="index" item="recharge" open="(" separator="," close=")">
+            #{recharge}
+        </foreach>
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.personId like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.personName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+
+    <select id="getWorkCardOpenAccessCount" resultType="Integer">
+        select count(1) from bsoft_portal.hr_workcard_view a
+        where a.status = 3
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.personId like '%' || #{cnd.inputContent} || '%'
+            or a.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.personName like '%' || #{cnd.inputContent} || '%')
+        </if >
+    </select>
+</mapper>

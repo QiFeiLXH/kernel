@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.auth.repository.primary.AuthorityRepository">
+    <select id="getPermissionalPersonList" resultType="com.bsoft.auth.entity.primary.AuthorityPersonDO">
+        select tt.personid,tt.personName,tt.roleid,tt.deptId,tt.deptName,tt.roleName,tt.valid
+        from ker_sys_personauth_view tt
+        where
+        <foreach collection="menuAuths" item="menuAuth" separator=" or ">
+            (tt.id=#{menuAuth.menuId}
+            <if test="menuAuth.authIds != null and menuAuth.authIds.size() > 0">
+                 and tt.authid in(
+            <foreach collection="menuAuth.authIds" item="authId" separator=",">
+                #{authId}
+            </foreach>)
+            </if>)
+        </foreach>
+        group by tt.personid,tt.personName,tt.roleid,tt.deptName,tt.roleName,tt.deptId,tt.valid
+        having count(tt.personid) >= #{count}
+    </select>
+
+    <select id="checkAllPermission" resultType="Integer">
+        select sum(t.count) from
+        (select count(1) as count from ker_sys_roleperson a,ker_sys_role b,ker_sys_authority c,ker_sys_rolemenuauth d
+        where a.roleid = b.id and c.id = d.authid and a.roleid = d.roleid and a.personid = #{personId} and d.menuid = #{menuId} and c.key = #{key}
+
+        union all
+
+        select count(1) as count from ker_sys_rolemenuauth_p a,ker_sys_authority b
+        where a.authid = b.id and a.personid = #{personId} and b.key = #{key} and a.menuid = #{menuId}) t
+    </select>
+
+    <select id="checkPrivateMenuPermission" resultType="Integer">
+        select sum(t.count) from
+        (select count(1) as count from ker_sys_roleperson a,ker_sys_role b,ker_sys_rolemenu c
+        where a.roleid = b.id and c.roleid = b.id and c.menuid = #{menuId} and a.personid = #{personId}
+
+        union all
+
+        select count(1) as count from ker_sys_rolemenu_p a
+        where a.menuid = #{menuId} and a.personid = #{personId}) t
+    </select>
+
+    <select id="checkPrivateMenuPermissionWithPrefix" resultType="Integer">
+        select sum(t.count) from
+        (select count(1) as count from bsoft_portal.ker_sys_roleperson a,bsoft_portal.ker_sys_role b,bsoft_portal.ker_sys_rolemenu c,bsoft_portal.ker_sys_menu d
+        where a.roleid = b.id and c.roleid = b.id and c.menuid = d.id and d.prefix = #{menuPrefix} and a.personid = #{personId}
+
+        union all
+
+        select count(1) as count from bsoft_portal.ker_sys_rolemenu_p a,bsoft_portal.ker_sys_menu b
+        where a.menuid = b.id and b.prefix = #{menuPrefix} and a.personid = #{personId}) t
+    </select>
+
+    <select id="getAuthorityByPersonIdAndSystem" resultType="com.bsoft.auth.entity.primary.AuthorityDO">
+        select a.id,a.name,a.menuid,a.describe,a.key from ker_sys_authority a,ker_sys_rolemenuauth b,ker_sys_roleperson c
+        where a.id = b.authid and  b.roleid = c.roleid and  b.system = #{system} and  c.personid = #{personId}
+
+        union all
+
+        select a.id,a.name,a.menuid,a.describe,a.key from ker_sys_authority a, ker_sys_rolemenuauth_p b
+        where a.id = b.authid and  b.system = #{system} and  b.personid = #{personId}
+    </select>
+
+</mapper>

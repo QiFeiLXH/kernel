@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.work.repository.primary.ApplianceUseRepository">
+
+    <select id="listByLimits" resultType="com.bsoft.work.entity.primary.ApplianceUseDO">
+        select a.*, b.dmmc namename, d.xusname username, e.bmmc usedeptname, f.projectname, g.dmmc typeName
+        from adm_appliance_use a
+        left join bsoftmis.cb_dmzd b on b.dmlb=2 and a.name=b.dmsb
+        left join bsoftmis.xtuser d on a.userid=d.xuslgname
+        left join bsoftmis.t_dep e on a.usedept= e.bmdm
+        left join bsoftmis.t_project f on a.projectid=f.projectid
+        left join bsoftmis.cb_dmzd g on g.dmlb=7 and a.type=g.dmsb
+        <where>
+            <if test="queryCnd.type != null and queryCnd.type != 0 ">
+                and a.type = #{queryCnd.type}
+            </if>
+            <if test="queryCnd.startDateStr != null and queryCnd.startDateStr != '' ">
+                and a.useDate between to_date(#{queryCnd.startDateStr}, 'yyyy-MM-dd hh24:mi:ss') and to_date(#{queryCnd.endDateStr}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="queryCnd.inputContent != null and queryCnd.inputContent != '' ">
+                and (b.dmmc like '%' || #{queryCnd.inputContent} || '%' or b.pydm like '%' || #{queryCnd.inputContent} || '%')
+            </if>
+            <if test="queryCnd.userId != null and queryCnd.userId != '' ">
+                and a.userid=#{queryCnd.userId}
+            </if>
+            <if test="queryCnd.useDept != null and queryCnd.useDept != '' ">
+                and a.usedept=#{queryCnd.useDept}
+            </if>
+            <if test="queryCnd.stockId != null and queryCnd.stockId != 0 ">
+                and a.stockid = #{queryCnd.stockId}
+            </if>
+        </where>
+        order by a.usedate desc, a.id desc
+    </select>
+
+
+
+</mapper>

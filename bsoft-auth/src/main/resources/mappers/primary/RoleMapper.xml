@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.auth.repository.primary.RoleRepository">
+    <select id="getRoleList">
+        SELECT  DISTINCT a.id,
+                a.parentId,
+                a.name,
+                a.roleName,
+                a.sort,
+                b.name
+        FROM ker_sys_role a,BSOFTMIS.GY_DMZD b
+        where a.parentId = b.id
+        order by b.sort asc,a.sort asc
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.repository.second.ProjectWordDetailRepository">
+
+    <resultMap id="ProjectWordDbDetailMap" type="com.bsoft.project.entity.second.ProjectWordDetailDO">
+        <result column="jlid" jdbcType="INTEGER" property="id"/>
+        <result column="wdjl" jdbcType="INTEGER" property="fileKey"/>
+        <result column="wjmc" jdbcType="VARCHAR" property="fileName"/>
+        <result column="wjdx" jdbcType="DOUBLE" property="fileSize"/>
+        <result column="scgh" jdbcType="VARCHAR" property="submitter"/>
+        <result column="scsj" jdbcType="DATE" property="submitDate"/>
+        <result column="wjnr" jdbcType="LONGVARBINARY" property="file"/>
+        <result column="wdzt" jdbcType="INTEGER" property="fileStatus"/>
+        <result column="milepostid" jdbcType="INTEGER" property="milepostId"/>
+    </resultMap>
+
+    <insert id="saveDetail" parameterType="com.bsoft.project.entity.second.ProjectWordDetailDO">
+        insert into ${tableName} (JLID,WDJL,WJMC,WJDX,SCGH,SCSJ,WJNR,WDZT,MILEPOSTID) values (
+            #{detailDO.id},
+            #{detailDO.fileKey},
+            #{detailDO.fileName},
+            #{detailDO.fileSize},
+            #{detailDO.submitter},
+            #{detailDO.submitDate},
+            #{detailDO.file},
+            #{detailDO.fileStatus},
+            #{detailDO.milepostId}
+        )
+    </insert>
+
+    <update id="updateDetail" parameterType="com.bsoft.project.entity.second.ProjectWordDetailDO">
+        update ${tableName} set wdjl = #{detailDO.fileKey} ,wjmc = #{detailDO.fileName} ,
+        wjdx = #{detailDO.fileSize},wjnr = #{detailDO.file},scsj = #{detailDO.submitDate},milepostid = #{detailDO.milepostId} where jlid = #{detailDO.id}
+    </update>
+
+    <select id="selectDetailById" resultMap="ProjectWordDbDetailMap">
+        select JLID,WDJL,WJMC,WJDX,SCGH,SCSJ,WJNR,WDZT,MILEPOSTID from ${tableName} where jlid = #{id}
+    </select>
+
+    <delete id="deleteDetailById">
+        delete from ${tableName} where jlid = #{id}
+    </delete>
+
+</mapper>

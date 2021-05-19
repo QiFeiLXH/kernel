@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsoft.work.repository.primary.PolicyReadPersonRepository">
+
+    <select id="selectByQueryCnd" resultType="com.bsoft.work.entity.primary.PolicyReadPersonDO">
+        select a.*,b.DEADLINEDATE as deadLineDate from POL_POLICY_READ a
+        left join POL_POLICY b on a.POLICYID = b.ID
+        <where>
+            <if test="queryCnd.personId !=null and queryCnd.personId !=0">
+              and  a.PERSONID=#{queryCnd.personId}
+            </if>
+            <if test="queryCnd.readStatus!=null ">
+                and  a.STATUS=#{queryCnd.readStatus}
+            </if>
+            <if test="queryCnd.searchPerson !=null and queryCnd.searchPerson !=''">
+                and (a.PERSONID like '%' || #{queryCnd.searchPerson} || '%' or a.PERSONNAME like '%' ||
+                #{queryCnd.searchPerson} || '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="countPersonalNoRead" resultType="java.lang.Integer">
+        select count(id) from POL_POLICY_read where status=0 and personId=#{personId}
+    </select>
+</mapper>

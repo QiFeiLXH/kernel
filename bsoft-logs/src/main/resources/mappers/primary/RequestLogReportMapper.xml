@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.logs.repository.primary.RequestLogReportRepository">
+
+    <select id="getMenuCount"  resultType="com.bsoft.logs.entity.primary.RequestLogReportDO">
+        select a.id, a.menuid, case when a.menuid = 0 or a.menuid is null then '其他' else b.name end menuname,
+               a.countdate, a.requestcount, a.personcount
+        from bsoft_portal.ker_sys_requestlog_menucount a
+        left join bsoft_portal.ker_sys_menu B on a.menuid=b.id
+        where a.countdate between #{startDate} and #{endDate}
+        and a.menuid = #{menuId}
+    </select>
+
+    <select id="getMenuCountTotal" resultType="com.bsoft.logs.entity.primary.RequestLogReportDO">
+        select a.menuid, case when a.menuid = 0 or a.menuid is null then '其他' else b.name end menuname,
+               sum(a.requestcount) requestcount, sum(a.personcount) personcount
+        from bsoft_portal.ker_sys_requestlog_menucount a
+        left join bsoft_portal.ker_sys_menu b on a.menuid=b.id
+        where a.countdate between #{startDate} and #{endDate}
+        group by a.menuid, b.name
+        order by requestcount desc
+    </select>
+
+    <select id="getPathCount"  resultType="com.bsoft.logs.entity.primary.RequestLogReportDO">
+        select id, url, countdate, requestcount,  personcount, menuid from ker_sys_requestlog_pathcount
+        where countdate between #{queryCnd.startDate} and #{queryCnd.endDate}
+        and url=#{queryCnd.url}
+        <choose>
+            <when test="queryCnd.menuId != null">
+                and menuid = #{queryCnd.menuId}
+            </when>
+            <otherwise>
+                and menuid is null or menuid = 0
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getPathCountTotal"  resultType="com.bsoft.logs.entity.primary.RequestLogReportDO">
+        select url, sum(requestcount) requestcount, sum(personcount) personcount
+        from ker_sys_requestlog_pathcount
+        where countdate between #{queryCnd.startDate} and #{queryCnd.endDate}
+        <choose>
+            <when test="queryCnd.menuId != null">
+                and menuid = #{queryCnd.menuId}
+            </when>
+            <otherwise>
+                and menuid is null or menuid = 0
+            </otherwise>
+        </choose>
+        group by url
+        order by requestcount desc
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.clue.repository.primary.SalesPlanRepository">
+    <select id="getReportMonthWithYear" parameterType="String" resultType="String">
+        select distinct extract(month from planDate) month  from  sales_plan_report where trackPerson = #{personId} and extract(year from planDate) = #{year} order by month desc
+    </select>
+
+    <select id="listTrackPersons"  resultType="com.bsoft.clue.entity.primary.SalesPlanDO">
+        select distinct a.trackPerson, b.xusname trackPersonName
+        from sales_plan_report a
+        left join bsoftmis.xtuser b on a.trackPerson=b.xuslgname
+    </select>
+
+    <select id="listTrackDepts"  resultType="com.bsoft.clue.entity.primary.SalesPlanDO">
+        select distinct a.trackDept, b.bmmc trackDeptName
+        from sales_plan_report a
+        left join bsoftmis.t_dep b on a.trackDept=b.bmdm
+    </select>
+
+</mapper>

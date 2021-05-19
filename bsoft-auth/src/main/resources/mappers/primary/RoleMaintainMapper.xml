@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.auth.repository.primary.RoleMaintainRepository">
+
+    <select id="selectRoleMaintainBaseDO" resultType="com.bsoft.auth.entity.primary.RoleMaintainBaseDO">
+        select a.id roleid,a.role, a.rolename, a.sourceType,b.userid, b.dept, b.id, c.xusname userName,c.xdno userDept,d.bmmc userDeptName
+            from bsoft_portal.wf_roles a
+            left outer join (select id, dept, roleid, userid from bsoft_portal.wf_deptroles where dept = #{dept}) b on a.id = b.roleid
+            left outer join bsoftmis.xtuser c on b.userid = c.xuslgname
+            left join bsoftmis.t_dep d on  d.bmdm = c.xdno
+            where a.status = 0 order by a.sourceType desc,a.sort asc
+    </select>
+
+    <select id="getRoleMaintains" resultType="com.bsoft.auth.entity.primary.RoleMaintainBaseDO">
+        select a.id roleid,a.role, a.rolename, a.sourceType,wmsys.wm_concat(b.userid) userid,wmsys.wm_concat(c.xusname) userName,wmsys.wm_concat(c.xdno) userDept,wmsys.wm_concat(d.bmmc) userDeptName
+            from bsoft_portal.wf_roles a
+            left outer join (select id, dept, roleid, userid from bsoft_portal.wf_deptroles where dept = #{dept}) b on a.id = b.roleid
+            left outer join bsoftmis.xtuser c on b.userid = c.xuslgname
+            left join bsoftmis.t_dep d on  d.bmdm = c.xdno
+            where a.status = 0
+            group by a.id,a.role,a.rolename,a.sourcetype,a.sort
+            order by a.sourceType desc,a.sort asc
+    </select>
+
+    <select id="selectDeptRoles" resultType="java.util.HashMap">
+        select a.bmdm bmdm, a.bmmc bmmc,a.sortby
+            <foreach item="item" index="index" collection="list" separator="," open=",">
+        　　　　to_char(wm_concat (DECODE (T.id, #{item.id}, T.USERID, null))) as ${'id_' + item.id},
+                to_char(wm_concat (DECODE (T.id, #{item.id}, T.xusname, null))) as ${'name_' + item.id}
+        　　</foreach>
+            from bsoftmis.t_dep a  left outer join (select d.id, c.userid, c.dept, e.xusname
+                     from bsoft_portal.wf_roles d, bsoft_portal.wf_deptroles c, bsoftmis.xtuser e
+                    where d.id = c.roleid
+                      and e.xuslgname = c.userid) t
+            on a.bmdm = t.dept, bsoftmis.wh_bmgl b
+        where a.bmdm = b.bmdm  and b.glnf = (select max(glnf) from bsoftmis.wh_bmgl) and zxbz = 0 group by a.bmmc, a.bmdm,a.sortby order by a.sortby
+    </select>
+
+</mapper>

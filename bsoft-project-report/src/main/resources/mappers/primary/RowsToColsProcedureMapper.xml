@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.RowsToColsProcedureRepository">
+
+    <!-- 报销费用-项目级动态行转动态列存储过程 -->
+    <select id="callProjectLevelProcedure" parameterMap="paramsMap" statementType="CALLABLE" useCache="false">
+        {call bsoft_portal.pd_ker_report_pro_RowsToCols(
+        #{as_params, mode=IN},
+        #{as_startYear, mode=IN},
+        #{as_endYear, mode=IN},
+        #{as_groupByParam, mode=IN},
+        #{as_viewName, mode=IN}
+    )}
+    </select>
+
+    <!-- 报销费用-合同级动态行转动态列存储过程 -->
+    <select id="callContractLevelProcedure" parameterMap="paramsMap" statementType="CALLABLE" useCache="false">
+        {call bsoft_portal.pd_ker_report_con_RowsToCols(
+        #{as_params, mode=IN},
+        #{as_startYear, mode=IN},
+        #{as_endYear, mode=IN},
+        #{as_groupByParam, mode=IN},
+        #{as_viewName, mode=IN}
+    )}
+    </select>
+
+    <parameterMap id="paramsMap" type="java.util.Map">
+        <parameter property="as_params" jdbcType="VARCHAR" mode="IN"></parameter>
+        <parameter property="as_startYear" jdbcType="VARCHAR" mode="IN"></parameter>
+        <parameter property="as_endYear" jdbcType="VARCHAR" mode="IN"></parameter>
+        <parameter property="as_groupByParam" jdbcType="VARCHAR" mode="IN"></parameter>
+        <parameter property="as_viewName" jdbcType="VARCHAR" mode="IN"></parameter>
+    </parameterMap>
+
+</mapper>

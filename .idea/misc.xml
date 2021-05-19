@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/bsoft-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-test/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-attendance/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-logs/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-message/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-dictionary/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-person/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-dept/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-house/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-user/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-menu/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-public/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-clue/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-weekly/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-sales-report/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-contract/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-tender/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-customer/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-version/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-opinion/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-email/pom.xml" />
+        <option value="$PROJECT_DIR$/bsoft-account/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_12" default="false" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://10.10.3.30/svn/bsoft/bsoft-kernel/develop/0.1" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.attendance.repository.primary.AttendanceReportRepository">
+
+    <select id="getDeptSecretaryPerson" resultType="com.bsoft.attendance.entity.primary.DeptSecretaryPersonDO">
+        select t.wmgh as personId,xt.xusname as personName,xt.email,t.bmdm as deptCode,t.bmmc as deptName
+        from bsoftmis.t_dep t,bsoftmis.xtuser xt,(select xdno from bsoftmis.xtuser where flag = 0 and kqflag = 1 group by xdno having count(xdno) > 0) tt
+        where t.wmgh = xt.xuslgname and t.zxbz = 0 and t.bmdm = tt.xdno and t.bmdm not in(select distinct bmdm from bsoftmis.t_kqqk where kqyf = trunc(ADD_MONTHS(sysdate, -1),'mm'))
+    </select>
+</mapper>

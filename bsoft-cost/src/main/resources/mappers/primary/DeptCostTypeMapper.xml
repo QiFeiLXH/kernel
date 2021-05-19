@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.cost.repository.primary.DeptCostTypeRepository">
+    <select id="findDeptList" resultType="com.bsoft.cost.entity.primary.CostTypeDeptViewDO">
+        SELECT  dep.bmdm,
+                dep.bmmc,
+                dep.parentBm,
+                dep.isparent,
+                dep.bmlb,
+                dep.zxbz,
+                nvl(c.sl,0) as sl,
+                (select bmmc from bsoftmis.t_dep dd where dd.bmdm = dep.parentBm) as parentBmmc,
+                e.ACCOUNTCALIBERS
+        FROM bsoftmis.T_DEP dep
+        left outer join (select count(1) as sl,cost.dept from FIN_DEPT_COSTTYPE cost where cost.year = #{year,jdbcType=NUMERIC} group by cost.dept) c on c.dept = dep.bmdm
+        LEFT OUTER JOIN (select D.DEPTID,LISTAGG(D.ACCOUNTCALIBER,',') WITHIN GROUP (ORDER BY D.DEPTID) ACCOUNTCALIBERS from BSOFT_PORTAL.FIN_COST_ACCOUNTBORE D WHERE D.YEAR = #{year,jdbcType=NUMERIC} group by d.deptid) E ON E.DEPTID = dep.bmdm
+        where ((#{zxbz,jdbcType=NUMERIC} = 1) or (dep.zxbz = 0 and #{zxbz,jdbcType=NUMERIC} = 0)) and
+              (#{bmlb,jdbcType=NUMERIC} = 0 or #{bmlb,jdbcType=NUMERIC} = dep.bmlb) and
+              ((#{flag,jdbcType=NUMERIC} = 0) or (#{flag,jdbcType=NUMERIC} = 1 and nvl(c.sl,0) &lt;= 0)) and
+              (#{deptId,jdbcType=VARCHAR} = dep.bmdm  or #{deptId,jdbcType=VARCHAR} is null )
+              order by dep.bmlb asc,dep.bmdm asc
+    </select>
+
+    <select id="findDeptListByDeptId" resultType="com.bsoft.cost.entity.primary.CostTypeDeptViewDO">
+        SELECT  dep.bmdm,
+                dep.bmmc,
+                dep.parentBm,
+                dep.isparent,
+                dep.bmlb,
+                dep.zxbz,
+                nvl(c.sl,0) as sl,
+                (select bmmc from bsoftmis.t_dep dd where dd.bmdm = dep.parentBm) as parentBmmc,
+                e.ACCOUNTCALIBERS
+        FROM bsoftmis.T_DEP dep
+        left outer join (select count(1) as sl,cost.dept from FIN_DEPT_COSTTYPE cost where cost.year = #{year,jdbcType=NUMERIC} group by cost.dept) c on c.dept = dep.bmdm
+        LEFT OUTER JOIN (select D.DEPTID,LISTAGG(D.ACCOUNTCALIBER,',') WITHIN GROUP (ORDER BY D.DEPTID) ACCOUNTCALIBERS from BSOFT_PORTAL.FIN_COST_ACCOUNTBORE D WHERE D.YEAR = #{year,jdbcType=NUMERIC} group by d.deptid) E ON E.DEPTID = dep.bmdm
+        where ((#{zxbz,jdbcType=NUMERIC} = 1) or (dep.zxbz = 0 and #{zxbz,jdbcType=NUMERIC} = 0)) and
+              (#{bmlb,jdbcType=NUMERIC} = 0 or #{bmlb,jdbcType=NUMERIC} = dep.bmlb) and
+              ((#{flag,jdbcType=NUMERIC} = 0) or (#{flag,jdbcType=NUMERIC} = 1 and nvl(c.sl,0) &lt;= 0)) and
+              (#{parentBm,jdbcType=VARCHAR} = dep.parentBm or #{parentBm,jdbcType=VARCHAR} = dep.bmdm)
+              order by dep.bmlb asc,dep.bmdm asc
+    </select>
+
+    <select id="getDeptCostType" resultType="com.bsoft.cost.entity.primary.DeptCostTypeViewDO">
+        SELECT A.YEAR,
+               A.DEPT,
+               A.REGISTRANT,
+               A.REGISTRANTDATE,
+               listagg(A.COSTTYPE, ',') WITHIN GROUP(ORDER BY A.DEPT) COSTTYPES,
+               C.COSTTYPE,
+               dep.bmlb AS DEPTTYPE,
+               zd.dmmc as deptTypeName,
+               dep.bmmc deptName,
+               E.ACCOUNTCALIBERS,
+               dep.Parentbm as parentDept,
+               (SELECT BMMC FROM BSOFTMIS.T_DEP DD WHERE DD.BMDM = DEP.PARENTBM) AS parentDeptName
+          FROM BSOFT_PORTAL.FIN_DEPT_COSTTYPE A
+               LEFT OUTER JOIN (SELECT B.DEPT,B.COSTTYPE FROM BSOFT_PORTAL.FIN_DEPT_COSTTYPE B WHERE B.FLAG = 1 AND B.YEAR = #{year}) C ON C.DEPT = A.DEPT
+               LEFT OUTER JOIN (select D.DEPTID,LISTAGG(D.ACCOUNTCALIBER,',') WITHIN GROUP (ORDER BY D.DEPTID) ACCOUNTCALIBERS from BSOFT_PORTAL.FIN_COST_ACCOUNTBORE D WHERE D.YEAR = #{year} group by d.deptid) E ON E.DEPTID = A.DEPT,
+               bsoftmis.t_dep dep,
+               bsoftmis.gy_dmzd zd
+         WHERE A.YEAR = #{year} and
+               a.DEPT = #{deptNo} and
+               dep.bmdm = a.dept and
+               zd.dmlb = 3008 and
+               zd.dmsb > 0 and
+               zd.dmsb = dep.bmlb
+         GROUP BY A.YEAR, A.DEPT, A.REGISTRANT, A.REGISTRANTDATE,C.COSTTYPE,DEP.BMLB,DEP.BMMC,E.ACCOUNTCALIBERS,dep.Parentbm,zd.dmmc
+    </select>
+
+    <insert id="annualGener" useGeneratedKeys="false">
+        insert into FIN_DEPT_COSTTYPE (id,year,dept,costType,flag,registrant,registrantDate)
+        <foreach collection="list" item="DeptCostTypeDO" index="DeptCostTypeDO" separator="union all" >
+            select get_seq_next('SEQ_FIN_DEPT_COSTTYPE'),#{DeptCostTypeDO.year},#{DeptCostTypeDO.dept}, #{DeptCostTypeDO.costType}, #{DeptCostTypeDO.flag},#{DeptCostTypeDO.registrant},#{DeptCostTypeDO.registrantDate} from dual
+        </foreach>
+    </insert>
+</mapper>

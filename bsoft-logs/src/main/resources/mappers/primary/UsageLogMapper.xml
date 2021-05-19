@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.logs.repository.primary.UsageLogRepository">
+    <sql id="selectSql">
+        SELECT DISTINCT A.MENUID,B.NAME,COUNT(A.ID) SL
+    </sql>
+    <select id="countUsageLogReport"  resultType="com.bsoft.logs.entity.primary.UsageLogReportDO">
+        <include refid="selectSql"/>
+            FROM bsoft_portal.KER_SYS_USAGELOG A,bsoft_portal.KER_SYS_MENU B
+            WHERE A.MENUID = B.ID AND
+            B.SYSTEM = 2 AND
+            B.ACTIVE = 1 AND
+            A.USEDATE &gt;= #{startDate} AND
+            A.USEDATE &lt;= #{endDate}
+            GROUP BY A.MENUID,B.NAME
+    </select>
+</mapper>

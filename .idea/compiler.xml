@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bsoft-logs" />
+        <module name="bsoft-clue" />
+        <module name="bsoft-attendance" />
+        <module name="bsoft-house" />
+        <module name="bsoft-account" />
+        <module name="bsoft-project-report" />
+        <module name="bsoft-project" />
+        <module name="bsoft-contract" />
+        <module name="bsoft-sales-report" />
+        <module name="bsoft-auth" />
+        <module name="bsoft-version" />
+        <module name="bsoft-customer" />
+        <module name="bsoft-message" />
+        <module name="bsoft-api" />
+        <module name="bsoft-weekly" />
+        <module name="bsoft-email" />
+        <module name="bsoft-test" />
+        <module name="bsoft-user" />
+        <module name="bsoft-menu" />
+        <module name="bsoft-person" />
+        <module name="bsoft-starter" />
+        <module name="bsoft-opinion" />
+        <module name="bsoft-dept" />
+        <module name="bsoft-tender" />
+        <module name="bsoft-dictionary" />
+        <module name="bsoft-system" />
+        <module name="bsoft-common" />
+        <module name="bsoft-public" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bsoft-account" target="11" />
+      <module name="bsoft-api" target="1.8" />
+      <module name="bsoft-attendance" target="11" />
+      <module name="bsoft-auth" target="11" />
+      <module name="bsoft-clue" target="11" />
+      <module name="bsoft-common" target="11" />
+      <module name="bsoft-contract" target="11" />
+      <module name="bsoft-customer" target="11" />
+      <module name="bsoft-dept" target="11" />
+      <module name="bsoft-dictionary" target="11" />
+      <module name="bsoft-email" target="11" />
+      <module name="bsoft-house" target="11" />
+      <module name="bsoft-logs" target="11" />
+      <module name="bsoft-menu" target="11" />
+      <module name="bsoft-message" target="11" />
+      <module name="bsoft-opinion" target="11" />
+      <module name="bsoft-parent" target="11" />
+      <module name="bsoft-person" target="11" />
+      <module name="bsoft-project" target="11" />
+      <module name="bsoft-project-report" target="11" />
+      <module name="bsoft-public" target="11" />
+      <module name="bsoft-sales-report" target="11" />
+      <module name="bsoft-starter" target="11" />
+      <module name="bsoft-system" target="11" />
+      <module name="bsoft-tender" target="11" />
+      <module name="bsoft-test" target="11" />
+      <module name="bsoft-user" target="11" />
+      <module name="bsoft-version" target="11" />
+      <module name="bsoft-weekly" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bsoft-api" options="-parameters" />
+      <module name="bsoft-starter" options="-parameters" />
+      <module name="bsoft-test" options="-parameters" />
+    </option>
+  </component>
+</project>

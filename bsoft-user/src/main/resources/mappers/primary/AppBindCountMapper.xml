@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.user.repository.primary.AppBindCountRepository">
+
+    <select id="getBindCountList" resultType="com.bsoft.user.entity.primary.AppBindCountDO">
+        select a.countdate,
+            nvl(b.bindcount, 0) bindcount,
+            nvl(b.unbindcount, 0) unbindcount
+        from (
+            select to_date(#{startDateStr}, 'yyyy-MM-dd') + rownum - 1 as countdate from dual
+            connect by rownum &lt;= to_date(#{endDateStr}, 'yyyy-MM-dd') - to_date(#{startDateStr}, 'yyyy-MM-dd') + 1
+        ) a
+        left join (
+            select sum(bindcount) bindcount, sum(unbindcount) unbindcount, countdate from (
+                select count(*) bindcount, 0 unbindcount, countdate from (
+                    select personid, to_date(to_char(appbinddate, 'yyyy/mm/dd'), 'yyyy/mm/dd') countdate from  bsoftmis.person_contact where appbinddate is not null
+                ) group by countdate
+                union all
+                select 0 bindcount, count(*) unbindcount, countdate from (
+                    select id, to_date(to_char(auditdate, 'yyyy/mm/dd'), 'yyyy/mm/dd') countdate from bsoft_portal.ker_user_unbind
+                ) group by countdate
+            ) group by countdate
+        ) b
+        on a.countdate=b.countdate
+        order by countdate asc
+    </select>
+
+    <select id="getTotalBindCount" resultType="java.lang.Integer">
+        select count(*) from bsoftmis.person_contact a,bsoftmis.xtuser b where a.personid = b.xuslgname and b.flag = 0 and a.appbinddate is not null
+    </select>
+
+    <select id="getTotalBindCountByDeptType" resultType="java.lang.Integer">
+
+        select count(*)
+        from(
+            select a.xuslgname personid,
+                   case when  b.parentbm is not null then c.bmdm else b.bmdm end dept,
+                   case when  b.parentbm is not null then c.bmmc else b.bmmc end deptname,
+                   case when  b.parentbm is not null then c.bmlb else b.bmlb end depttype,
+                   case when  b.parentbm is not null then c.sortby else b.sortby end sortby
+            from bsoftmis.xtuser a
+            left join bsoftmis.t_dep b on a.xdno=b.bmdm
+            left join bsoftmis.t_dep c on b.parentbm=c.bmdm
+            where a.flag=0 and b.zxbz=0
+        ) where personid in (select personid from bsoftmis.person_contact where appbinddate is not null) and depttype = #{deptType}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from bsoftmis.person_contact a,bsoftmis.xtuser b where a.personid = b.xuslgname and b.flag = 0
+    </select>
+
+    <select id="getTotalCountByDeptType" resultType="java.lang.Integer">
+         select count(*)
+        from(
+            select a.xuslgname personid,
+                   case when  b.parentbm is not null then c.bmdm else b.bmdm end dept,
+                   case when  b.parentbm is not null then c.bmmc else b.bmmc end deptname,
+                   case when  b.parentbm is not null then c.bmlb else b.bmlb end depttype,
+                   case when  b.parentbm is not null then c.sortby else b.sortby end sortby
+            from bsoftmis.xtuser a
+            left join bsoftmis.t_dep b on a.xdno=b.bmdm
+            left join bsoftmis.t_dep c on b.parentbm=c.bmdm
+            where a.flag=0 and b.zxbz=0
+        ) where depttype = #{deptType}
+    </select>
+</mapper>

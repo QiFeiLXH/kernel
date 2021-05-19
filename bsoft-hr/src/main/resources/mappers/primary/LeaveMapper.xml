@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.hr.repository.primary.LeaveRepository">
+    <select id="getWorkLeaveVacationList" resultType="com.bsoft.hr.entity.primary.WorkLeaveVacationDO">
+        select t.personId,t.personName,t.simpleCode,t.deptId,t.deptName,t.lnnx as oldAnnualDays,t.dnnx as currentAnnualDays,t.yynx as annualDaysUsed,(t.lnnx + t.dnnx - t.yynx - t.sxnx) as annualDaysLeft,t.lntx as oldRestDays,t.dntx as currentRestDays,t.yytx as restDaysUsed,(t.lntx + t.dntx - t.yytx - t.sxtx) as restDaysLeft
+        from (select a.personid,xt.xusname as personname,xt.pym as simpleCode,d.bmdm as deptId,d.bmmc as deptName,d.sortby,sum(a.lnnx) lnnx,sum(a.lntx) lntx,sum(yynx) yynx,sum(yytx) yytx,sum(dnnx) dnnx,sum(dntx) dntx,sum(sxnx) sxnx,sum(sxtx) sxtx
+        from(
+        select a.personid,sum(case when a.type = 13 then a.worktimes else 0 end) / 8 as lnnx,sum(case when a.type = 12 then a.worktimes else 0 end) / 8 as lntx,0.00 yynx,0.00 yytx,0.00 dnnx,0.00 dntx,0.00 sxnx,0.00 sxtx
+        from bsoft_portal.hr_work_vacation_detail a
+        where a.createdate between #{cnd.preStartDate} and #{cnd.preEndDate} group by a.personid
+
+        union all
+
+        select  b.personid,0.00,0.00,sum(case when b.type = 13 then b.worktimes else 0 end)/8 as yynx,sum(case when b.type = 12 then b.worktimes else 0 end)/8 as yytx,0.00,0.00,0.00,0.00
+        from bsoft_portal.hr_work_vacation_detail b where b.useflag = 1 and b.usedate between #{cnd.startDate} and #{cnd.endDate} group by b.personid
+
+        union all
+        select a.personid,0.00,0.00,0.00,0.00,sum(case when a.type = 13 then a.worktimes else 0 end) / 8 as dnnx,sum(case when a.type = 12 then a.worktimes else 0 end) / 8 as dntx,0.00,0.00
+        from bsoft_portal.hr_work_vacation_detail a where a.createdate between #{cnd.startDate} and #{cnd.endDate} group by a.personid
+
+        union all
+
+        select a.personid,0.00,0.00,0.00,0.00,0.00,0.00,sum(case when a.type = 13 then a.worktimes else 0 end) /  8 as sxnx,sum(case when a.type = 12 then a.worktimes else 0 end) / 8 as sxtx
+        from bsoft_portal.hr_work_vacation_detail a
+        where ((a.createdate between #{cnd.preStartDate} and #{cnd.preEndDate}) or (a.createdate between #{cnd.startDate} and #{cnd.endDate})) and a.useflag = 0 and a.enddate &lt; sysdate group by a.personid) a,bsoftmis.xtuser xt,bsoftmis.t_dep d
+        where a.personid = xt.xuslgname and xt.xdno = d.bmdm
+        group by a.personid, xt.xusname,xt.pym,d.bmdm,d.bmmc,d.sortby) t
+        where (t.lnnx &gt;0 or t.dnnx &gt; 0 or t.yynx &gt; 0 or t.lntx &gt;0 or t.dntx &gt; 0 or t.yytx &gt; 0)
+        <if test="cnd.deptId != null and cnd.deptId != ''">
+            and t.deptId = #{cnd.deptId}
+        </if >
+        <if test="cnd.inputContent != null and  cnd.inputContent != ''">
+            and (t.simpleCode like '%' || #{cnd.inputContent} || '%'
+            or t.simpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or t.personName like '%' || #{cnd.inputContent} || '%')
+        </if >
+        <if test="cnd.allPermission == 0">
+            and exists (select qxdm from bsoftmis.gy_qxgl where yggh = #{cnd.personId} and qxlb = 5 and qxlx = 13 and t.deptId = qxdm)
+        </if >
+        order by t.sortby
+    </select>
+
+
+    <select id="getTotalVacationList" resultType="com.bsoft.hr.entity.primary.WorkVacationTotalDO">
+        select t.id,t.type,t.personid,t.standing,t.createdate,t.startdate,t.enddate,t.year,t.days,t.daysUsed
+        from (select a.workid as id,a.type,a.personid,b.standing,a.createdate,a.startdate,a.enddate,to_char(a.createdate, 'yyyy') as year,sum(a.worktimes) / 8 as days,sum(case when a.useflag = 1 then a.worktimes else 0 end) / 8 as daysUsed
+        from hr_work_vacation_detail a left outer join hr_work_vacation b on a.workid = b.id
+        where a.type = #{type} and a.personid = #{personId} and to_char(a.enddate, 'yyyy') = #{year} and ((to_char(a.usedate, 'yyyy') = #{year} and a.useflag = 1) or a.useflag = 0)
+        group by a.workid, a.createdate, a.startdate, a.enddate, b.standing, a.type, a.personid
+
+        union all
+
+        select a.workid as id,a.type,a.personid,b.standing,a.createdate,a.startdate,a.enddate,to_char(a.createdate, 'yyyy') as year,sum(a.worktimes)/8 as days,sum(case when a.useflag = 1 then a.worktimes else 0 end)/8 as daysUsed
+        from hr_work_vacation_detail a left outer join hr_work_vacation b on a.workid = b.id
+        where a.type = #{type} and a.personid = #{personId} and to_char(a.createdate, 'yyyy') = #{year} group by b.standing,a.workid, a.createdate, a.startdate,a.enddate,a.type,a.personid) t order by t.createdate desc
+    </select>
+
+
+    <select id="getPersonalVacationList" resultType="com.bsoft.hr.entity.primary.PersonalWorkLeaveVacationDO">
+        select t.type,t.personId,t.lastYearDaysLeft,t.currentYearDays,t.currentYearDaysUsed,(t.lastYearDaysLeft + t.currentYearDays - t.currentYearDaysUsed -t.invalidDays) as totalDaysLeft,t.expiringDays
+        from (select a.type, a.personid,
+        sum(case when to_char(a.enddate,'yyyy') = #{year} and ((to_char(a.usedate,'yyyy') = #{year} and a.useflag = 1) or a.useflag = 0) then a.worktimes else 0 end)/8 as lastYearDaysLeft,
+        sum(case when to_char(a.createdate,'yyyy') = #{year} then a.worktimes else 0 end)/8 as currentYearDays,
+        nvl(c.currentYearDaysUsed,0) as currentYearDaysUsed,
+        sum(case when (to_char(a.createdate,'yyyy') = #{year} or to_char(a.enddate,'yyyy') = #{year}) and a.useflag = 0 and a.enddate &lt; sysdate then a.worktimes else 0 end)/8 as invalidDays,
+        sum(case when to_char(sysdate,'yyyy') = #{year} and a.enddate &gt;= sysdate and to_char(a.enddate,'yyyy') = #{year} then a.worktimes else 0 end) as expiringDays
+        from hr_work_vacation_detail a left outer join(select b.personid,b.type,sum(case when to_char(b.usedate,'yyyy') = #{year} and b.useflag = 1 and b.leaveid is not null then b.worktimes else 0 end)/8 as currentYearDaysUsed
+        from bsoft_portal.hr_work_vacation_detail b group by b.personid,b.type) c on a.personid = c.personid and a.type = c.type group by a.type,a.personid,c.currentYearDaysUsed) t where t.personid = #{personId} and (t.lastYearDaysLeft > 0 or t.currentYearDays >0 or t.currentYearDaysUsed > 0)
+    </select>
+
+
+    <select id="getPersonalTotalVacationList" resultType="com.bsoft.hr.entity.primary.WorkVacationTotalDO">
+        select t.id,t.standing,t.createdate,t.startdate,t.enddate,t.days,t.daysUsed
+        from (select a.workid as id,b.standing,a.createdate,a.startdate,a.enddate,sum(a.worktimes) / 8 as days,sum(case when a.useflag = 1 then a.worktimes else 0 end) / 8 as daysUsed
+        from hr_work_vacation_detail a left outer join hr_work_vacation b on a.workid = b.id
+        where a.type = #{type} and a.personid = #{personId} and to_char(a.enddate, 'yyyy') = #{year} and ((to_char(a.usedate, 'yyyy') = #{year} and a.useflag = 1) or a.useflag = 0) group by a.workid, a.createdate, a.startdate, a.enddate, b.standing
+
+        union all
+
+        select a.workid as id,b.standing,a.createdate,a.startdate,a.enddate,sum(a.worktimes)/8 as days,sum(case when a.useflag = 1 then a.worktimes else 0 end)/8 as daysUsed
+        from hr_work_vacation_detail a left outer join hr_work_vacation b on a.workid = b.id
+        where a.type = #{type} and a.personid = #{personId} and to_char(a.createdate, 'yyyy') = #{year} group by b.standing,a.workid, a.createdate, a.startdate,a.enddate) t order by t.createdate desc
+    </select>
+
+
+    <select id="getPersonalLeaveList" resultType="com.bsoft.hr.entity.primary.LeaveDO">
+        select rownum as id,t.leavetimes,t.applydate,t.leavedate,t.remark,t.lshid,t.auditflag from (select sum(a.leavetimes) as leavetimes,a.applydate,a.leavedate,a.remark,a.lshid,a.auditflag from hr_leave a
+        where a.personid = #{personId} and a.type = #{type} and to_char(a.leavedate,'yyyy') = #{year} group by a.applydate,a.remark,a.lshid,a.leavedate,a.auditflag order by a.leavedate desc) t
+    </select>
+
+
+    <select id="getAnnualVacationUnified" resultType="com.bsoft.hr.entity.primary.WorkLeaveVacationDO">
+        select t.personId,t.lnnx as oldAnnualDays,t.dnnx as currentAnnualDays,t.yynx as annualDaysUsed,(t.lnnx + t.dnnx - t.yynx - t.sxnx) as annualDaysLeft
+        from (select a.personid,
+        sum(case when a.type = 13 and to_char(a.enddate,'yyyy') =  #{cnd.year} and ((to_char(a.usedate,'yyyy') = #{cnd.year} and a.useflag = 1) or a.useflag = 0) then a.worktimes else 0 end)/8 as lnnx,
+        nvl(c.yynx,0) as yynx,
+        sum(case when a.type = 13 and to_char(a.createdate,'yyyy') = #{cnd.year} then a.worktimes else 0 end)/8 as dnnx,
+        sum(case when a.type = 13 and (to_char(a.enddate,'yyyy') = #{cnd.year} or to_char(a.createdate,'yyyy') = #{cnd.year}) and a.useflag = 0 and a.enddate &lt; sysdate then a.worktimes else 0 end)/8 as sxnx
+        from bsoft_portal.hr_work_vacation_detail a left outer join(
+        select b.personid,
+        sum(case when b.type = 13 and to_char(b.usedate,'yyyy') = #{cnd.year} and b.useflag = 1 and b.leaveid is not null then b.worktimes else 0 end)/8 as yynx
+        from bsoft_portal.hr_work_vacation_detail b group by b.personid) c on a.personid = c.personid
+
+        group by a.personid,c.yynx) t where  (t.lnnx + t.dnnx - t.yynx - t.sxnx) > 0
+    </select>
+
+</mapper>

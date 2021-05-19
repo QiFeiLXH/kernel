@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.repository.primary.ProjectRepository">
+
+    <sql id="selectBase">
+        select  a.projectId,
+        a.projectname,
+        d.hte contractAmount,
+        a.area,
+        (select bmmc from bsoftmis.t_dep where a.area = bmdm) areaText,
+        a.flag,
+        (select dmmc from bsoftmis.t_dmzd where dmlb = 910 and dmsb = a.flag) flagText,
+        a.signdate,
+        a.projectmanager,
+        c.xusname projectmanagertext,
+        a.contractno,
+        a.htbh contractid,
+        b.khmc customername,
+        a.pyjm pinyin,
+        (select bmmc from bsoftmis.t_dep where b.ssqy = bmdm) region,
+        (select dmmc from bsoftmis.t_dmzd where dmlb = 928 and dmsb = b.khfl) classification,
+        (select dmmc from bsoftmis.t_dmzd where dmlb = 2023 and dmsb = b.khdj) grade,
+        a.wgbz finshed,
+        a.xsbh clueId
+        from bsoftmis.t_project a
+             left join bsoftmis.xtuser c on  to_char(c.id) = a.projectmanager
+             left join bsoftmis.kh_htxx d on a.contractno = d.contractno
+        ,bsoftmis.kh_jbxx b
+        where a.khbm = b.khbm
+    </sql>
+    <select id="getProject" parameterType="String" resultType="com.bsoft.project.entity.primary.ProjectLookDO">
+       <include refid="selectBase"/> and a.projectid = #{projectId}
+    </select>
+
+    <select id="getProjectByClueId" resultType="com.bsoft.project.entity.primary.ProjectLookDO">
+        <include refid="selectBase"/> and a.xsbh = #{clueId}
+    </select>
+
+    <select id="getProjectLogCommonProjects" resultType="com.bsoft.project.entity.primary.ProjectBaseDO">
+        select  a.projectid,a.projectname,
+        d.hte contractAmount,
+        a.area,
+        (select bmmc from bsoftmis.t_dep where a.area = bmdm) areaText,
+        a.flag,
+        (select dmmc from bsoftmis.t_dmzd where dmlb = 910 and dmsb = a.flag) flagText,
+        a.signdate,
+        c.xuslgname projectmanager,
+        c.xusname projectmanagertext,
+        a.contractno,d.htbh contractId,b.khmc customername,a.pyjm pinyin,
+        (select bmmc from bsoftmis.t_dep where b.ssqy = bmdm) region,
+        (select dmmc from bsoftmis.t_dmzd where dmlb = 928 and dmsb = b.khfl) classification,
+        (select dmmc from bsoftmis.t_dmzd where dmlb = 2023 and dmsb = b.khdj) grade
+        from bsoftmis.t_project a
+        left join bsoftmis.xtuser c on  to_char(c.id) = a.projectmanager
+        left join bsoftmis.kh_htxx d on a.contractno = d.contractno
+        ,bsoftmis.kh_jbxx b,
+        (select distinct projectid from pro_worklog where attendanceDate > sysdate - 7 and submitter = #{personId}) e
+        where a.khbm = b.khbm and a.wgbz = 0 and a.flag in ('1','5') and a.contractno is not null and e.projectid = a.projectid
+    </select>
+
+    <select id="getRankProject" parameterType="String" resultType="com.bsoft.project.entity.primary.ProjectRankDO">
+        select a.projectname,
+              d.bmmc area,
+               e.xusname projectmanager,
+               a.contractno,
+               a.lxrq startdate,
+               a.actto,
+               a.wgbz status,
+               b.yggh personid,
+               sum(c.xmbl) workload,
+               a.projectid,
+               to_number(a.flag) flag
+
+        from bsoftmis.t_project a left outer join bsoftmis.xtuser e on to_char(e.id) = a.projectmanager,
+        bsoftmis.t_kqb b,bsoftmis.kq_gzrz c,bsoftmis.t_dep d
+        where c.gsxm = a.projectid and
+              c.kqid = b.id and
+              b.yggh = #{personId} and
+              d.bmdm = a.area
+        <if test="evalDate == null">
+            and b.kqrq >= add_months(sysdate,-24)
+        </if>
+
+        <if test="evalDate != null">
+            and b.kqrq &gt;= #{evalDate}
+        </if>
+
+        group by a.projectname,
+               d.bmmc,
+              e.xusname,
+               a.contractno,
+               a.lxrq,
+               a.actto,
+               a.wgbz,
+               b.yggh,
+               a.projectid,
+               a.flag
+    </select>
+
+    <select id="getProjectLookList" resultType="com.bsoft.project.entity.primary.ProjectLookDO">
+        select t.contractno as contractNo,
+               t.projectid as projectId,
+               t.area,
+               (select bmmc from bsoftmis.t_dep where bmdm = t.area) as areaText,
+               t.projectname as projectName,
+               (select xuslgname from bsoftmis.xtuser where id = t.projectmanager) as projectManager,
+               (select xusname from bsoftmis.xtuser where id = t.projectmanager) as projectManagerText,
+               t.flag,
+               (select t_dmzd.dmmc from bsoftmis.t_dmzd where t_dmzd.dmlb=910 and t_dmzd.dmsb = to_number(t.flag)) as flagText,
+               t.pyjm as pinyin,
+               case when (select count(1) from bsoftmis.gy_dmzd where dmlb = 1501 and dmsb > 0 and dmsb = t.ywgs) > 0 then t.ywgs else null end as accountCaliber,
+               (select dmmc from bsoftmis.gy_dmzd where dmlb = 3505 and dmsb > 0 and dmsb = t.ywgs) as accountCaliberText
+        from   bsoftmis.t_project t
+        where  t.contractno = #{contractNo}
+        <if test="inputContent != null and inputContent !=''">
+            and (t.pyjm like '%'|| #{inputContent} ||'%'
+            or  t.pyjm like '%'|| LOWER(#{inputContent}) ||'%')
+        </if>
+    </select>
+
+    <select id="getAllProjectList" resultType="com.bsoft.project.entity.primary.ProjectLookDO">
+        select  t.contractno as contractNo,
+                t.projectid as projectId,
+                t.area,
+                (select bmmc from bsoftmis.t_dep where bmdm = t.area) as areaText,
+                t.projectname as projectName,
+                xtuser.xuslgname as projectManager,
+                xtuser.xusname as projectManagerText,
+                t.flag,
+                (select t_dmzd.dmmc
+                from bsoftmis.t_dmzd
+                where t_dmzd.dmlb = 910
+                and t_dmzd.dmsb = to_number(t.flag)) as flagText,
+                t.pyjm as pinyin,
+                case
+                when (select count(1)
+                from bsoftmis.gy_dmzd
+                where dmlb = 1501
+                and dmsb > 0
+                and dmsb = t.ywgs) > 0 then
+                t.ywgs
+                else
+                null
+                end as accountCaliber,
+                (select dmmc
+                from bsoftmis.gy_dmzd
+                where dmlb = 3505
+                and dmsb > 0
+                and dmsb = t.ywgs) as accountCaliberText
+        from bsoftmis.t_project t left join bsoftmis.xtuser on to_char(xtuser.id) = t.projectmanager
+        where t.wgbz = 0 and t.flag in ('1','5') and t.contractno is not null
+        <if test="inputContent != null and inputContent !=''">
+            and (t.contractno like '%'|| #{inputContent} ||'%' or t.pyjm like '%'|| LOWER(#{inputContent}) ||'%' or t.projectname like '%'|| #{inputContent} ||'%')
+        </if>
+    </select>
+</mapper>

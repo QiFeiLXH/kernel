@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.email.repository.primary.EmailSenderRepository">
+
+    <select id="findByBeanClass" parameterType="java.lang.String" resultType="com.bsoft.email.entity.primary.TimeTaskEmailDO">
+          select pt.* from PRO_TASK pt where pt.beanClass = #{path}
+    </select>
+
+    <select id="findById"  parameterType="java.lang.String" resultType="String">
+          select u.email from bsoftmis.xtuser u where u.xuslgname = #{id}
+    </select>
+
+</mapper>

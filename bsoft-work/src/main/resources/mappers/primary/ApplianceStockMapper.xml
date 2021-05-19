@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.work.repository.primary.ApplianceStockRepository">
+
+    <select id="findByQueryCnd" resultType="com.bsoft.work.entity.primary.ApplianceStockDO">
+        select a.*,
+            b.khmc suppliername,
+            c.xusname registername,
+            d.dmmc nameName,
+            e.dmmc typeName
+        from adm_appliance_stock a
+        left join bsoftmis.wh_khwl b on a.supplier=b.id
+        left join bsoftmis.xtuser c on a.register=c.xuslgname
+        left join bsoftmis.cb_dmzd d on d.dmlb=2 and a.name=d.dmsb
+        left join bsoftmis.cb_dmzd e on e.dmlb=7 and a.type=e.dmsb
+        <where>
+            <if test="queryCnd.type != null and queryCnd.type != 0 ">
+                and a.type = #{queryCnd.type}
+            </if>
+            <if test="queryCnd.startDateStr != null and queryCnd.startDateStr != '' ">
+                and a.indate between to_date(#{queryCnd.startDateStr}, 'yyyy-MM-dd hh24:mi:ss') and to_date(#{queryCnd.endDateStr}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="queryCnd.inputContent != null and queryCnd.inputContent != '' ">
+                and (b.khmc like '%' || #{queryCnd.inputContent} || '%' or d.dmmc like '%' || #{queryCnd.inputContent} || '%')
+            </if>
+            <if test="queryCnd.statusList != null and queryCnd.statusList.size > 0">
+                and a.status in
+                <foreach collection="queryCnd.statusList" item="item" open="(" separator="," close=")" >
+                    #{item}
+                </foreach>
+            </if>
+            <if test="queryCnd.submitFlag != null or queryCnd.submitFlag == 0 ">
+                and a.submitflag = #{queryCnd.submitFlag}
+            </if>
+        </where>
+        order by status asc, indate desc
+    </select>
+
+    <select id="countStore" resultType="com.bsoft.work.entity.primary.ApplianceStoreDO">
+        select
+            a.type, c.dmmc typeName, a.name, b.dmmc namename, a.standards, a.unitPrice, sum(surplusquantity) surplusquantity
+        from adm_appliance_stock a
+        left join bsoftmis.cb_dmzd b on b.dmlb=2 and a.name=b.dmsb
+        left join bsoftmis.cb_dmzd c on c.dmlb=7 and a.type=c.dmsb
+        group by a.type, c.dmmc, a.name, b.dmmc, a.standards, a.unitPrice
+    </select>
+
+    <select id="countUnPayMoney" resultType="Double">
+        select sum(money) from adm_appliance_stock where status in (1,2) and submitflag=1
+        <if test="type!=0">
+            and type=#{type}
+        </if>
+    </select>
+
+</mapper>

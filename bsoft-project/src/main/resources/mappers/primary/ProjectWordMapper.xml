@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.repository.primary.ProjectWordRepository">
+
+    <select id="selectStageDocuments" resultType="com.bsoft.project.entity.primary.StageDocumentDO">
+        select pm.stage,
+           case pm.stage when 1 then '启动'
+             when 2 then '计划'
+             when 3 then '实施'
+             when 4 then '验收'
+             when 5 then '维护'
+             else '其他' end stagetext,
+           a.wdmc documentName,
+           b.htbh contractNo,
+           a.wdid documentId,
+           b.jlid recordId
+        from bsoftmis.wd_bzwd a
+          left join bsoftmis.pro_milepost pm on pm.id = a.sslcb and pm.logoff = 0, bsoftmis.wd_wdxx b
+        where a.wdid = b.wdid and a.tjjs = 2 and b.htbh = #{contractNo} and b.xmid = #{projectId}
+        order by pm.stage, a.wdid asc
+    </select>
+
+    <select id="countGroupByMilepostIdAndDocumentId" resultType="com.bsoft.project.entity.primary.ProjectWordRecordDO">
+        select wdjl fileKey,milepostid,count(jlid) wordsNumber from bsoftmis.wd_wdmx
+        where wdjl in
+        <foreach collection="recordIds" index="index" item="recordId" open="(" separator="," close=")">
+            #{recordId}
+        </foreach>
+        and milepostid in
+        <foreach collection="milepostIds" index="index" item="milepostId" open="(" separator="," close=")">
+            #{milepostId}
+        </foreach>
+        group by milepostid,wdjl
+    </select>
+
+    <select id="countStageDocumentByContractNo" resultType="java.lang.Integer">
+         select count(a.wdid) from bsoftmis.wd_bzwd a
+          left join bsoftmis.pro_milepost pm on pm.id = a.sslcb and pm.logoff = 0,
+          bsoftmis.wd_wdxx b
+        where a.wdid = b.wdid and a.tjjs = 2 and b.htbh = #{contractNo} group by pm.stage order by pm.stage nulls last
+    </select>
+
+    <select id="findStageStandardDocuments" resultType="com.bsoft.project.entity.primary.StageDocumentDO">
+        select pm.stage,
+           case pm.stage when 1 then '启动'
+             when 2 then '计划'
+             when 3 then '实施'
+             when 4 then '验收'
+             when 5 then '维护'
+             else '其他' end stagetext,
+           a.wdmc documentName,
+           a.wdid documentId
+        from bsoftmis.wd_bzwd a
+          left join bsoftmis.pro_milepost pm on pm.id = a.sslcb and pm.logoff = 0
+        where a.tjjs = 2
+        order by pm.stage, a.wdid asc
+    </select>
+
+    <select id="getMilepostStageDocumentCount" resultType="java.lang.Integer">
+         select count(a.wdid) from bsoftmis.wd_bzwd a
+          left join bsoftmis.pro_milepost pm on pm.id = a.sslcb and pm.logoff = 0
+        where a.tjjs = 2
+        group by pm.stage
+        order by pm.stage nulls last
+    </select>
+
+    <select id="countStageByContractNo" resultType="java.lang.Integer">
+        select count(a.wdid) from bsoftmis.wd_bzwd a
+        left join bsoftmis.pro_milepost pm on pm.id = a.sslcb and pm.logoff = 0,
+        bsoftmis.wd_wdxx b
+        where a.wdid = b.wdid and b.htbh = #{contractNo} and glfl=1
+        group by pm.stage order by pm.stage
+        nulls last
+    </select>
+
+    <select id="countMilepostByContractNo" resultType="java.lang.Integer">
+        select count(a.wdid) from bsoftmis.wd_bzwd a
+        left join bsoftmis.pro_milepost pm on pm.id = a.sslcb and pm.logoff = 0,
+        bsoftmis.wd_wdxx b
+        where a.wdid = b.wdid and b.htbh = #{contractNo} and glfl=1
+        group by pm.id order by pm.id
+        nulls last
+    </select>
+</mapper>

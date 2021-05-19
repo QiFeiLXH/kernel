@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsoft.work.repository.primary.PolicyReadStatusRepository">
+
+    <select id="selectByQueryCnd" resultType="com.bsoft.work.entity.primary.PolicyReadStatusDO">
+        SELECT
+        policy.TITLE,
+        policy.COUNCILID,
+        policy.PUBLISHDATE,
+        policy.DEADLINEDATE,
+        manager.COUNCILNAME as councilName,
+        (
+        SELECT
+        COUNT( a.id )
+        FROM
+        POL_POLICY a
+        LEFT JOIN POL_POLICY_READ b ON a.id = b.POLICYID
+        WHERE
+        a.id = policy.id
+        AND b.STATUS = 0
+        ) noRead,
+        (
+        SELECT
+        COUNT( a.id )
+        FROM
+        POL_POLICY a
+        LEFT JOIN POL_POLICY_READ b ON a.id = b.POLICYID
+        WHERE
+        a.id = policy.id
+        AND b.STATUS = 1
+        ) isRead
+        FROM
+        POL_POLICY policy
+        left join POL_MANAGER_GROUP manager on policy.COUNCILID=manager.COUNCILID
+        <where>
+            policy.status=2
+            <if test="queryCnd.startTime!=null and queryCnd.startTime!='' and queryCnd.endTime!=null and queryCnd.endTime!=''">
+                and policy.PUBLISHDATE between to_date(#{queryCnd.startTime}, 'yyyy-MM-dd hh24:mi:ss') and
+                to_date(#{queryCnd.endTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="queryCnd.inputContent !=null and queryCnd.inputContent!=''">
+                and (policy.KEYWORD like '%' || #{queryCnd.inputContent} || '%' or policy.TITLE like '%' ||
+                #{queryCnd.inputContent} || '%' or manager.COUNCILNAME like '%' || #{queryCnd.inputContent} || '%')
+            </if>
+        </where>
+    </select>
+</mapper>

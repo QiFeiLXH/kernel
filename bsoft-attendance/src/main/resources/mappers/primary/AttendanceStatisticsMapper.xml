@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.attendance.repository.primary.AttendanceStatisticsRepository">
+    <select id="getAttendanceAbnormal" resultType="com.bsoft.attendance.entity.primary.AttendanceAbnormalDO">
+        SELECT  T_KQB.YGGH as personId,
+                XTUSER.XUSNAME as personName,
+                listagg (TO_CHAR(T_KQB.KQRQ, 'DD') || '日', ',') WITHIN GROUP (ORDER BY T_KQB.KQRQ ) as rq
+        FROM bsoftmis.T_KQB, bsoftmis.XTUSER
+        WHERE   ( T_KQB.KQRQ >= #{cnd.startDate} ) AND
+                ( T_KQB.KQRQ &lt;= #{cnd.endDate} ) AND
+                ( T_KQB.YGGH = XTUSER.XUSLGNAME ) AND
+                ( EXISTS (SELECT 1 FROM bsoftmis.GY_QXGL WHERE YGGH = #{cnd.personId} AND QXDM = XTUSER.XDNO AND QXLX = 13 AND QXLB = 5 ) or #{cnd.personId} = '全部') AND
+                ( XTUSER.XDNO = #{cnd.dept} Or #{cnd.dept} = '全部' ) AND
+                (( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = T_KQB.KQRQ) AND
+                XTUSER.QTBZ = 0 ) OR
+                ( XTUSER.QTBZ = 1 )) AND
+                (  XTUSER.KQFLAG = '1' ) AND
+                (T_KQB.CQQK = 18 OR T_KQB.CQQK2 = 18)
+                <if test="cnd.inputContent != null and cnd.inputContent != ''">
+                    and (xtuser.PYM like '%' || LOWER(#{cnd.inputContent}) || '%'
+                    or XTUSER.XUSLGNAME like '%' || #{cnd.inputContent} || '%'
+                    or XTUSER.XUSNAME like '%' || #{cnd.inputContent} || '%')
+                </if >
+        GROUP BY T_KQB.YGGH,XTUSER.XUSNAME
+    </select>
+    <select id="getAttendanceCount" resultType="com.bsoft.attendance.entity.primary.AttendanceStatisticsDO">
+          SELECT T_KQQK.YGGH as personId,
+                 XTUSER.XUSNAME as personName,
+                 T_KQQK.BMDM AS dept,
+                 t_dep.BMMC AS deptName,
+                 SUM(CASE WHEN KQDM = 1 THEN KQTS ELSE 0 END) AS ts1,
+                 SUM(CASE KQDM WHEN 2 THEN KQTS ELSE 0 END) AS ts2,
+                 SUM(CASE KQDM WHEN 3 THEN KQTS ELSE 0 END) AS ts3,
+                 SUM(CASE KQDM WHEN 4 THEN KQTS ELSE 0 END) AS ts4,
+                 SUM(CASE KQDM WHEN 5 THEN KQTS ELSE 0 END) AS ts5,
+                 SUM(CASE KQDM WHEN 6 THEN KQTS ELSE 0 END) AS ts6,
+                 SUM(CASE KQDM WHEN 7 THEN KQTS ELSE 0 END) AS ts7,
+                 SUM(CASE KQDM WHEN 8 THEN KQTS ELSE 0 END) AS ts8,
+                 SUM(CASE KQDM WHEN 9 THEN KQTS ELSE 0 END) AS ts9,
+                 SUM(CASE KQDM WHEN 10 THEN KQTS ELSE 0 END) AS ts10,
+                 SUM(CASE KQDM WHEN 11 THEN KQTS ELSE 0 END) AS ts11,
+                 SUM(CASE KQDM WHEN 12 THEN KQTS ELSE 0 END) AS ts12,
+                 SUM(CASE KQDM WHEN 13 THEN KQTS ELSE 0 END) AS ts13,
+                 SUM(CASE KQDM WHEN 16 THEN KQTS ELSE 0 END) AS ts16,
+                 SUM(CASE KQDM WHEN 17 THEN KQTS ELSE 0 END) AS ts17,
+                 SUM(CASE KQDM WHEN 19 THEN KQTS ELSE 0 END) AS ts19,
+                aa.tjbz as sdbz,
+                aa.zts as attendAnceCountDays,
+                bb.rq as abnormalDay
+            FROM bsoftmis.T_KQQK
+                left outer join (
+                    SELECT  T_KQB.YGGH, listagg (TO_CHAR(T_KQB.KQRQ, 'DD') || '日', ',') WITHIN GROUP (ORDER BY T_KQB.KQRQ ) as rq FROM bsoftmis.T_KQB
+                    WHERE   T_KQB.kqrq >= #{cnd.startDate} AND T_KQB.kqrq &lt;= #{cnd.endDate} AND
+        ( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = T_KQB.KQRQ)) AND (T_KQB.CQQK = 18 OR T_KQB.CQQK2 = 18)  GROUP BY T_KQB.YGGH
+                ) bb on bb.yggh = T_KQQK.YGGH,
+                (select yggh,
+                    sum(nvl(kq.sdbz, 0)) tjbz,
+                    count(1) as zts
+                    from bsoftmis.t_kqb kq
+                    where kq.kqrq >= #{cnd.startDate} AND kq.kqrq &lt;= #{cnd.endDate}
+                    and ( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = kq.KQRQ))
+                    group by yggh
+                ) aa,
+                 bsoftmis.XTUSER,
+                 bsoftmis.t_dep
+           WHERE ( T_KQQK.YGGH = XTUSER.XUSLGNAME ) AND
+                 ( T_KQQK.KQYF = #{kqyf} ) AND
+                 ( EXISTS (SELECT QXDM FROM bsoftmis.GY_QXGL WHERE QXDM = T_KQQK.BMDM AND YGGH = #{cnd.personId} AND QXLX = 13 AND QXLB = 5 ) or #{cnd.personId} = '全部') AND
+                 ( XTUSER.XDNO = #{cnd.dept} Or #{cnd.dept} = '全部' ) AND
+                 ( XTUSER.KQFLAG = '1' ) AND
+                 ( t_dep.BMDM = T_KQQK.BMDM)  and aa.yggh = T_KQQK.yggh
+                <if test="cnd.inputContent != null and cnd.inputContent != ''">
+                    and (xtuser.PYM like '%' || LOWER(#{cnd.inputContent}) || '%'
+                    or XTUSER.XUSLGNAME like '%' || #{cnd.inputContent} || '%'
+                    or XTUSER.XUSNAME like '%' || #{cnd.inputContent} || '%')
+                </if >
+        GROUP BY T_KQQK.YGGH,T_KQQK.BMDM,XTUSER.XUSNAME,t_dep.BMMC,aa.tjbz,aa.zts,bb.rq order by T_KQQK.BMDM asc
+    </select>
+
+    <select id="getAttendanceCountCommited" resultType="com.bsoft.attendance.entity.primary.AttendanceStatisticsDO">
+        SELECT T_KQQK.YGGH as personId,
+                XTUSER.XUSNAME as personName,
+                T_KQQK.BMDM AS dept,
+                t_dep.BMMC AS deptName,
+                SUM(CASE WHEN KQDM = 1 THEN KQTS ELSE 0 END) AS ts1,
+                SUM(CASE KQDM WHEN 2 THEN KQTS ELSE 0 END) AS ts2,
+                SUM(CASE KQDM WHEN 3 THEN KQTS ELSE 0 END) AS ts3,
+                SUM(CASE KQDM WHEN 4 THEN KQTS ELSE 0 END) AS ts4,
+                SUM(CASE KQDM WHEN 5 THEN KQTS ELSE 0 END) AS ts5,
+                SUM(CASE KQDM WHEN 6 THEN KQTS ELSE 0 END) AS ts6,
+                SUM(CASE KQDM WHEN 7 THEN KQTS ELSE 0 END) AS ts7,
+                SUM(CASE KQDM WHEN 8 THEN KQTS ELSE 0 END) AS ts8,
+                SUM(CASE KQDM WHEN 9 THEN KQTS ELSE 0 END) AS ts9,
+                SUM(CASE KQDM WHEN 10 THEN KQTS ELSE 0 END) AS ts10,
+                SUM(CASE KQDM WHEN 11 THEN KQTS ELSE 0 END) AS ts11,
+                SUM(CASE KQDM WHEN 12 THEN KQTS ELSE 0 END) AS ts12,
+                SUM(CASE KQDM WHEN 13 THEN KQTS ELSE 0 END) AS ts13,
+                SUM(CASE KQDM WHEN 16 THEN KQTS ELSE 0 END) AS ts16,
+                SUM(CASE KQDM WHEN 17 THEN KQTS ELSE 0 END) AS ts17,
+                SUM(CASE KQDM WHEN 19 THEN KQTS ELSE 0 END) AS ts19,
+                aa.tjbz as sdbz,
+                aa.zts as attendAnceCountDays,
+                bb.rq as abnormalDay
+                FROM bsoftmis.T_KQQK
+                left outer join (
+                SELECT  T_KQB.YGGH, listagg (TO_CHAR(T_KQB.KQRQ, 'DD') || '日', ',') WITHIN GROUP (ORDER BY T_KQB.KQRQ ) as rq FROM bsoftmis.T_KQB
+                WHERE   T_KQB.kqrq >= #{cnd.startDate} AND T_KQB.kqrq &lt;= #{cnd.endDate} AND
+                ( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = T_KQB.KQRQ)) AND (T_KQB.CQQK = 18 OR T_KQB.CQQK2 = 18)  GROUP BY T_KQB.YGGH
+                ) bb on bb.yggh = T_KQQK.YGGH,
+                (select yggh,
+                    sum(nvl(kq.sdbz, 0)) tjbz,
+                    count(1) as zts
+                    from bsoftmis.t_kqb kq
+                        where kq.kqrq >= #{cnd.startDate} AND kq.kqrq &lt;= #{cnd.endDate}
+                        and ( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = kq.KQRQ))
+                        group by yggh
+                ) aa,
+            bsoftmis.XTUSER,
+            bsoftmis.t_dep
+        WHERE ( T_KQQK.YGGH = XTUSER.XUSLGNAME ) AND
+            ( T_KQQK.KQYF = #{kqyf} ) AND
+            ( EXISTS (SELECT QXDM FROM bsoftmis.GY_QXGL WHERE QXDM = T_KQQK.BMDM AND YGGH = #{cnd.personId} AND QXLX = 13 AND QXLB = 5 ) or #{cnd.personId} = '全部') AND
+            ( XTUSER.XDNO = #{cnd.dept} Or #{cnd.dept} = '全部' ) AND
+            ( XTUSER.KQFLAG = '1' ) AND
+            ( t_dep.BMDM = T_KQQK.BMDM)  and aa.yggh = T_KQQK.yggh and aa.tjbz > 0
+            <if test="cnd.inputContent != null and cnd.inputContent != ''">
+                and (xtuser.PYM like '%' || LOWER(#{cnd.inputContent}) || '%'
+                or XTUSER.XUSLGNAME like '%' || #{cnd.inputContent} || '%'
+                or XTUSER.XUSNAME like '%' || #{cnd.inputContent} || '%')
+            </if >
+        GROUP BY T_KQQK.YGGH,T_KQQK.BMDM,XTUSER.XUSNAME,t_dep.BMMC,aa.tjbz,aa.zts,bb.rq order by T_KQQK.BMDM asc
+    </select>
+
+    <update id="backAttendance">
+        update bsoftmis.t_kqb
+        set t_kqb.sdbz = 0
+        where t_kqb.kqrq >= #{startDate}
+        and t_kqb.kqrq &lt;= #{endDate}
+        and t_kqb.yggh in
+        <foreach collection="personIds" item="personId" index="index"
+                 open="(" close=")" separator=",">
+            #{personId}
+        </foreach>
+    </update>
+    <select id="getAttendanceCountDetail" resultType="com.bsoft.attendance.entity.primary.AttendanceCountDetailDO">
+        SELECT  t_kqb.yggh AS personId,
+                XTUSER.XUSNAME as personName,
+                t_kqb.kqrq as attendanceDate,
+                t_kqb.sbsj as goWorkTime,
+                t_kqb.xbsj as offWorkTime,
+                t_kqb.cqqk as attendanceTypeAm,
+                (select dmmc from bsoftmis.rs_dmzd where dmlb = 30 and dmsb > 0 and dmsb = t_kqb.cqqk) as attendanceTypeAmText,
+                t_kqb.cqqk2 attendanceTypeBm,
+                (select dmmc from bsoftmis.rs_dmzd where dmlb = 30 and dmsb > 0 and dmsb = t_kqb.cqqk2) as attendanceTypeBmText,
+                t_kqb.bcsm supplementNotes,
+                t_kqb.kqsm AttendanceNotes
+        FROM    bsoftmis.t_kqb,bsoftmis.xtuser
+        WHERE   ( t_kqb.kqrq >= #{startDate} ) AND
+                ( t_kqb.kqrq &lt;= #{endDate} ) AND
+                ( t_kqb.yggh = #{personId} ) AND
+                ( t_kqb.cqqk = #{type} OR T_KQB.CQQK2 = #{type} OR '全部' = #{type})  AND
+                ( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = T_KQB.KQRQ)) AND
+                ( t_kqb.Yggh = XTUSER.XUSLGNAME) order by t_kqb.kqrq asc
+    </select>
+
+    <select id="getCommitFlag" resultType="Double">
+        SELECT  sum(nvl(T_KQB.sdbz, 0)) as tjbz
+        FROM    bsoftmis.T_KQB,bsoftmis.XTUSER
+        WHERE   ( T_KQB.KQRQ >= #{startDate} ) AND ( T_KQB.KQRQ &lt;= #{endDate} ) AND ( T_KQB.YGGH = XTUSER.XUSLGNAME ) AND
+        ( EXISTS (SELECT 1 FROM bsoftmis.GY_QXGL WHERE YGGH = #{personId} AND QXDM = XTUSER.XDNO AND QXLX = 13 AND QXLB = 5 ) or #{personId} = '全部') AND
+        ( XTUSER.XDNO = #{dept} Or #{dept} = '全部' ) AND
+        (( NOT EXISTS ( SELECT KQRQ FROM bsoftmis.RS_FGZR WHERE KQRQ = T_KQB.KQRQ) AND
+        XTUSER.QTBZ = 0 ) OR  ( XTUSER.QTBZ = 1 )) AND (  XTUSER.KQFLAG = '1' ) AND
+        ((xtuser.PYM like '%' || LOWER(#{inputContent}) || '%'
+        or XTUSER.XUSLGNAME like '%' || #{inputContent} || '%'
+        or XTUSER.XUSNAME like '%' || #{inputContent} || '%'))
+    </select>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.person.repository.primary.CloudschoolUserRepository">
+    <select id="getQuitPersons" resultType="com.bsoft.person.entity.primary.PersonQuitSyncDO">
+        select yggh,sqrq,lzrq
+        from BSOFTMIS.t_dimission  t
+        where  #{date}  =
+        case  when  t.sqrq >= t.lzrq then   trunc(t.sqrq)
+              when  t.lzrq > t.sqrq then   trunc(t.lzrq)
+        end
+    </select>
+</mapper>

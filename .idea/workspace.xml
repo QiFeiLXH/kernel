@@ -1,0 +1,1171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f50580b8-3451-45d8-9efd-565fb591678a" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/bsoft-api/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-attendance/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-clue/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-common/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-auth/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-cost/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-contract/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-account/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-customer/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-email/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-dictionary/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-dept/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-logs/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-house/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-message/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-opinion/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-menu/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-person/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-parent/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-project-report/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-project/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-sales-report/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-starter/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-system/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-tender/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-test/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-user/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-version/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-public/target/" />
+    <ignored path="$PROJECT_DIR$/bsoft-weekly/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="E:/maven/maven" />
+        <option name="userSettingsFile" value="E:\maven\maven\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="428" />
+    <option name="y" value="109" />
+    <option name="width" value="1386" />
+    <option name="height" value="788" />
+  </component>
+  <component name="ProjectId" id="1XpJRyDhsCkG9dDHsXkAyqCKiKZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="1" id="Remove" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="414" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="414" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="414" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="415" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="414" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="go.gopath.indexing.explicitly.defined" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/bsoft-starter/src/test/java/com/bsoft" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15136719" />
+    <property name="project.structure.side.proportion" value="0.44700462" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.bsoft.attendance.dto" />
+      <recent name="com.bsoft.attendance.dao" />
+      <recent name="com.bsoft.attendance.entity" />
+      <recent name="com.bsoft.auth.manager" />
+      <recent name="com.bsoft.auth.dao" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\workplace\idea\bsoft-kernel\0.2\bsoft-kernel\bsoft-attendance\target\classes" />
+      <recent name="E:\workplace\idea\bsoft-kernel\0.2\bsoft-kernel\bsoft-attendance\src\main\resources\mappers" />
+      <recent name="E:\workplace\idea\bsoft-kernel\0.2\bsoft-kernel\bsoft-project\src\main\resources\mappers" />
+      <recent name="E:\workplace\idea\bsoft-kernel\0.2\bsoft-kernel\bsoft-project\src\main\java\com\bsoft\project\entity" />
+      <recent name="E:\workplace\idea\bsoft-kernel\0.2\bsoft-kernel\bsoft-project\src\main\java\com\bsoft\project\dao" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.BsoftStarterApplication">
+    <configuration name="BsoftStarterApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="bsoft-starter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bsoft.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bsoft.BsoftStarterApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BsoftTestApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="bsoft-test" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bsoft.test.BsoftTestApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.BsoftTestApplication" />
+      <item itemvalue="Spring Boot.BsoftStarterApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.BsoftStarterApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\Qi fei\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\.idea" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\.idea" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-account" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-account" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-api" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-api" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-attendance" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-attendance" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-auth" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-auth" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-clue" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-clue" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-common" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-common" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-contract" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-contract" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-cost" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-cost" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-customer" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-customer" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-dept" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-dept" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-dictionary" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-dictionary" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-email" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-email" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-house" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-house" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-logs" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-logs" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-menu" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-menu" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-message" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-message" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-opinion" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-opinion" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-parent" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-parent" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-person" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-person" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-project" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-project" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-project-report" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-project-report" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-public" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-public" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-sales-report" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-sales-report" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-starter" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-starter" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-system" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-system" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-tender" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-tender" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-test" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-test" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-user" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-user" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-version" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-version" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-weekly" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel\bsoft-weekly" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\Project_Workspace\bsoft-kernel" />
+          <option name="myCopyRoot" value="F:\Project_Workspace\bsoft-kernel" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f50580b8-3451-45d8-9efd-565fb591678a" name="Default Changelist" comment="" />
+      <created>1555309052170</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1555309052170</updated>
+      <workItem from="1555309053730" duration="246000" />
+      <workItem from="1555309387378" duration="10431000" />
+      <workItem from="1555394416095" duration="12001000" />
+      <workItem from="1555479338131" duration="9534000" />
+      <workItem from="1555494044699" duration="403000" />
+      <workItem from="1555550090366" duration="5634000" />
+      <workItem from="1555557572563" duration="51000" />
+      <workItem from="1555661109645" duration="4195000" />
+      <workItem from="1555896854700" duration="10553000" />
+      <workItem from="1555981993597" duration="16840000" />
+      <workItem from="1556070260864" duration="9528000" />
+      <workItem from="1556156025888" duration="1909000" />
+      <workItem from="1556183407701" duration="1600000" />
+      <workItem from="1556240845741" duration="3721000" />
+      <workItem from="1556249237535" duration="44000" />
+      <workItem from="1556268189451" duration="2863000" />
+      <workItem from="1556413316731" duration="7464000" />
+      <workItem from="1556500659889" duration="16570000" />
+      <workItem from="1556587725749" duration="15377000" />
+      <workItem from="1557019411120" duration="18790000" />
+      <workItem from="1557054063007" duration="195000" />
+      <workItem from="1557126488928" duration="1953000" />
+      <workItem from="1557131957193" duration="9909000" />
+      <workItem from="1557196751667" duration="2402000" />
+      <workItem from="1557277728418" duration="6062000" />
+      <workItem from="1557458398972" duration="7376000" />
+      <workItem from="1557710011553" duration="6493000" />
+      <workItem from="1557796069903" duration="2282000" />
+      <workItem from="1557907010389" duration="2933000" />
+      <workItem from="1557972408373" duration="80000" />
+      <workItem from="1558317783885" duration="2352000" />
+      <workItem from="1558329963252" duration="7442000" />
+      <workItem from="1558401106986" duration="5107000" />
+      <workItem from="1559181436674" duration="13231000" />
+      <workItem from="1559271221536" duration="3139000" />
+      <workItem from="1559540367234" duration="775000" />
+      <workItem from="1559618557417" duration="18000" />
+      <workItem from="1559634189672" duration="3261000" />
+      <workItem from="1559697384939" duration="2519000" />
+      <workItem from="1559782999464" duration="1592000" />
+      <workItem from="1560129546720" duration="6774000" />
+      <workItem from="1560215612814" duration="5604000" />
+      <workItem from="1560236535997" duration="1402000" />
+      <workItem from="1560302039602" duration="14899000" />
+      <workItem from="1560388322291" duration="19424000" />
+      <workItem from="1560474472245" duration="21735000" />
+      <workItem from="1560733657950" duration="9962000" />
+      <workItem from="1560756118636" duration="81000" />
+      <workItem from="1560756294055" duration="6766000" />
+      <workItem from="1560819161837" duration="18775000" />
+      <workItem from="1560906217718" duration="8188000" />
+      <workItem from="1560992793333" duration="17357000" />
+      <workItem from="1561337821146" duration="7446000" />
+      <workItem from="1561424479002" duration="12922000" />
+      <workItem from="1561510749291" duration="3534000" />
+      <workItem from="1561598647469" duration="2640000" />
+      <workItem from="1561683632035" duration="5030000" />
+      <workItem from="1561944057486" duration="2496000" />
+      <workItem from="1562029040235" duration="4374000" />
+      <workItem from="1562054291103" duration="3880000" />
+      <workItem from="1562116158882" duration="21638000" />
+      <workItem from="1562288428605" duration="7721000" />
+      <workItem from="1562548532966" duration="13858000" />
+      <workItem from="1562634431228" duration="11438000" />
+      <workItem from="1562721244872" duration="20174000" />
+      <workItem from="1562807185980" duration="1913000" />
+      <workItem from="1562812799849" duration="15519000" />
+      <workItem from="1562893706248" duration="20206000" />
+      <workItem from="1563153035710" duration="15997000" />
+      <workItem from="1563238237459" duration="23179000" />
+      <workItem from="1563324844019" duration="19222000" />
+      <workItem from="1563412463990" duration="15998000" />
+      <workItem from="1563497676909" duration="17457000" />
+      <workItem from="1563757709356" duration="12012000" />
+      <workItem from="1563844261653" duration="17889000" />
+      <workItem from="1563930527492" duration="17447000" />
+      <workItem from="1564018379435" duration="10164000" />
+      <workItem from="1564101901431" duration="4800000" />
+      <workItem from="1564120044223" duration="9609000" />
+      <workItem from="1564369244920" duration="12026000" />
+      <workItem from="1564448648078" duration="16828000" />
+      <workItem from="1564535385279" duration="18246000" />
+      <workItem from="1564620570230" duration="23287000" />
+      <workItem from="1564707599117" duration="18830000" />
+      <workItem from="1564966894264" duration="13895000" />
+      <workItem from="1565053727366" duration="22044000" />
+      <workItem from="1565139649125" duration="18848000" />
+      <workItem from="1565225774243" duration="13837000" />
+      <workItem from="1565312822714" duration="17166000" />
+      <workItem from="1565571862845" duration="18314000" />
+      <workItem from="1565657384228" duration="14686000" />
+      <workItem from="1565743841511" duration="21798000" />
+      <workItem from="1565830607860" duration="14419000" />
+      <workItem from="1565861088995" duration="1165000" />
+      <workItem from="1565917498059" duration="966000" />
+      <workItem from="1565918599611" duration="19577000" />
+      <workItem from="1566176715311" duration="18821000" />
+      <workItem from="1566262315358" duration="21028000" />
+      <workItem from="1566348950450" duration="22250000" />
+      <workItem from="1566436368816" duration="19515000" />
+      <workItem from="1566529252889" duration="2888000" />
+      <workItem from="1566781594608" duration="15795000" />
+      <workItem from="1566867701828" duration="20493000" />
+      <workItem from="1566969926962" duration="6843000" />
+      <workItem from="1567042042556" duration="18847000" />
+      <workItem from="1567126478812" duration="18518000" />
+      <workItem from="1567394062270" duration="5381000" />
+      <workItem from="1567472813684" duration="2032000" />
+      <workItem from="1567487885961" duration="6658000" />
+      <workItem from="1567500882316" duration="9000" />
+      <workItem from="1567562094451" duration="8158000" />
+      <workItem from="1567647040631" duration="11381000" />
+      <workItem from="1567756621106" duration="585000" />
+      <workItem from="1567991774551" duration="3892000" />
+      <workItem from="1568184745993" duration="9679000" />
+      <workItem from="1568249868191" duration="15457000" />
+      <workItem from="1568278992977" duration="1709000" />
+      <workItem from="1568595657741" duration="16964000" />
+      <workItem from="1568682316852" duration="7838000" />
+      <workItem from="1568768782257" duration="22854000" />
+      <workItem from="1568855235390" duration="23606000" />
+      <workItem from="1568957140656" duration="4173000" />
+      <workItem from="1569201107204" duration="2501000" />
+      <workItem from="1569313084760" duration="2296000" />
+      <workItem from="1569373815532" duration="2596000" />
+      <workItem from="1569478525771" duration="1190000" />
+      <workItem from="1569546189410" duration="6502000" />
+      <workItem from="1569742475660" duration="2808000" />
+      <workItem from="1569804550969" duration="19010000" />
+      <workItem from="1570497124755" duration="18955000" />
+      <workItem from="1570583389451" duration="14320000" />
+      <workItem from="1570668792033" duration="5655000" />
+      <workItem from="1570773375600" duration="4218000" />
+      <workItem from="1570841976151" duration="10221000" />
+      <workItem from="1571020888224" duration="6961000" />
+      <workItem from="1571102850955" duration="11569000" />
+      <workItem from="1571188596849" duration="39000" />
+      <workItem from="1571190597029" duration="11814000" />
+      <workItem from="1571274907084" duration="12353000" />
+      <workItem from="1571364857821" duration="3064000" />
+      <workItem from="1571376733308" duration="71000" />
+      <workItem from="1571620824029" duration="5838000" />
+      <workItem from="1571706668892" duration="8000000" />
+      <workItem from="1571792811268" duration="13889000" />
+      <workItem from="1571894427133" duration="5985000" />
+      <workItem from="1571965826251" duration="14508000" />
+      <workItem from="1572224850046" duration="19094000" />
+      <workItem from="1572311307663" duration="14839000" />
+      <workItem from="1572398007891" duration="20758000" />
+      <workItem from="1572428382281" duration="127000" />
+      <workItem from="1572490861772" duration="1159000" />
+      <workItem from="1573094655185" duration="14536000" />
+      <workItem from="1573175363966" duration="19867000" />
+      <workItem from="1573434959810" duration="15096000" />
+      <workItem from="1573521682668" duration="15141000" />
+      <workItem from="1573606182381" duration="11094000" />
+      <workItem from="1573636837001" duration="379000" />
+      <workItem from="1573637267492" duration="835000" />
+      <workItem from="1573693603514" duration="6872000" />
+      <workItem from="1573780249232" duration="10053000" />
+      <workItem from="1574039151217" duration="15851000" />
+      <workItem from="1574126307082" duration="3746000" />
+      <workItem from="1574132331866" duration="1729000" />
+      <workItem from="1574212094424" duration="11673000" />
+      <workItem from="1574298570798" duration="16156000" />
+      <workItem from="1574385091654" duration="6901000" />
+      <workItem from="1574645308974" duration="3474000" />
+      <workItem from="1574731171481" duration="4373000" />
+      <workItem from="1574844960706" duration="1477000" />
+      <workItem from="1574902711845" duration="2464000" />
+      <workItem from="1574990224332" duration="2923000" />
+      <workItem from="1575013075804" duration="2085000" />
+      <workItem from="1575249598124" duration="5119000" />
+      <workItem from="1575335708029" duration="5526000" />
+      <workItem from="1575421585524" duration="11516000" />
+      <workItem from="1581737107399" duration="510000" />
+      <workItem from="1581737656418" duration="6031000" />
+      <workItem from="1581821855294" duration="3349000" />
+      <workItem from="1581903323227" duration="1935000" />
+      <workItem from="1581991619360" duration="258000" />
+      <workItem from="1581992129605" duration="5341000" />
+      <workItem from="1582082266008" duration="2827000" />
+      <workItem from="1582176052648" duration="848000" />
+      <workItem from="1582268380118" duration="913000" />
+      <workItem from="1582336002589" duration="1020000" />
+      <workItem from="1582337098113" duration="552000" />
+      <workItem from="1582337681728" duration="2025000" />
+      <workItem from="1582533222312" duration="1284000" />
+      <workItem from="1582592486502" duration="4153000" />
+      <workItem from="1582599370689" duration="4040000" />
+      <workItem from="1582609144659" duration="10788000" />
+      <workItem from="1582679307489" duration="23214000" />
+      <workItem from="1582766084047" duration="21066000" />
+      <workItem from="1582851707342" duration="25420000" />
+      <workItem from="1582882988764" duration="63000" />
+      <workItem from="1583111806404" duration="13044000" />
+      <workItem from="1583218671145" duration="9291000" />
+      <workItem from="1583283206006" duration="24121000" />
+      <workItem from="1583370093823" duration="30884000" />
+      <workItem from="1583406328729" duration="34000" />
+      <workItem from="1583455558338" duration="5014000" />
+      <workItem from="1583461045328" duration="13921000" />
+      <workItem from="1583715588108" duration="21743000" />
+      <workItem from="1583803375078" duration="19558000" />
+      <workItem from="1583887814944" duration="15970000" />
+      <workItem from="1583979849306" duration="13874000" />
+      <workItem from="1584061557741" duration="11719000" />
+      <workItem from="1584320671838" duration="581000" />
+      <workItem from="1584323160325" duration="12494000" />
+      <workItem from="1584406968022" duration="10259000" />
+      <workItem from="1584492780577" duration="2735000" />
+      <workItem from="1584579537152" duration="9421000" />
+      <workItem from="1584607250115" duration="1418000" />
+      <workItem from="1584666285156" duration="4730000" />
+      <workItem from="1584924863325" duration="3937000" />
+      <workItem from="1585011784283" duration="4001000" />
+      <workItem from="1585097581489" duration="7290000" />
+      <workItem from="1585184618689" duration="7773000" />
+      <workItem from="1585271679458" duration="7187000" />
+      <workItem from="1585530519254" duration="6486000" />
+      <workItem from="1585548063036" duration="8730000" />
+      <workItem from="1585563464672" duration="3251000" />
+      <workItem from="1585725683319" duration="7033000" />
+      <workItem from="1585883039068" duration="1367000" />
+      <workItem from="1586221616769" duration="6786000" />
+      <workItem from="1586311751298" duration="224000" />
+      <workItem from="1586312007848" duration="5120000" />
+      <workItem from="1586394136416" duration="9223000" />
+      <workItem from="1586480735695" duration="7604000" />
+      <workItem from="1586741974259" duration="10209000" />
+      <workItem from="1586826778057" duration="7733000" />
+      <workItem from="1586912943376" duration="2707000" />
+      <workItem from="1589031231357" duration="592000" />
+    </task>
+    <task id="LOCAL-00908">
+      <created>1583737165361</created>
+      <option name="number" value="00908" />
+      <option name="presentableId" value="LOCAL-00908" />
+      <option name="project" value="LOCAL" />
+      <updated>1583737165361</updated>
+    </task>
+    <task id="LOCAL-00909">
+      <created>1583737202790</created>
+      <option name="number" value="00909" />
+      <option name="presentableId" value="LOCAL-00909" />
+      <option name="project" value="LOCAL" />
+      <updated>1583737202790</updated>
+    </task>
+    <task id="LOCAL-00910">
+      <created>1583810095266</created>
+      <option name="number" value="00910" />
+      <option name="presentableId" value="LOCAL-00910" />
+      <option name="project" value="LOCAL" />
+      <updated>1583810095266</updated>
+    </task>
+    <task id="LOCAL-00911">
+      <created>1583810104716</created>
+      <option name="number" value="00911" />
+      <option name="presentableId" value="LOCAL-00911" />
+      <option name="project" value="LOCAL" />
+      <updated>1583810104716</updated>
+    </task>
+    <task id="LOCAL-00912">
+      <created>1583907488269</created>
+      <option name="number" value="00912" />
+      <option name="presentableId" value="LOCAL-00912" />
+      <option name="project" value="LOCAL" />
+      <updated>1583907488269</updated>
+    </task>
+    <task id="LOCAL-00913">
+      <created>1583911235019</created>
+      <option name="number" value="00913" />
+      <option name="presentableId" value="LOCAL-00913" />
+      <option name="project" value="LOCAL" />
+      <updated>1583911235019</updated>
+    </task>
+    <task id="LOCAL-00914">
+      <created>1583911400132</created>
+      <option name="number" value="00914" />
+      <option name="presentableId" value="LOCAL-00914" />
+      <option name="project" value="LOCAL" />
+      <updated>1583911400132</updated>
+    </task>
+    <task id="LOCAL-00915">
+      <created>1583911717392</created>
+      <option name="number" value="00915" />
+      <option name="presentableId" value="LOCAL-00915" />
+      <option name="project" value="LOCAL" />
+      <updated>1583911717392</updated>
+    </task>
+    <task id="LOCAL-00916">
+      <created>1583911723828</created>
+      <option name="number" value="00916" />
+      <option name="presentableId" value="LOCAL-00916" />
+      <option name="project" value="LOCAL" />
+      <updated>1583911723828</updated>
+    </task>
+    <task id="LOCAL-00917">
+      <created>1583996139680</created>
+      <option name="number" value="00917" />
+      <option name="presentableId" value="LOCAL-00917" />
+      <option name="project" value="LOCAL" />
+      <updated>1583996139680</updated>
+    </task>
+    <task id="LOCAL-00918">
+      <created>1583996532337</created>
+      <option name="number" value="00918" />
+      <option name="presentableId" value="LOCAL-00918" />
+      <option name="project" value="LOCAL" />
+      <updated>1583996532337</updated>
+    </task>
+    <task id="LOCAL-00919">
+      <created>1584000805106</created>
+      <option name="number" value="00919" />
+      <option name="presentableId" value="LOCAL-00919" />
+      <option name="project" value="LOCAL" />
+      <updated>1584000805106</updated>
+    </task>
+    <task id="LOCAL-00920">
+      <created>1584002567980</created>
+      <option name="number" value="00920" />
+      <option name="presentableId" value="LOCAL-00920" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002567980</updated>
+    </task>
+    <task id="LOCAL-00921">
+      <created>1584002619031</created>
+      <option name="number" value="00921" />
+      <option name="presentableId" value="LOCAL-00921" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002619031</updated>
+    </task>
+    <task id="LOCAL-00922">
+      <created>1584002694324</created>
+      <option name="number" value="00922" />
+      <option name="presentableId" value="LOCAL-00922" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002694324</updated>
+    </task>
+    <task id="LOCAL-00923">
+      <created>1584002707879</created>
+      <option name="number" value="00923" />
+      <option name="presentableId" value="LOCAL-00923" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002707879</updated>
+    </task>
+    <task id="LOCAL-00924">
+      <created>1584002849636</created>
+      <option name="number" value="00924" />
+      <option name="presentableId" value="LOCAL-00924" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002849636</updated>
+    </task>
+    <task id="LOCAL-00925">
+      <created>1584002859005</created>
+      <option name="number" value="00925" />
+      <option name="presentableId" value="LOCAL-00925" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002859005</updated>
+    </task>
+    <task id="LOCAL-00926">
+      <created>1584002866859</created>
+      <option name="number" value="00926" />
+      <option name="presentableId" value="LOCAL-00926" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002866859</updated>
+    </task>
+    <task id="LOCAL-00927">
+      <created>1584002879657</created>
+      <option name="number" value="00927" />
+      <option name="presentableId" value="LOCAL-00927" />
+      <option name="project" value="LOCAL" />
+      <updated>1584002879657</updated>
+    </task>
+    <task id="LOCAL-00928">
+      <created>1584069106877</created>
+      <option name="number" value="00928" />
+      <option name="presentableId" value="LOCAL-00928" />
+      <option name="project" value="LOCAL" />
+      <updated>1584069106877</updated>
+    </task>
+    <task id="LOCAL-00929">
+      <created>1584087535818</created>
+      <option name="number" value="00929" />
+      <option name="presentableId" value="LOCAL-00929" />
+      <option name="project" value="LOCAL" />
+      <updated>1584087535818</updated>
+    </task>
+    <task id="LOCAL-00930">
+      <created>1584087947002</created>
+      <option name="number" value="00930" />
+      <option name="presentableId" value="LOCAL-00930" />
+      <option name="project" value="LOCAL" />
+      <updated>1584087947002</updated>
+    </task>
+    <task id="LOCAL-00931">
+      <created>1584325773730</created>
+      <option name="number" value="00931" />
+      <option name="presentableId" value="LOCAL-00931" />
+      <option name="project" value="LOCAL" />
+      <updated>1584325773730</updated>
+    </task>
+    <task id="LOCAL-00932">
+      <created>1584325993943</created>
+      <option name="number" value="00932" />
+      <option name="presentableId" value="LOCAL-00932" />
+      <option name="project" value="LOCAL" />
+      <updated>1584325993943</updated>
+    </task>
+    <task id="LOCAL-00933">
+      <created>1585121725856</created>
+      <option name="number" value="00933" />
+      <option name="presentableId" value="LOCAL-00933" />
+      <option name="project" value="LOCAL" />
+      <updated>1585121725856</updated>
+    </task>
+    <task id="LOCAL-00934">
+      <created>1585300164844</created>
+      <option name="number" value="00934" />
+      <option name="presentableId" value="LOCAL-00934" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300164844</updated>
+    </task>
+    <task id="LOCAL-00935">
+      <created>1585300450276</created>
+      <option name="number" value="00935" />
+      <option name="presentableId" value="LOCAL-00935" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300450276</updated>
+    </task>
+    <task id="LOCAL-00936">
+      <created>1585300471334</created>
+      <option name="number" value="00936" />
+      <option name="presentableId" value="LOCAL-00936" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300471334</updated>
+    </task>
+    <task id="LOCAL-00937">
+      <created>1585300504898</created>
+      <option name="number" value="00937" />
+      <option name="presentableId" value="LOCAL-00937" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300504898</updated>
+    </task>
+    <task id="LOCAL-00938">
+      <created>1585300525566</created>
+      <option name="number" value="00938" />
+      <option name="presentableId" value="LOCAL-00938" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300525566</updated>
+    </task>
+    <task id="LOCAL-00939">
+      <created>1585300545562</created>
+      <option name="number" value="00939" />
+      <option name="presentableId" value="LOCAL-00939" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300545562</updated>
+    </task>
+    <task id="LOCAL-00940">
+      <created>1585300747122</created>
+      <option name="number" value="00940" />
+      <option name="presentableId" value="LOCAL-00940" />
+      <option name="project" value="LOCAL" />
+      <updated>1585300747122</updated>
+    </task>
+    <task id="LOCAL-00941">
+      <created>1585554991456</created>
+      <option name="number" value="00941" />
+      <option name="presentableId" value="LOCAL-00941" />
+      <option name="project" value="LOCAL" />
+      <updated>1585554991456</updated>
+    </task>
+    <task id="LOCAL-00942">
+      <created>1585555711152</created>
+      <option name="number" value="00942" />
+      <option name="presentableId" value="LOCAL-00942" />
+      <option name="project" value="LOCAL" />
+      <updated>1585555711152</updated>
+    </task>
+    <task id="LOCAL-00943">
+      <created>1585555721728</created>
+      <option name="number" value="00943" />
+      <option name="presentableId" value="LOCAL-00943" />
+      <option name="project" value="LOCAL" />
+      <updated>1585555721728</updated>
+    </task>
+    <task id="LOCAL-00944">
+      <created>1585555892080</created>
+      <option name="number" value="00944" />
+      <option name="presentableId" value="LOCAL-00944" />
+      <option name="project" value="LOCAL" />
+      <updated>1585555892080</updated>
+    </task>
+    <task id="LOCAL-00945">
+      <created>1585556393902</created>
+      <option name="number" value="00945" />
+      <option name="presentableId" value="LOCAL-00945" />
+      <option name="project" value="LOCAL" />
+      <updated>1585556393902</updated>
+    </task>
+    <task id="LOCAL-00946">
+      <created>1585564034916</created>
+      <option name="number" value="00946" />
+      <option name="presentableId" value="LOCAL-00946" />
+      <option name="project" value="LOCAL" />
+      <updated>1585564034916</updated>
+    </task>
+    <task id="LOCAL-00947">
+      <created>1585564045037</created>
+      <option name="number" value="00947" />
+      <option name="presentableId" value="LOCAL-00947" />
+      <option name="project" value="LOCAL" />
+      <updated>1585564045037</updated>
+    </task>
+    <task id="LOCAL-00948">
+      <created>1585565008232</created>
+      <option name="number" value="00948" />
+      <option name="presentableId" value="LOCAL-00948" />
+      <option name="project" value="LOCAL" />
+      <updated>1585565008232</updated>
+    </task>
+    <task id="LOCAL-00949">
+      <created>1585565219277</created>
+      <option name="number" value="00949" />
+      <option name="presentableId" value="LOCAL-00949" />
+      <option name="project" value="LOCAL" />
+      <updated>1585565219277</updated>
+    </task>
+    <task id="LOCAL-00950">
+      <created>1585565575570</created>
+      <option name="number" value="00950" />
+      <option name="presentableId" value="LOCAL-00950" />
+      <option name="project" value="LOCAL" />
+      <updated>1585565575570</updated>
+    </task>
+    <task id="LOCAL-00951">
+      <created>1585566007655</created>
+      <option name="number" value="00951" />
+      <option name="presentableId" value="LOCAL-00951" />
+      <option name="project" value="LOCAL" />
+      <updated>1585566007655</updated>
+    </task>
+    <task id="LOCAL-00952">
+      <created>1586418251050</created>
+      <option name="number" value="00952" />
+      <option name="presentableId" value="LOCAL-00952" />
+      <option name="project" value="LOCAL" />
+      <updated>1586418251052</updated>
+    </task>
+    <task id="LOCAL-00953">
+      <created>1586418448763</created>
+      <option name="number" value="00953" />
+      <option name="presentableId" value="LOCAL-00953" />
+      <option name="project" value="LOCAL" />
+      <updated>1586418448763</updated>
+    </task>
+    <task id="LOCAL-00954">
+      <created>1586763371125</created>
+      <option name="number" value="00954" />
+      <option name="presentableId" value="LOCAL-00954" />
+      <option name="project" value="LOCAL" />
+      <updated>1586763371125</updated>
+    </task>
+    <task id="LOCAL-00955">
+      <created>1586831295376</created>
+      <option name="number" value="00955" />
+      <option name="presentableId" value="LOCAL-00955" />
+      <option name="project" value="LOCAL" />
+      <updated>1586831295391</updated>
+    </task>
+    <task id="LOCAL-00956">
+      <created>1586831310434</created>
+      <option name="number" value="00956" />
+      <option name="presentableId" value="LOCAL-00956" />
+      <option name="project" value="LOCAL" />
+      <updated>1586831310434</updated>
+    </task>
+    <option name="localTasksCounter" value="957" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 27m 00s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 28m 00s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 33m 54s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 34m 28s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 35m 07s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 43m 51s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 45m 27s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest - 2019.09.18 at 14h 46m 28s.xml">
+      <configuration name="AttendanceServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest_(1) - 2019.09.18 at 14h 47m 34s.xml">
+      <configuration name="AttendanceServiceTest (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AttendanceServiceTest_(1) - 2019.09.18 at 14h 48m 34s.xml">
+      <configuration name="AttendanceServiceTest (1)" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="592000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Persistence" side_tool="true" />
+      <window_info id="JRebel" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="UI Designer" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Capture Tool" />
+      <window_info id="Designer" />
+      <window_info id="Web" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Java Enterprise" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Flutter Performance" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="JRebel Executor" />
+      <window_info anchor="bottom" id="JRebel Console" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Flutter Inspector" />
+      <window_info anchor="right" id="Flutter Outline" />
+      <window_info anchor="right" id="Key Promoter X" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1085" y="409" key="#com.intellij.ide.util.MemberChooser" timestamp="1586410571430">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1085" y="409" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1586410571430" />
+    <state x="830" y="625" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1583283297666">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="830" y="625" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1583283297666" />
+    <state x="442" y="222" width="482" height="293" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1582336321748">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="442" y="222" width="482" height="293" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.728@0.0.1366.728" timestamp="1582336321748" />
+    <state x="762" y="266" key="CommitChangelistDialog2" timestamp="1587024942418">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1581741553056" />
+    <state x="762" y="266" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1587024942418" />
+    <state width="497" height="466" key="DebuggerActiveHint" timestamp="1585564813138">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="497" height="466" key="DebuggerActiveHint/0.0.2560.1400@0.0.2560.1400" timestamp="1585564813138" />
+    <state x="92" y="92" width="2376" height="1216" key="DiffContextDialog" timestamp="1585296844523">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="92" y="92" width="2376" height="1216" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1585296844523" />
+    <state x="868" y="229" key="FileChooserDialogImpl" timestamp="1586929976204">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1582100648097" />
+    <state x="868" y="229" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1586929976204" />
+    <state width="2517" height="348" key="GridCell.Tab.0.bottom" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="444" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584583316246" />
+    <state width="2517" height="348" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.0.center" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="444" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584583316245" />
+    <state width="2517" height="348" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.0.left" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="444" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584583316245" />
+    <state width="2517" height="348" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.0.right" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="444" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584583316246" />
+    <state width="2517" height="348" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.1.bottom" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.1.center" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.1.left" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.1.right" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.2.bottom" timestamp="1586771002792">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.2.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002792" />
+    <state width="2517" height="348" key="GridCell.Tab.2.center" timestamp="1586771002792">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.2.center/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002792" />
+    <state width="2517" height="348" key="GridCell.Tab.2.left" timestamp="1586771002776">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.2.left/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002776" />
+    <state width="2517" height="348" key="GridCell.Tab.2.right" timestamp="1586771002792">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1323" height="188" key="GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728" timestamp="1581762472978" />
+    <state width="2517" height="348" key="GridCell.Tab.2.right/0.0.2560.1400@0.0.2560.1400" timestamp="1586771002792" />
+    <state x="989" y="415" key="MultipleFileMergeDialog" timestamp="1583990758377">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="989" y="415" key="MultipleFileMergeDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1583990758377" />
+    <state x="622" y="142" key="RollbackChangesDialog" timestamp="1585726316811">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="332" y="74" key="RollbackChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1581741582107" />
+    <state x="622" y="142" key="RollbackChangesDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1585726316811" />
+    <state x="584" y="211" key="SettingsEditor" timestamp="1582786079112">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1581737536092" />
+    <state x="584" y="211" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1582786079112" />
+    <state width="498" height="482" key="SwitcherDM" timestamp="1585564193335">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="498" height="482" key="SwitcherDM/0.0.2560.1400@0.0.2560.1400" timestamp="1585564193335" />
+    <state x="936" y="568" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogintegrate" timestamp="1584582643152">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="936" y="568" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogintegrate/0.0.2560.1400@0.0.2560.1400" timestamp="1584582643152" />
+    <state x="1093" y="545" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586763701141">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1093" y="545" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1586763701141" />
+    <state x="956" y="299" width="647" height="801" key="find.popup" timestamp="1582681093772">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="956" y="299" width="647" height="801" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1582681093772" />
+    <state x="654" y="309" key="new project wizard" timestamp="1587024893305">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="654" y="309" key="new project wizard/0.0.2560.1400@0.0.2560.1400" timestamp="1587024893305" />
+    <state x="936" y="330" key="run.anything.popup" timestamp="1584697267976">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="936" y="330" key="run.anything.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1584697267976" />
+    <state x="648" y="94" width="1260" height="1304" key="search.everywhere.popup" timestamp="1586766643234">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1582336904235" />
+    <state x="648" y="94" width="1260" height="1304" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1586766643234" />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="" />
+  </component>
+</project>

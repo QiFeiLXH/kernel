@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.report.repository.primary.ReimbursementBonusRepository">
+
+    <resultMap id="ReimbursementBonusMap" type="com.bsoft.project.report.entity.primary.ReimbursementBonusViewDO">
+        <result column="vid" jdbcType="VARCHAR" property="vid"/>
+        <result column="contractno" jdbcType="VARCHAR" property="contractNo"/>
+        <result column="projectId" jdbcType="VARCHAR" property="projectId"/>
+        <result column="month" jdbcType="DATE" property="month"/>
+        <result column="depType" jdbcType="INTEGER" property="depType"/>
+        <result column="costSubject" jdbcType="INTEGER" property="costSubject"/>
+        <result column="amount" jdbcType="DOUBLE" property="amount"/>
+
+    </resultMap>
+
+    <select id="find"  resultMap="ReimbursementBonusMap">
+        select sys_guid() vid,contractno,projectid,month,deptype,costsubject,amount from
+        (select contractno,
+        projectid,
+        to_date(to_char(month, 'yyyy-mm') || '-01', 'yyyy-mm-dd') month,
+        deptype,
+        to_number(costsubject) costsubject,
+        round(sum(amount), 2) amount from (
+        --报销
+        select c.contractno,
+        b.gsxm projectid,
+        a.hsrq month,
+        --报销的核算部门和归属人的所属部门
+        case
+        when b.gsbm = d.xdno then 1
+        when (select case when t.parentbm is null then bmdm else parentbm end from bsoftmis.t_dep t where bmdm = b.gsbm) =
+        (select case when t.parentbm is null then bmdm else parentbm end from bsoftmis.t_dep t where bmdm = d.xdno) then 2
+        else 3 end deptype,
+        b.fyfl costsubject,
+        nvl(b.hzje,0) amount
+        from bsoftmis.t_bxpz    a,
+        bsoftmis.t_bxmx    b,
+        bsoftmis.t_project c,
+        bsoftmis.xtuser    d,
+        bsoftmis.t_cwkm    e,
+        bsoftmis.kh_htxx   h
+        where a.pzh = b.pzh
+        and b.gsxm = c.projectid
+        and c.ywgs = 1
+        and c.ywdl in (1, 2)
+        and c.flag in ('1','5')
+        and b.gsgr = d.id
+        and (a.ffbz = 0 or a.ffbz is null)
+        and (a.errorbz <![CDATA[ <> ]]> 3 OR a.errorbz IS NULL)
+        and b.fyfl = e.id
+        and e.yybz = 1
+        and c.contractno = h.contractno
+        and a.hsrq > add_months(sysdate,-13)
+        and a.hsrq &lt; trunc(sysdate,'mm')
+        and h.qdrq >= to_date('2010-01-01','yyyy-mm-dd'))
+        group by contractno,
+        projectid,
+        deptype,
+        costsubject,
+        to_date(to_char(month, 'yyyy-mm') || '-01', 'yyyy-mm-dd')
+        union all
+        --工程奖金
+        select contractno,
+        projectid,
+        to_date(to_char(month, 'yyyy-mm') || '-01', 'yyyy-mm-dd') month,
+        deptype,
+        costsubject,
+        round(sum(amount), 2) amount
+        from (select b.contractno,
+        a.gsxm projectid,
+        a.djsj month,
+        --1.小区内：工程项目奖金申请人的所属部门和核算部门相同
+        --2.小区外大区内：工程项目奖金申请人的所属部门的一级部门为核算部门的一级部门相同，所属部门和核算部门不同。
+        --3.大区外：一级部门不同
+        case
+        when c.xdno = a.sqbm then 1
+        when (select case when t.parentbm is null then bmdm else parentbm end from bsoftmis.t_dep t where bmdm = c.xdno) =
+        (select case when t.parentbm is null then bmdm else parentbm end from bsoftmis.t_dep t where bmdm = a.sqbm) then 2
+        else 3 end deptype,
+        a.mxkm costsubject,
+        nvl(case when a.shbz = 1 then a.hzje else a.sqje end,0) amount
+        from bsoftmis.t_cbjl a, bsoftmis.t_project b, bsoftmis.xtuser c ,bsoftmis.kh_htxx d
+        where a.gsxm = b.projectid
+        and a.mxkm = '9912' -- 9912 为工程项目奖金
+        and (a.ffbz = 0 or a.ffbz is null)
+        and b.ywgs = 1
+        and b.ywdl in (1, 2)
+        and b.flag in ('1','5')
+        and a.sqgh = c.xuslgname
+        and a.djsj > add_months(sysdate,-13)
+        and a.djsj &lt; trunc(sysdate,'mm')
+        and b.contractno = d.contractno and d.qdrq >= to_date('2010-01-01','yyyy-mm-dd'))
+        group by contractno,
+        projectid,
+        to_date(to_char(month, 'yyyy-mm') || '-01', 'yyyy-mm-dd'),
+        deptype,
+        costsubject)
+    </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+    <mapper namespace="com.bsoft.work.repository.primary.ManagerGroupRepository">
+
+        <select id="findAllByCnd" resultType="com.bsoft.work.entity.primary.ManagerGroupDO">
+            select a.*,
+            b.total as total
+            from POL_MANAGER_GROUP a
+            LEFT JOIN (			SELECT
+            a.COUNCILID as pushDept,
+            COUNT(*) as total
+            FROM
+            POL_POLICY a
+            LEFT JOIN POL_MANAGER_GROUP b ON a.COUNCILID = b.COUNCILID
+            LEFT JOIN POL_POLICY_READ c ON a.ID = c.POLICYID
+            <where>
+                <if test="queryCnd.startTime!=null and queryCnd.startTime!='' and queryCnd.endTime!=null and queryCnd.endTime!=''">
+                    and a.PUBLISHDATE between to_date(#{queryCnd.startTime,jdbcType = VARCHAR}, 'yyyy-MM-dd hh24:mi:ss') and
+                    to_date(#{queryCnd.endTime,jdbcType = VARCHAR}, 'yyyy-MM-dd hh24:mi:ss')
+                </if>
+                <if test="queryCnd.personId !=null and queryCnd.personId!= 0">
+                    and c.PERSONID=#{queryCnd.personId,jdbcType = VARCHAR}
+                </if>
+                <if test="queryCnd.readStatus!=null ">
+                    and c.STATUS=#{queryCnd.readStatus,jdbcType = NUMERIC}
+                </if>
+                and a.DEADLINEDATE  &gt;= sysdate
+                and a.STATUS=2
+            </where>
+            GROUP BY a.COUNCILID
+            )  b
+            on a.COUNCILID = b.pushDept
+        </select>
+
+    <!-- 委员会组维护页面查询 -->
+    <select id="findList" resultType="com.bsoft.work.entity.primary.ManagerGroupDO">
+        select a.councilid,a.councilname,a.type,NVL(b.num,0) as memberNum,a.isCancel
+        from pol_manager_group a left join
+        (select councilid,count(1) as num from POL_Manager group by councilid) b
+        on a.councilid = b.councilid
+        where a.councilname like concat(concat('%',#{councilName}),'%') and a.iscancel = #{isCancel}
+        order by a.councilId
+    </select>
+</mapper>

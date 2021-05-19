@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.dept.repository.primary.DeptSelectRepository">
+    <select id="getDeptSelectList" resultType="com.bsoft.dept.entity.primary.DeptSelectViewDO">
+        select bmdm as value,
+               bmmc as title,
+               zxbz as logout,
+               srdm as simpleCode,
+               depmanager,
+               qyfz,
+               xzzg,
+               parentbm as parentId,
+               sortby,
+               bmlb as deptType,
+               personnum
+          from ker_sys_dept_personnum_view a
+         where (#{personId} = '全部' or exists (select 1
+                    from bsoftmis.gy_qxgl
+                    where qxlb = 5
+                    and qxlx = 13
+                    and yggh = #{personId} and qxdm = a.bmdm))
+            <if test="logout != null and logout != ''">
+                and (a.zxbz = #{logout} or
+                      ('2' = #{logout} and ((a.zxbz = '1' and a.personnum > 0) or (a.zxbz = '0')))
+                    )
+            </if >
+            <if test="deptType != null and deptType != ''">
+                and (a.bmlb = #{deptType})
+            </if >
+    </select>
+
+    <select id="getAllValidRegionAndSubDeptList" resultType="com.bsoft.dept.entity.primary.DeptDO">
+        select t.bmdm as deptId, t.bmmc as deptName, t.parentbm as parentId, t.bmlb as deptFlag, t.sortby as sortBy
+        from bsoftmis.t_dep t
+        where t.zxbz = 0 and ((t.bmlb = 2 and t.parentbm is null) or exists(select 1 from bsoftmis.t_dep tt where tt.zxbz = 0 and tt.bmlb = 2 and t.parentbm = tt.bmdm and tt.parentbm is null))
+
+    </select>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.sales.repository.primary.ContractModuleProductRepository">
+    <select id="updateAmountByContractId">
+        update bsoftmis.con_contract_module_product
+        set amount = (select amount
+            from bsoftmis.con_contract_m_p_amount_view
+            where productid = con_contract_module_product.productid)
+        where productid in (select id from bsoftmis.kh_cpxx where htbh = #{contractId})
+    </select>
+
+    <select id="updateModuleAmountByContractId">
+        update bsoftmis.con_contract_module a
+        set a.amount = (select sum(amount)
+            from bsoftmis.con_contract_module_product b where a.id = b.moduleid)
+        where contractid = #{contractId} and a.type not in (3,4)
+    </select>
+
+    <select id="getSalesContractModuleList" resultType="com.bsoft.sales.entity.primary.SalesContractModuleViewDO">
+        select * from bsoft_portal.sales_con_module_pro_view a
+        where 1 = 1
+        <if test="cnd.contractId != null and cnd.contractId != ''">
+            and a.contractId = #{cnd.contractId}
+        </if >
+        <if test="cnd.relationFlag != null and cnd.relationFlag.size > 0">
+            and a.relationFlag in
+            <foreach collection="cnd.relationFlag" item="item" open="(" separator="," close=")" >
+                #{item}
+            </foreach>
+        </if>
+        <if test="cnd.relationFlag == null or cnd.relationFlag.size == 0">
+            and a.relationFlag is null
+        </if>
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and a.productNameText like '%' || #{cnd.inputContent} || '%'
+        </if >
+        order by a.id
+    </select>
+
+    <select id="getSalesContractAreaListWithAll" resultType="com.bsoft.sales.entity.primary.SalesContractAreaViewDO">
+        select b.bmdm as deptId,
+        b.bmmc as deptName,
+        b.parentbm as parentDeptId,
+        (select count(1) from bsoftmis.kh_htxx aa,bsoftmis.kh_jbxx bb where aa.khbm = bb.khbm and bb.ssqy = b.bmdm and committed = 1) as unreviewedCount,
+        nvl(temp.notassociatedCount,0) as notassociatedCount,
+        b.sortby
+        from bsoftmis.t_dep b left outer join (select tt.ssqy,sum(tt.notassociatedCount) as notassociatedCount,sum(tt.unreviewedCount) as unreviewedCount
+        from(select kh.ssqy,case when ht.committed = 0 or ht.committed = 3  then count(1) else 0 end as notassociatedCount,case when ht.committed = 1 then count(1) else 0 end as unreviewedCount
+        from bsoftmis.kh_htxx ht, bsoftmis.kh_jbxx kh
+        where ht.khbm = kh.khbm
+        and exists (select 1 from bsoftmis.kh_cpxx a where ht.htbh = a.htbh and a.ywdl in (1, 2) and a.xnbz = 0 and (a.xzzf &lt;&gt; 2 or a.xzzf is null))
+        and exists (select 1 from bsoftmis.con_contract_module a where ht.htbh = a.contractid and a.type not in (3, 4))
+        group by kh.ssqy, ht.committed) tt
+        group by tt.ssqy) temp on b.bmdm = temp.ssqy
+        where b.zxbz = 0 and b.bmlb = 2
+    </select>
+
+    <select id="getSalesContractAreaListWithPersonId" resultType="com.bsoft.sales.entity.primary.SalesContractAreaViewDO">
+        select b.qxdm as deptId,t.bmmc as deptName,t.parentbm as parentDeptId,temp.notassociatedCount,temp.unreviewedCount,t.sortby
+        from bsoftmis.gy_qxgl b left outer join (select tt.ssqy,sum(tt.notassociatedCount) as notassociatedCount,sum(tt.unreviewedCount) as unreviewedCount
+        from(select kh.ssqy,case when ht.committed = 0 or ht.committed = 3 then count(1) else 0 end as notassociatedCount,case when ht.committed = 1 then count(1) else 0 end as unreviewedCount
+        from bsoftmis.kh_htxx ht, bsoftmis.kh_jbxx kh
+        where ht.khbm = kh.khbm
+        and exists (select 1 from bsoftmis.kh_cpxx a where ht.htbh = a.htbh and a.ywdl in (1, 2) and a.xnbz = 0 and (a.xzzf &lt;&gt; 2 or a.xzzf is null))
+        and exists (select 1 from bsoftmis.con_contract_module a where ht.htbh = a.contractid and a.type not in (3, 4))
+        group by kh.ssqy, ht.committed) tt
+        group by tt.ssqy) temp
+        on b.qxdm = temp.ssqy, bsoftmis.t_dep t
+        where b.qxlb = 2
+        and b.qxlx = 27
+        and b.qxdm = t.bmdm
+        and b.yggh = #{personId}
+    </select>
+
+    <select id="getSalesCheckContractListWithAll" resultType="com.bsoft.sales.entity.primary.SalesContractCheckViewDO">
+        select a.deptId,a.deptName,a.contractNo,a.contractId,a.customerName,a.reviewerName,a.completeFlag,a.completeFlagText,a.checkPersonName,a.checkDate,a.checkedFlag
+        from bsoft_portal.sales_con_check_view a
+        where 1 = 1
+        <if test="cnd.checkedFlag != null and cnd.checkedFlag.size > 0">
+            and a.checkedFlag in
+            <foreach collection="cnd.checkedFlag" item="item" open="(" separator="," close=")" >
+                #{item}
+            </foreach>
+        </if>
+        <if test="cnd.checkedFlag == null or cnd.checkedFlag.size == 0">
+            and a.checkedFlag is null
+        </if>
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.contractNo like '%' || #{cnd.inputContent} || '%'
+            or a.customerName like '%' || #{cnd.inputContent} || '%'
+            or a.reviewer like '%' || #{cnd.inputContent} || '%'
+            or a.reviewerName like '%' || #{cnd.inputContent} || '%'
+            or a.reviewerSimpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.merchandiser like '%' || #{cnd.inputContent} || '%'
+            or a.merchandiserName like '%' || #{cnd.inputContent} || '%'
+            or a.merchandiserSimpleCode like '%' || LOWER(#{cnd.inputContent}) || '%')
+        </if >
+        order by a.sortBy
+    </select>
+
+    <select id="getSalesCheckContractListWithPersonId" resultType="com.bsoft.sales.entity.primary.SalesContractCheckViewDO">
+        select a.deptId,a.deptName,a.contractNo,a.contractId,a.customerName,a.reviewerName,a.completeFlag,a.completeFlagText,a.checkPersonName,a.checkDate,a.checkedFlag
+        from bsoft_portal.sales_con_check_view a, bsoftmis.gy_qxgl b where b.qxlb = 2 and a.deptid = b.qxdm and b.qxlx = 27 and b.yggh = #{cnd.personId}
+        and a.leadSales in(select qxdm from bsoftmis.gy_qxgl where qxlb=2 and qxlx = 28 and yggh = #{cnd.personId})
+        <if test="cnd.checkedFlag != null and cnd.checkedFlag.size > 0">
+            and a.checkedFlag in
+            <foreach collection="cnd.checkedFlag" item="item" open="(" separator="," close=")" >
+                #{item}
+            </foreach>
+        </if>
+        <if test="cnd.checkedFlag == null or cnd.checkedFlag.size == 0">
+            and a.checkedFlag is null
+        </if>
+        <if test="cnd.inputContent != null and cnd.inputContent != ''">
+            and (a.contractNo like '%' || #{cnd.inputContent} || '%'
+            or a.customerName like '%' || #{cnd.inputContent} || '%'
+            or a.reviewer like '%' || #{cnd.inputContent} || '%'
+            or a.reviewerName like '%' || #{cnd.inputContent} || '%'
+            or a.reviewerSimpleCode like '%' || LOWER(#{cnd.inputContent}) || '%'
+            or a.merchandiser like '%' || #{cnd.inputContent} || '%'
+            or a.merchandiserName like '%' || #{cnd.inputContent} || '%'
+            or a.merchandiserSimpleCode like '%' || LOWER(#{cnd.inputContent}) || '%')
+        </if >
+        order by a.sortBy
+    </select>
+
+    <select id="getUncheckedCountWithAll" resultType="Integer">
+        select count(1) from bsoft_portal.sales_con_check_view a where a.checkedFlag = 0
+    </select>
+
+    <select id="getUncheckedCountWithPersonId" resultType="Integer">
+        select count(1) from bsoft_portal.sales_con_check_view a, bsoftmis.gy_qxgl b
+        where b.qxlb = 2 and a.deptid = b.qxdm and b.qxlx = 27 and b.yggh = #{personId} and a.checkedFlag = 0
+        and a.leadSales in(select qxdm from bsoftmis.gy_qxgl where qxlb=2 and qxlx = 28 and yggh = #{personId})
+    </select>
+
+    <select id="getSalesContractModuleCount" resultType="Integer">
+        select count(1) from bsoft_portal.sales_con_module_pro_view a
+        where a.contractId = #{contractId}
+        <if test="relationFlag != null and relationFlag.size > 0">
+            and a.relationFlag in
+            <foreach collection="relationFlag" item="item" open="(" separator="," close=")" >
+                #{item}
+            </foreach>
+        </if>
+        <if test="relationFlag == null or relationFlag.size == 0">
+            and a.relationFlag is null
+        </if>
+        <if test="inputContent != null and inputContent != ''">
+            and a.productNameText like '%' || #{inputContent} || '%'
+        </if >
+        group by a.id order by a.id
+    </select>
+</mapper>

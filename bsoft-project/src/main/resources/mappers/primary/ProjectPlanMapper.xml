@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.project.repository.primary.ProjectPlanRepository">
+    <select id="getProjectLogPlanDetail" resultType="com.bsoft.project.entity.primary.ProjectLogPlanDetailDO">
+        select * from
+        (select a.id,
+               a.parentid,
+               a.milepostname,
+               a.logoff,
+               (select count(1) from pro_worklog where milepostid = a.id and projectid = c.projectid and attendanceDate = #{attendanceDate} and submitter = #{personId}) lognum,
+               0.00 workloadsum,
+               b.contractno,
+               a.milepostid,
+               a.icon,
+               a.range,
+               a.finishflag
+        from bsoftmis.pro_plan_detail a,bsoftmis.pro_plan b,bsoftmis.t_project c
+        where a.planid = b.id and b.contractno = c.contractno and c.projectid = #{projectId}
+              and b.logoff = 2
+            <if test="part == 0">
+                and (a.FINISHFLAG = 0 or a.FINISHFLAG is null) and (a.LOGOFF = 0 or a.LOGOFF is null)
+            </if >
+        order by logoff,milepostid)
+
+        union all
+
+        select -1 id,
+               0 parentId,
+               '计划外' milepostname,
+               0 logoff,
+               (select count(1) from pro_worklog where milepostid = -1 and projectid = #{projectId} and attendanceDate = #{attendanceDate} and submitter = #{personId}) lognum,
+               0.00 workloadsum,
+               (select contractno from bsoftmis.t_project where projectid = #{projectId}) contractno,
+               -1 milepostid,
+               '' icon,
+               null range,
+               0 finishflag
+        from dual
+    </select>
+
+    <select id="getProjectLogPlanCount" resultType="java.lang.Integer">
+        select count(*) from bsoftmis.pro_plan_detail a,bsoftmis.pro_plan b,bsoftmis.t_project c
+            where a.planid = b.id and b.contractno = c.contractno and c.projectid = #{projectId}
+            and b.logoff = 2
+    </select>
+
+    <select id="getProjectLogPlanDetailQuery" resultType="com.bsoft.project.entity.primary.ProjectLogPlanDetailDO">
+        select * from (select a.id,
+               a.parentid,
+               a.milepostname,
+               a.logoff,
+               0 lognum,
+               (select nvl(sum(kq.xmbl),0.00) from bsoft_portal.pro_worklog pro left outer join bsoftmis.t_project t on pro.projectid = t.projectid,bsoftmis.kq_gzrz kq where pro.worklogid = kq.id and t.contractno = b.contractno and pro.milepostid = a.id) workloadsum,
+               b.contractno,
+               a.milepostid,
+               a.icon,
+               a.range,
+               a.finishflag
+        from bsoftmis.pro_plan_detail a,bsoftmis.pro_plan b
+        where a.planid = b.id and b.logoff = 2 and b.contractno = #{contractNo}
+        <if test="part == 0">
+            and (a.FINISHFLAG = 0 or a.FINISHFLAG is null) and (a.LOGOFF = 0 or a.LOGOFF is null)
+        </if >
+        order by logoff,milepostid)
+
+        union all
+
+        select -1 id,
+               0 parentId,
+               '计划外' milepostname,
+               0 logoff,
+               0 lognum,
+               (select nvl(sum(kq.xmbl),0.00) from bsoft_portal.pro_worklog pro left outer join bsoftmis.t_project t on pro.projectid = t.projectid,bsoftmis.kq_gzrz kq where pro.worklogid = kq.id and t.contractno = #{contractNo} and pro.milepostid = -1) workloadsum,
+               (select contractno from bsoftmis.kh_htxx where contractno = #{contractNo}) contractno,
+               -1 milepostid,
+               '' icon,
+               null range,
+               0 finishflag
+        from dual
+    </select>
+
+    <select id="getProjectWithPlansAndAuth" resultType="com.bsoft.project.entity.primary.ProjectWithPlanDO">
+        select * from ker_project_plan_view a
+        where
+        (a.projectManager = #{cnds.personId}
+        or a.area in (SELECT T_XMQX.glqx FROM bsoftmis.T_XMQX where T_XMQX.flag = 1 and T_XMQX.lx = 6 and T_XMQX.loginid = #{cnds.personId}))
+        <if test="cnds.optionsValue != -1">
+            and a.planFlag = #{cnds.optionsValue}
+        </if>
+        <if test="cnds.inputContent != null and cnds.inputContent != ''">
+            and (a.pyjm like concat(concat('%',#{cnds.inputContent}),'%')
+            or a.projectName like concat(concat('%',#{cnds.inputContent}),'%')
+            or a.contractName like concat(concat('%',#{cnds.inputContent}),'%')
+            or a.contractNo like concat(concat('%',#{cnds.inputContent}),'%'))
+        </if>
+        <if test="cnds.projectManager != null and cnds.projectManager != ''">
+            and (a.projectManagerText like concat(concat('%',#{cnds.projectManager}),'%')
+            or a.projectManagerPym like concat(concat('%',LOWER(#{cnds.projectManager})),'%'))
+        </if>
+        <if test="cnds.largeArea != null and cnds.largeArea != ''">
+            and (a.largeAreaText like concat(concat('%',#{cnds.largeArea}),'%')
+            or a.largeAreaPym like concat(concat('%',LOWER(#{cnds.largeArea})),'%'))
+        </if>
+        <if test="cnds.area != null and cnds.area != ''">
+            and (a.areaText like concat(concat('%',#{cnds.area}),'%')
+            or a.areaPym like concat(concat('%',UPPER(#{cnds.area})),'%'))
+        </if>
+        and a.signDate &gt;= to_date('${cnds.startDate}','yyyy-mm-dd') and a.signDate &lt;= to_date('${cnds.endDate}','yyyy-mm-dd')
+        order by a.planFlag desc, a.projectId desc
+    </select>
+</mapper>

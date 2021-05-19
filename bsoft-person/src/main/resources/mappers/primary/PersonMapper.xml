@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bsoft.person.repository.primary.PersonRepository">
+
+    <select id="getPersonsEvaluated" resultType="com.bsoft.person.entity.primary.PersonDO">
+        select t.userId,t.personId,t.personName,t.year,t.resType,t.company, t.deptId,t.email, t.isValid, t.simpleCode,t.mobile,t.evaluationGrade,t.evaluationContent from (
+        select xt.id as userId,xt.xuslgname as personId,xt.xusname as personName,xt.restype,xt.flag as isValid,xt.mobileno as mobile,xt.email as email,xt.ssgs as company,xt.pym as simpleCode,xt.xdno as deptId,xt.pjdj as evaluationGrade,xt.pjnr as evaluationContent, rs.year,row_number() over(partition by xt.xuslgname order by rs.year desc) as rn
+        from bsoftmis.xtuser xt left outer join bsoftmis.rs_ygpj rs on xt.xuslgname = rs.yggh)t where rn = 1
+    </select>
+
+    <select id="getPersonsEvaluatedByPersonIds" resultType="com.bsoft.person.entity.primary.PersonDO">
+        select t.userId,t.personId,t.personName,t.year,t.resType,t.company, t.deptId,t.email, t.isValid, t.simpleCode,t.mobile,t.evaluationContent, t.evaluationGrade from (
+        select xt.id as userId,xt.xuslgname as personId,xt.xusname as personName,xt.restype,xt.flag as isValid,xt.mobileno as mobile,xt.email as email,xt.ssgs as company,xt.pym as simpleCode,xt.xdno as deptId,rs.pjdj as evaluationGrade, rs.pjnr as evaluationContent, rs.year,row_number() over(partition by xt.xuslgname order by rs.year desc) as rn
+        from bsoftmis.xtuser xt left outer join bsoftmis.rs_ygpj rs on xt.xuslgname = rs.yggh)t
+        where t.rn = 1 and t.personId in <foreach collection="list" item="personId" index="index" open="(" close=")" separator=",">
+        #{personId}
+    </foreach>
+    </select>
+
+    <update id="updateBatchPersonPaymentPlace" parameterType="list">
+        UPDATE bsoftmis.xtuser
+        SET sbjrd = CASE
+        <foreach collection="list" item="item" index="index">
+            WHEN xuslgname = #{item.personId} THEN #{item.paymentPlace}
+        </foreach>
+        END
+        WHERE xuslgname IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item.personId}
+        </foreach>
+    </update>
+
+    <select id="getPostAndCost" resultType="com.bsoft.person.entity.primary.PostAndCostLookDO">
+        select a.id,a.posttype,a.costtype,a.financialtype from bsoft_portal.HR_FEE_RULES a where posttype= #{posttype}
+    </select>
+
+    <select id="findDeptCostMaintain" resultType="com.bsoft.person.entity.primary.DeptCostMaintainLookDO">
+        select  a.personid,
+                a.dept,
+                a.posttype,
+                a.financialtypeafter,
+                a.adjustdate,
+                a.type
+        from bsoft_portal.hr_fee_rules_record a
+        where dept = #{deptId}
+        and to_char(a.adjustdate, 'yyyy-MM') &lt;= to_char(#{ddrq},'yyyy-MM')
+        and (a.type = 1 or a.type = 2)
+        order by a.adjustdate desc,a.id desc,a.type asc
+    </select>
+
+    <select id="findPersonCostMaintain" resultType="com.bsoft.person.entity.primary.DeptCostMaintainLookDO">
+        select  a.personid,
+                a.dept,
+                a.posttype,
+                a.financialtypeafter,
+                a.adjustdate,
+                a.type
+        from bsoft_portal.hr_fee_rules_record a
+        where a.personid = #{personId}
+        and to_char(a.adjustdate, 'yyyy-MM') &lt;= to_char(#{ddrq},'yyyy-MM')
+        and a.type = 3
+        order by a.adjustdate desc,a.id desc
+    </select>
+</mapper>
